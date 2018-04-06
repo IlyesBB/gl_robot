@@ -18,7 +18,6 @@ class Point(object):
         self.y = float(y)
         self.z = float(z)
 
-
     def set_position(self, point):
         """
         Modifie les coordonnees du point
@@ -47,7 +46,6 @@ class Point(object):
         # dans ce sens, l'addition renvoi un Vecteur
         self.set_position(v.to_point())
         return v.to_point()
-
 
     def to_vect(self):
         """
@@ -145,7 +143,6 @@ class Point(object):
         if isinstance(vi, int):
             return Point(float(self.x * vi), float(self.y * vi), float(self.z * vi))
 
-
     def clone(self):
         """
         clone le point
@@ -174,14 +171,31 @@ class Vecteur(object):
             self.y = float(y) * PIX_PAR_M
             self.z = float(z) * PIX_PAR_M
 
-    def get_angle(self, axe=None):
+    def get_angle(self, axe='z'):
         """
         Retourne l'angle du vecteur 
         par rapport a la verticale,
         dans le sens trigo, entre pi et -pi
         """
-        if axe is None:
+        if axe == 'z':
             a1 = self.diff_angle(Vecteur(1, 0, 0))
+        if axe == 'x':
+            v1 = self.clone()
+            aux = v1.x
+            v1.x = v1.y
+            v1.y = aux
+
+            aux = v1.z
+            v1.z = v1.y
+            v1.y = aux
+            a1 = v1.diff_angle(Vecteur(1, 0, 0))
+        if axe == 'y':
+            v1 = self.clone()
+
+            aux = v1.z
+            v1.z = v1.x
+            v1.x = aux
+            a1 = v1.diff_angle(Vecteur(1, 0, 0))
         return a1
 
     def diff_angle(self, vecteur):
@@ -228,14 +242,14 @@ class Vecteur(object):
             self.x = x * cos(teta) - self.y * sin(teta)
             self.y = x * sin(teta) + self.y * cos(teta)
 
-        elif axis=='x':
+        elif axis == 'x':
             # y: Copie de self.y
             y = self.y
 
             self.y = y * cos(teta) - self.z * sin(teta)
             self.z = y * sin(teta) + self.z * cos(teta)
 
-        elif axis=='y':
+        elif axis == 'y':
             # z: Copie de self.z
             z = self.z
 
@@ -243,8 +257,6 @@ class Vecteur(object):
             self.x = z * sin(teta) + self.x * cos(teta)
 
         return self.clone()
-
-
 
     def to_point(self):
         """

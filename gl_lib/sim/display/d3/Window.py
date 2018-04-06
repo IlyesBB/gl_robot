@@ -6,7 +6,7 @@ from gl_lib.sim.display.d3.Model import *
 from gl_lib.sim.geometry.point import Vecteur
 from math import pi
 from gl_lib.sim.robot.sensor import Camera
-
+from math import pi
 
 def projection():
     glMatrixMode(GL_PROJECTION)
@@ -34,7 +34,7 @@ class Window(pyglet.window.Window):
 
     def set3d(self):
         projection()
-        gluPerspective(70, self.width / self.height, 0.05, 1000)
+        gluPerspective(70, self.width / self.height, 0.05, 800)
         model()
 
     def setLock(self, state):
@@ -49,6 +49,7 @@ class Window(pyglet.window.Window):
         self.set_minimum_size(300, 200)
         self.keys = key.KeyStateHandler()
         self.push_handlers(self.keys)
+        self.cpt=0
 
         self.model = Model(arene)
 
@@ -60,7 +61,15 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.set3d()
+        angles=[self.camera.direction.get_angle('x'), self.camera.direction.get_angle('y'), self.camera.direction.get_angle('z')]
+        angles=[angles[i]*180/pi for i in range(len(angles))]
+        print(angles)
+
+        for i in range(len(angles)):
+            if angles[i]<0:
+                angles[i]=360+angles[i]
+
         push(self.camera.centre.to_tuple(),
-            (0,self.camera.direction.get_angle() * 180 / pi))
+            tuple(angles))
         self.model.draw()
         glPopMatrix()

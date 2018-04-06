@@ -147,14 +147,14 @@ if __name__ == '__main__':
     from gl_lib.sim.geometry.point import *
     from gl_lib.sim.geometry import *
     from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision
+    from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision, StrategieVision
 
-    a = AreneFermee(50, 50, 50)
-    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(25, 25, 1)), direction=Vecteur(1, 1, 0).norm())
-    r.set_wheels_rotation(1, 10)
-    r.set_wheels_rotation(2, 0)
+    a = AreneFermee(15, 15, 15)
+    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(25, 25, 1)), direction=Vecteur(0, 1, 0).norm())
+    r.set_wheels_rotation(1, 5)
+    r.set_wheels_rotation(2, 5)
 
-    s = Simulation(StrategieDeplacementVision(r, a))
+    s = Simulation(StrategieVision(r, a))
 
     s.start()
 
