@@ -32,7 +32,7 @@ class Window(pyglet.window.Window):
 
     def set3d(self):
         projection()
-        gluPerspective(Camera.ANGLE_VY, self.width / self.height, 0.05, 1000)
+        gluPerspective(70, self.width / self.height, 0.05, 1000)
         model()
 
     def setLock(self, state):

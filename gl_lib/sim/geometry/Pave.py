@@ -55,6 +55,9 @@ class Pave(Polygone3D):
         """
         self.rotate_all_around(self.centre, teta, axis=axis)
 
+    def quads(self):
+        pass
+
 
 if __name__ == '__main__':
     p = Pave(1, 1, 0)

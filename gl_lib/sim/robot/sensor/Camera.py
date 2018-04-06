@@ -12,7 +12,7 @@ class Camera(Capteur, Thread):
     On la fait donc aussi hériter de Thread
     """
     # Angle de vue de la caméra en y, en degrés
-    ANGLE_VY=70*pi/180
+    ANGLE_VY = 70 * (pi / 180)
 
     def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), arene=None, tete=None):
         """

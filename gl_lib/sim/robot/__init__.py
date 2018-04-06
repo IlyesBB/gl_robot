@@ -5,7 +5,7 @@ from .Robot import Robot
 from .RobotAutonome import RobotAutonome
 from .RobotPhysique import RobotPhysique
 from .RobotMotorise import RobotMotorise
-from .RobotTarget import RobotTarget
 from . import strategy
+from .RobotTarget import RobotTarget
 
-__all__=["Robot", "RobotAutonome", "RobotMotorise", "RobotTarget", "Tete", "Roue", "RobotPhysique", "strategy", "sensor"]
+__all__=["Robot", "RobotAutonome", "RobotMotorise","strategy", "RobotTarget", "Tete", "Roue", "RobotPhysique", "sensor"]
