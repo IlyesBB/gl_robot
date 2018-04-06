@@ -5,12 +5,13 @@ class Simulation(Thread):
     Classe gerant la simulation
     """
 
-    def __init__(self, strategie):
+    def __init__(self, strategie, arene=None):
         """
 
         """
         Thread.__init__(self)
         self.strategie = strategie
+        self.arene=arene
 
     def run(self):
         """

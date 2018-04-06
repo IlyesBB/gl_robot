@@ -31,6 +31,9 @@ class Tourner(StrategieDeplacement):
         elif self.sens < 0:
             self.robot.set_wheels_rotation(2, 30)
             self.robot.set_wheels_rotation(1, 0)
+        self.robot.reset_wheels_angles()
+        self.prev_dir=self.robot.direction.clone()
+        print(self.prev_dir)
 
     def init_movement(self, angle_max):
         print("turning...")
@@ -50,19 +53,28 @@ class Tourner(StrategieDeplacement):
             self.robot.set_wheels_rotation(1, 30)
             self.robot.set_wheels_rotation(2, 0)
         self.robot.reset_wheels_angles()
+        self.prev_dir=self.robot.direction.clone()
+        print(self.prev_dir)
 
     def update(self):
 
         if self.turning is True:
             self.robot.update()
-            vitesse_rot = max(abs(self.robot.rd.vitesseRot), abs(self.robot.rg.vitesseRot))
+            vitesse_rot = abs(self.robot.rd.vitesseRot-self.robot.rg.vitesseRot)
             self.rot_angle += vitesse_rot * PAS_TEMPS * (self.robot.rd.diametre / self.robot.dist_wheels)
 
-            if abs(self.rot_angle) > self.angle_max:
-                print("done turning ", self.angle_max, "degrees")
-                self.rot_angle = 0
-                self.sens = 0
-                self.turning = False
+            v=self.robot.direction
+            try:
+                # Peut générer des erreurs si la vitesse est nulle
+                angle=abs(self.prev_dir.diff_angle(v))
+                if angle>(self.angle_max*pi/180):
+                    print(self.robot.direction)
+                    print("done turning ", self.angle_max, "degrees")
+                    self.rot_angle = 0
+                    self.sens = 0
+                    self.turning = False
+            except:
+                pass
 
     def stop(self):
         return not self.turning

@@ -1,9 +1,6 @@
-from gl_lib.sim.display.d2.view.Vue2D import Vue2D
-from gl_lib.sim.display.d2.view import Vue2DRobot, Vue2DRobotPhysique, Vue2DPave
-from gl_lib.sim.robot import Robot, RobotPhysique
-from gl_lib.sim.geometry import Arene
+from gl_lib.sim.display.d2.view import Vue2DRobot, Vue2DRobotPhysique, Vue2DPave, Vue2D
+from gl_lib.sim.geometry import Arene, Pave
 
-from gl_lib.sim.geometry import Pave
 
 
 class Vue2DArene(Vue2D):
@@ -26,12 +23,21 @@ class Vue2DArene(Vue2D):
 
         for o in objets:
             # o : Objet3D
-            # if isinstance(o, RobotPhysique):
-            #    view = Vue2DRobotPhysique(o, canevas)
-            #    view.afficher(canevas)
-            if isinstance(o, Robot):
+            try:
+                view = Vue2DRobotPhysique(o, canevas)
+                view.afficher(canevas)
+                continue
+            except:
+                pass
+            try:
                 vue = Vue2DRobot(o, canevas)
                 vue.afficher(canevas)
-            if isinstance(o, Pave):
+                continue
+            except:
+                pass
+            try:
                 vue = Vue2DPave(o, canevas)
                 vue.afficher(canevas)
+                continue
+            except:
+                pass

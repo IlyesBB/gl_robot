@@ -309,10 +309,14 @@ class Vecteur(object):
         """ 
         division des coordonnees par un reel
         """
-        if isinstance(n, int):
-            return Vecteur(self.x / float(n), self.y / float(n), self.z / float(n))
-        elif isinstance(n, float):
-            return Vecteur(self.x / n, self.y / n, self.z / n)
+        try:
+            if isinstance(n, int):
+                return Vecteur(self.x / float(n), self.y / float(n), self.z / float(n))
+            elif isinstance(n, float):
+                return Vecteur(self.x / n, self.y / n, self.z / n)
+        except:
+            # float division by zero
+            pass
 
     def __repr__(self):
         """

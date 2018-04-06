@@ -1,5 +1,4 @@
 from gl_lib.sim.robot.sensor import *
-from gl_lib.sim.robot import Robot, RobotPhysique
 from gl_lib.sim.geometry import Objet3D, Pave
 from gl_lib.sim.geometry.point import *
 
@@ -11,7 +10,7 @@ class Tete(Objet3D):
     # indices pour reperer les capteurs
     IR, ACC, CAM = 0, 1, 2
 
-    def __init__(self, robot: Robot, vitesserot: float = 0.1, n_rotations: int = 0):
+    def __init__(self, centre: Point=Point(0,0,0), dir_robot: Vecteur=Vecteur(0,-1,0), vitesserot: float = 0.1, n_rotations: int = 0):
         """
         :param pave: Pave (forme du robot)
         :param direction: Vecteur norme
@@ -19,14 +18,14 @@ class Tete(Objet3D):
         :param n_rotations: nombre de rotation relatives de self.vitesseRot par rapport au robot
         """
         Objet3D.__init__(self)
-        self.dirRobot = robot.direction
-        self.centre = robot.centre
+        self.dirRobot = dir_robot
+        self.centre = centre
         self.vitesseRot = vitesserot
         self.n_rotations = n_rotations
         self.direction = None
         self.lcapteurs = [None, None, None]
 
-        self.set_dir(robot.direction)
+        self.set_dir(self.dirRobot)
 
     def add_sensors(self, ir: CapteurIR = None, acc: Accelerometre = None, cam: Camera = None) -> int:
         """ permet d'ajouter n'importequel type de sensor
@@ -99,7 +98,7 @@ class Tete(Objet3D):
 
 if __name__ == '__main__':
     from gl_lib.sim.geometry import Arene
-    from gl_lib.sim.robot import RobotMotorise
+    from gl_lib.sim.robot import RobotMotorise, RobotPhysique
     from gl_lib.sim.simulation import Simulation
     from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit70
 
@@ -110,7 +109,7 @@ if __name__ == '__main__':
 
     p = Pave(10, 10, 0)
     p.move(Vecteur(10, -10, 0))
-    r.setDir((p.centre - r.centre).to_vect().norm())
+    r.set_dir((p.centre - r.centre).to_vect().norm())
     print(r.direction, r.tete.direction, r.tete.lcapteurs[Tete.IR].direction)
     a = Arene([p])
     m = r.tete.lcapteurs[Tete.IR].creer_matrice(a)

@@ -9,5 +9,6 @@ class RobotTarget(RobotMotorise):
 
         :param balise:
         """
-        RobotMotorise(self, pave, rg, rd, direction)
+        RobotMotorise.__init__(self, pave, rg, rd, direction)
         self.balise=balise
+

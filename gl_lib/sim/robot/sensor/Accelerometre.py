@@ -1,7 +1,5 @@
 from gl_lib.sim.robot.sensor import Capteur
-import time
-from math import sqrt, pow, fabs
-from gl_lib.sim.geometry.point.Point_Vecteur import *
+from gl_lib.sim.geometry.point import *
 from gl_lib.config import PAS_TEMPS
 
 
@@ -12,7 +10,7 @@ class Accelerometre(Capteur):
     Les données sont mises à jour tous les PAS_TEMPS
     sauf si PAS_TEMPS < DT_MESURE, la durée de la mesure
     """
-    DT_MESURE = 0.1
+    DT_MESURE = 0.01
     MAX_CPT = int(DT_MESURE/PAS_TEMPS)
 
     def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), tete=None):
@@ -48,20 +46,14 @@ class Accelerometre(Capteur):
         :return:
         """
 
-        if Accelerometre.MAX_CPT <=1:
-            # Si DT_MESURE <= PAS_TEMPS, la mesure est mise à jour dès que possible
+        if Accelerometre.MAX_CPT <1 or self.cpt>=Accelerometre.MAX_CPT:
+            # Si DT_MESURE < PAS_TEMPS, la mesure est mise à jour dès que possible
+            # Ou alors on a attendu assez longtemps
             new_speed = (self.centre - self.prev_pos).to_vect() / PAS_TEMPS
             self.prev_pos = self.centre.clone()
             self.acc = (new_speed - self.speed) / PAS_TEMPS
             self.speed=new_speed
 
-        elif self.cpt>=Accelerometre.MAX_CPT:
-            # Si ça fait assez de temps, ont prends la mesure
-            new_speed = (self.centre - self.prev_pos).to_vect() / (PAS_TEMPS*self.cpt)
-            self.prev_pos = self.centre.clone()
-            self.acc = (new_speed - self.speed) / (PAS_TEMPS*self.cpt)
-            self.speed=new_speed
-            self.cpt = 1
         else:
             # Sinon, on avance d'une unité de temps
             self.cpt += 1
@@ -69,8 +61,6 @@ class Accelerometre(Capteur):
 
 if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, Tete
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit70
 
     r=RobotMotorise()
     acc=Accelerometre(tete=r.tete)
