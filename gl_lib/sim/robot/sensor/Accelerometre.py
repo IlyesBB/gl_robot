@@ -18,7 +18,10 @@ class Accelerometre(Capteur):
         On initialise les variables nécessaires pour calculer une vitesse et une accélération entre deux instants
         """
         Capteur.__init__(self, centre=centre, direction=direction, tete=tete)
-        self.prev_pos = centre.clone()
+        try:
+            self.prev_pos = self.centre.clone
+        except:
+            self.prev_pos = Point(0,0,0)
         self.speed = Vecteur(0,0,0)
         self.acc = Vecteur(0,0,0)
         # Compteur pour savoir quand prendre la mesure

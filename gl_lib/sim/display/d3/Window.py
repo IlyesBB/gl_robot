@@ -1,10 +1,12 @@
 from pyglet.gl import *
 from pyglet.window import key
+import pdb
 import math
 from gl_lib.sim.display.d3.Model import *
 from gl_lib.sim.geometry.point import Vecteur
 from math import pi
 from gl_lib.sim.robot.sensor import Camera
+
 
 def projection():
     glMatrixMode(GL_PROJECTION)
@@ -59,7 +61,6 @@ class Window(pyglet.window.Window):
         self.clear()
         self.set3d()
         push(self.camera.centre.to_tuple(),
-             ( (self.camera.direction.diff_angle(Vecteur(1, 0, 0)) * 360 / (2 * pi)),
-               (self.camera.direction.diff_angle(Vecteur(0, 1, 0)) * 360 / (2 * pi))))
+            (0,self.camera.direction.get_angle() * 180 / pi))
         self.model.draw()
         glPopMatrix()

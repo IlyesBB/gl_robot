@@ -1,4 +1,5 @@
 from gl_lib.sim.robot.strategy.Strategie import Strategie
+from gl_lib.sim.robot import Tete
 
 class StrategieDeplacement(Strategie):
     """

@@ -33,6 +33,7 @@ class Camera(Capteur, Thread):
         window = Window(camera=self, arene=self.arene)
         glClearColor(0, 0, 0, 0)
         glEnable(GL_DEPTH_TEST)
+
         pyglet.app.run()
 
     def get_picture(self):
@@ -57,4 +58,3 @@ if __name__ == '__main__':
     arene.add(Pave3)
     c = Camera(centre=Point(26, 6, 3), direction=Vecteur(1, 0, 0).norm(), arene=arene)
     c.start()
-    print(c.get_picture())

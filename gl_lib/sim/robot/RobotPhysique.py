@@ -7,7 +7,7 @@ from gl_lib.sim.geometry.point import Vecteur, Point
 
 class RobotPhysique(Robot):
     def __init__(self, pave: Objet3D = Pave(0, 0, 0), rg: Objet3D = Objet3D(), rd: Objet3D = Objet3D(),
-                 direction: Vecteur = Vecteur(0, -1, 0), tete: Tete = Tete()):
+                 direction: Vecteur = Vecteur(0, -1, 0)):
         """
         :param pave: forme du robot, a priori Pave
         :param rg: roue droite
@@ -15,7 +15,7 @@ class RobotPhysique(Robot):
         :param direction: direction du robot
         """
         Robot.__init__(self, pave, rg, rd, direction)
-        self.tete = tete
+        self.tete = Tete(robot=self)
         self.tete.add_sensors(acc=Accelerometre(tete=self.tete), ir=CapteurIR(tete=self.tete, portee=3),
                               cam=Camera(tete=self.tete))
 

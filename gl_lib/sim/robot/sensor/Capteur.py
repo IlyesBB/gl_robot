@@ -19,4 +19,7 @@ class Capteur(Objet3D):
     def __repr__(self):
         return "Sensor de type : {} , position : {}".format(type(self), self.centre)
 
+    def update(self):
+        pass
+
 

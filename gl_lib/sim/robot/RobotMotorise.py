@@ -114,7 +114,7 @@ class RobotMotorise(RobotPhysique):
 
 if __name__ == '__main__':
     r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
-    r.set_wheels_rotation(1, 30)
+    r.set_wheels_rotation(1, 0)
     r.set_wheels_rotation(2, 30)
     p0 = r.centre.clone()
     n = int(1 / PAS_TEMPS) * 2

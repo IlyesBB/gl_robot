@@ -2,7 +2,7 @@ from pyglet.gl import *
 from pyglet.window import key
 import math
 from gl_lib.config import PIX_PAR_M
-from gl_lib.sim.geometry import AreneFermee, Pave
+from gl_lib.sim.geometry import AreneFermee
 
 
 class Model:
@@ -147,21 +147,14 @@ if __name__ == '__main__':
     from gl_lib.sim.geometry.point import *
     from gl_lib.sim.geometry import *
     from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
-    from gl_lib.sim.display.d2.gui import AppSimulationThread
+    from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision
 
-    a = AreneFermee(15, 15, 15)
-    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(5, 5, 0.5)), direction=Vecteur(1, 0, 0))
-    r.set_wheels_rotation(1, 30)
+    a = AreneFermee(50, 50, 50)
+    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(25, 25, 1)), direction=Vecteur(1, 1, 0).norm())
+    r.set_wheels_rotation(1, 10)
     r.set_wheels_rotation(2, 0)
 
-    a.add(r)
-    obs = Camera(tete=r.tete, arene=a)
-    r.tete.add_sensors(cam=obs)
+    s = Simulation(StrategieDeplacementVision(r, a))
 
-    s = Simulation(StrategieDeplacement(r))
-
-    newGUIThread = AppSimulationThread(s)
     s.start()
 
-    r.tete.lcapteurs[Tete.CAM].start()

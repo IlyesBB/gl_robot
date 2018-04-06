@@ -10,7 +10,7 @@ class Tete(Objet3D):
     # indices pour reperer les capteurs
     IR, ACC, CAM = 0, 1, 2
 
-    def __init__(self, centre: Point=Point(0,0,0), dir_robot: Vecteur=Vecteur(0,-1,0), vitesserot: float = 0.1, n_rotations: int = 0):
+    def __init__(self, centre: Point=Point(0,0,0), dir_robot: Vecteur=Vecteur(0,-1,0), vitesserot: float = 0.1, n_rotations: int = 0, robot=None):
         """
         :param pave: Pave (forme du robot)
         :param direction: Vecteur norme
@@ -26,6 +26,10 @@ class Tete(Objet3D):
         self.lcapteurs = [None, None, None]
 
         self.set_dir(self.dirRobot)
+        if robot is not None:
+            self.dirRobot=robot.direction
+            self.centre=robot.centre
+            self.set_dir(self.dirRobot)
 
     def add_sensors(self, ir: CapteurIR = None, acc: Accelerometre = None, cam: Camera = None) -> int:
         """ permet d'ajouter n'importequel type de sensor
@@ -73,45 +77,43 @@ class Tete(Objet3D):
         self.direction = vecteur.clone()
         self.direction.rotate(self.n_rotations * self.vitesseRot)
         for i in range(len(self.lcapteurs)):
-            try:
+            if self.lcapteurs[i] is not None:
                 self.lcapteurs[i].direction = vecteur.clone()
                 self.lcapteurs[i].direction.rotate(self.n_rotations * self.vitesseRot)
-            except:
-                pass
 
     def update(self):
-        self.set_dir(self.dirRobot.rotate(self.n_rotations*self.vitesseRot))
-        try:
-            self.lcapteurs[Tete.ACC].update()
-        except:
-            pass
+        v=self.dirRobot.rotate(self.n_rotations*self.vitesseRot)
+        self.set_dir(v)
+
+        for i in range(len(self.lcapteurs)):
+            self.lcapteurs[i].centre=self.centre
+            self.lcapteurs[i].direction=v.clone()
+            try:
+                self.lcapteurs[i].update()
+            except:
+                pass
 
     def __repr__(self):
         s = ""
         for i in range(len(self.lcapteurs)):
-            try:
-                s += str(self.lcapteurs[i]) + "\n"
-            except:
-                pass
+            s += str(self.lcapteurs[i]) + "\n"
         return s
 
 
 if __name__ == '__main__':
     from gl_lib.sim.geometry import Arene
-    from gl_lib.sim.robot import RobotMotorise, RobotPhysique
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit70
+    from gl_lib.sim.robot import RobotMotorise
 
     # une tete est cree automatiquement dans le constructeur du robot
-    r = RobotPhysique(Pave(5, 5, 0), direction=Vecteur(1, 0, 0))
-    print(r.tete.add_sensors(ir=CapteurIR(tete=r.tete, portee=20)), r.tete)
+    r = RobotMotorise()
     print(r.direction, r.tete.direction, r.tete.lcapteurs[Tete.IR].direction)
 
-    p = Pave(10, 10, 0)
-    p.move(Vecteur(10, -10, 0))
+    p = Pave(1, 1, 0)
+    p.move(Vecteur(2, -2, 0))
     r.set_dir((p.centre - r.centre).to_vect().norm())
     print(r.direction, r.tete.direction, r.tete.lcapteurs[Tete.IR].direction)
-    a = Arene([p])
+    a = Arene()
+    a.add(p)
     m = r.tete.lcapteurs[Tete.IR].creer_matrice(a)
     print(r.tete.lcapteurs[Tete.IR].mesure(a))
 

@@ -56,7 +56,19 @@ class Pave(Polygone3D):
         self.rotate_all_around(self.centre, teta, axis=axis)
 
     def quads(self):
-        pass
+        """
+
+        :return:
+        """
+        lv=self.vertices
+        lq=list()
+        lq.append([lv[0], lv[1], lv[2], lv[3]])
+        lq.append([lv[4], lv[5], lv[6], lv[7]])
+        lq.append([lv[2], lv[3], lv[7], lv[6]])
+        lq.append([lv[1], lv[2], lv[6], lv[5]])
+        lq.append([lv[0], lv[1], lv[5], lv[4]])
+        lq.append([lv[0], lv[4], lv[7], lv[3]])
+        return lq
 
 
 if __name__ == '__main__':
