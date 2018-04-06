@@ -26,10 +26,10 @@ class Tourner(StrategieDeplacement):
         self.angle_max = abs(angle_max)
 
         if self.sens > 0:
-            self.robot.set_wheels_rotation(1, 60)
+            self.robot.set_wheels_rotation(1, 30)
             self.robot.set_wheels_rotation(2, 0)
         elif self.sens < 0:
-            self.robot.set_wheels_rotation(2, 60)
+            self.robot.set_wheels_rotation(2, 30)
             self.robot.set_wheels_rotation(1, 0)
 
     def init_movement(self, angle_max):
@@ -44,10 +44,10 @@ class Tourner(StrategieDeplacement):
         self.angle_max = abs(angle_max)
 
         if self.sens > 0:
-            self.robot.set_wheels_rotation(2, 60)
+            self.robot.set_wheels_rotation(2, 30)
             self.robot.set_wheels_rotation(1, 0)
         elif self.sens < 0:
-            self.robot.set_wheels_rotation(1, 60)
+            self.robot.set_wheels_rotation(1, 30)
             self.robot.set_wheels_rotation(2, 0)
         self.robot.reset_wheels_angles()
 

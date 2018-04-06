@@ -15,7 +15,7 @@ class DeplacementCarre(DeplacementDroit):
 
         :param robot:
         """
-        Tourner.__init__(self, robot, 45)
+        Tourner.__init__(self, robot, 90)
         DeplacementDroit.__init__(self, robot, cote)
 
         self.cpt_turn = 1
@@ -25,11 +25,10 @@ class DeplacementCarre(DeplacementDroit):
         if self.advancing:
             DeplacementDroit.update(self)
             if not self.advancing:
-                Tourner.init_movement(self, 45)
+                Tourner.init_movement(self, 90)
         if self.turning:
             Tourner.update(self)
             if not self.turning:
-                print(self.robot.direction, self.robot.tete.direction)
                 DeplacementDroit.init_movement(self, self.distance_max)
 
                 self.cpt_turn += 1

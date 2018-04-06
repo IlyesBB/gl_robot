@@ -91,10 +91,12 @@ class RobotMotorise(RobotPhysique):
         angle_d = self.rd.vitesseRot * pas
 
         d_rot = abs(self.rg.vitesseRot - self.rd.vitesseRot) * pas
+        p_rot = self.rg.vitesseRot*self.rd.vitesseRot
         if d_rot == 0.0:
             v = self.direction * ((n + 1) * angle_d * self.rd.diametre * (pi / 180))
             self.move(v)
         else:
+
             diffs = (angle_d * (pi / 180) * (self.rd.diametre / self.dist_wheels),
                      angle_g * (pi / 180) * (self.rg.diametre / self.dist_wheels))
             for i in range(n + 1):
@@ -113,7 +115,7 @@ class RobotMotorise(RobotPhysique):
 if __name__ == '__main__':
     r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
     r.set_wheels_rotation(1, 30)
-    r.set_wheels_rotation(2, 0)
+    r.set_wheels_rotation(2, 30)
     p0 = r.centre.clone()
     n = int(1 / PAS_TEMPS) * 2
 
