@@ -2,7 +2,7 @@ from pyglet.gl import *
 from pyglet.window import key
 import math
 from gl_lib.config import PIX_PAR_M
-from gl_lib.sim.geometry import AreneFermee
+from gl_lib.sim.geometry import *
 
 
 class Model:
@@ -25,12 +25,14 @@ class Model:
             x, y, z = 0, 0, 0
             X, Y, Z = int((x + arene.width) * PIX_PAR_M), int((y + arene.length) * PIX_PAR_M), int((z + arene.height) * PIX_PAR_M)
 
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, z, x, y, Z, x, Y, Z, x, Y, z,)), tex_coords)
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (X, y, Z, X, y, z, X, Y, z, X, Y, Z,)), tex_coords)
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, z, X, y, z, X, y, Z, x, y, Z,)), tex_coords)
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, Y, Z, X, Y, Z, X, Y, z, x, Y, z,)), tex_coords)
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (X, y, z, x, y, z, x, Y, z, X, Y, z,)), tex_coords)
-            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, Z, X, y, Z, X, Y, Z, x, Y, Z,)), tex_coords)
+            # selon x sortant
+
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, z, x, y, Z, x, Y, Z, x, Y, z,)), tex_coords) # fond
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (X, y, Z, X, y, z, X, Y, z, X, Y, Z,)), tex_coords) # face
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, z, X, y, z, X, y, Z, x, y, Z,)), tex_coords) # droite
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, Y, Z, X, Y, Z, X, Y, z, x, Y, z,)), tex_coords) # gauche
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (X, y, z, x, y, z, x, Y, z, X, Y, z,)), tex_coords) # bas
+            self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, Z, X, y, Z, X, Y, Z, x, Y, Z,)), tex_coords) # haut
 
         self.visual_arene(arene)
 
@@ -51,17 +53,14 @@ class Model:
         for i in arene.objets3D:
             try:
                 self.visual_robot_target(i)
-                continue
             except:
                 pass
             try:
                 self.visual_pave_color(i)
-                continue
             except:
                 pass
             try:
                 self.visual_pave(i)
-                continue
             except:
                 pass
 
@@ -71,12 +70,12 @@ class Model:
         self.batch.draw()
 
     def visual_pave(self, pave):
-        quads = pave.quads()
+        quads = Pave.quads(pave)
         t_quads = list()
         for i in range(len(quads)):
             tup = ()
             for j in range(len(quads[0])):
-                tup += quads[i][j].to_tuple()
+                tup += (quads[i][j] * PIX_PAR_M).to_tuple()
             t_quads[i] = tup
 
         self.side = self.get_tex('white.png')
@@ -87,15 +86,16 @@ class Model:
             self.batch.add(4, GL_QUADS, self.side, ('v3f', t_quads[i]), tex_coords)
 
     def visual_pave_color(self, pave):
-        quads = pave.quads()
+        quads = Pave.quads(pave)
         t_quads = list()
         for i in range(len(quads)):
             tup = ()
             for j in range(len(quads[0])):
-                tup += quads[i][j].to_tuple()
-            t_quads[i] = tup
+                tup += (quads[i][j]*PIX_PAR_M).to_tuple(type_coords=int)
+            t_quads.append(tup)
+        self.side = self.get_tex('white.png')
 
-        self.side = self.get_text_color(pave.color)
+
 
         tex_coords = ('t2f', (0, 0, 0, 1, 1, 1, 1, 0))
         for i in range(len(pave.vertices)):
@@ -157,15 +157,23 @@ if __name__ == '__main__':
     from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision, StrategieVision
 
     a = AreneFermee(15, 15, 15)
-    p1=Pave(1, 1, 0, centre=Point(14.5, 0.5, 0.5))
-    p2=PaveColored(1, 1, 0, centre=Point(0.5, 14.5, 0.5), color=(0,0,255,0))
-    p3 = PaveColored(1, 1, 0, centre=Point(14.5, 14.5, 0.5), color=(0, 255, 0, 0))
+    p1=Pave(1, 1, 0, centre=Point(14, 14, 14))
+    p12=Pave(1, 1, 0, centre=Point(14, 14, 14))
+    p12.move(Vecteur(0,0,-13))
+    p2=PaveColored(1, 1, 0, centre=Point(0.5, 14, 14), color=(0,0,255,0))
+    p22=PaveColored(1, 1, 0, centre=Point(0.5, 14, 14), color=(0,0,255,0))
+    p22.move(Vecteur(0,0,-13))
+    p3 = PaveColored(1, 1, 0, centre=Point(14, 14, 14), color=(0, 255, 0, 0))
+    p32=PaveColored(1, 1, 0, centre=Point(14, 14, 14), color=(0, 255, 0, 0))
+    p32.move(Vecteur(0,0,-13))
     a.add(p1)
+    a.add(p12)
     a.add(p2)
+    a.add(p22)
     a.add(p3)
-    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(0.5,0.5, 1)), direction=Vecteur(1, 1, 0).norm())
-    r.set_wheels_rotation(1, 0)
-    r.set_wheels_rotation(2, 0)
+    a.add(p32)
+    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(0.5,0.5, 1)), direction=Vecteur(0, 1, 0).norm())
+    r.set_wheels_rotation(3, 1)
 
     s = Simulation(StrategieVision(r, a))
 

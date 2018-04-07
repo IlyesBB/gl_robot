@@ -20,9 +20,11 @@ def model():
 
 
 def push(pos, rot):
+    angle=rot.get_angle()*180/pi
     glPushMatrix()
     glRotatef(-90, 1, 0, 0)
-    glRotatef(-rot[0], 0, 0, 1)
+    glRotatef(90+angle, 0, 0, 1)
+    pos=pos.to_tuple()
 
     glTranslatef(int(-pos[0]*PIX_PAR_M), int(-pos[1]*PIX_PAR_M), int(-pos[2]*PIX_PAR_M), )
 
@@ -47,7 +49,7 @@ class Window(pyglet.window.Window):
     mouse_lock = property(lambda self: self.lock, setLock)
 
     def __init__(self, arene=None, camera=None):
-        super().__init__(width=1000, height=800, caption='Robot', resizable=True)
+        super().__init__(width=1000, height=1000, caption='Robot', resizable=True)
         self.set_minimum_size(300, 200)
         self.keys = key.KeyStateHandler()
         self.push_handlers(self.keys)
@@ -63,14 +65,15 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.set3d()
-        angles=[self.camera.direction.get_angle(), acos(self.camera.direction*Vecteur(0,1,0)),acos(self.camera.direction*Vecteur(0,0,1))]
+        angles=[self.camera.direction.get_angle(), acos(self.camera.direction*Vecteur(-1,0,0)),acos(self.camera.direction*Vecteur(0,0,1))]
         angles=[angles[i]*180/pi for i in range(len(angles))]
+        print(self.camera.centre)
 
         for i in range(len(angles)):
             if angles[i]<0:
                 angles[i]=360+angles[i]
 
-        push(self.camera.centre.to_tuple(),
-            tuple(angles))
+        push(self.camera.centre,
+            self.camera.direction)
         self.model.draw()
         glPopMatrix()

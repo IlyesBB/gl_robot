@@ -7,3 +7,6 @@ class PaveColored(Pave):
         self.color=color
         if color is None:
             self.color=(255,255,255,255)
+
+    def color(self):
+        return self.color
