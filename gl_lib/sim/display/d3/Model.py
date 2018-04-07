@@ -23,7 +23,7 @@ class Model:
             tex_coords = ('t2f', (0, 0, 0, 1, 1, 1, 1, 0))
 
             x, y, z = 0, 0, 0
-            X, Y, Z = (x + arene.width) * PIX_PAR_M, (y + arene.length) * PIX_PAR_M, (z + arene.height) * PIX_PAR_M
+            X, Y, Z = int((x + arene.width) * PIX_PAR_M), int((y + arene.length) * PIX_PAR_M), int((z + arene.height) * PIX_PAR_M)
 
             self.batch.add(4, GL_QUADS, self.side, ('v3f', (x, y, z, x, y, Z, x, Y, Z, x, Y, z,)), tex_coords)
             self.batch.add(4, GL_QUADS, self.side, ('v3f', (X, y, Z, X, y, z, X, Y, z, X, Y, Z,)), tex_coords)
@@ -34,10 +34,28 @@ class Model:
 
         self.visual_arene(arene)
 
+    def get_text_color(self, color):
+        couleur = color
+        if (couleur[0], couleur[1], couleur[2]) == (255, 255, 255):
+            return self.get_tex('white.png')
+        elif (couleur[0], couleur[1]) == (255, 255):
+            return self.get_tex('yellow.png')
+        elif couleur[0] == 255:
+            return self.get_tex('red.png')
+        elif couleur[1] == 255:
+            return self.get_tex('green.png')
+        elif couleur[2] == 255:
+            return self.get_tex('blue.png')
+
     def visual_arene(self, arene):
         for i in arene.objets3D:
             try:
                 self.visual_robot_target(i)
+                continue
+            except:
+                pass
+            try:
+                self.visual_pave_color(i)
                 continue
             except:
                 pass
@@ -58,7 +76,7 @@ class Model:
         for i in range(len(quads)):
             tup = ()
             for j in range(len(quads[0])):
-                tup += quads[i].sommet[j]
+                tup += quads[i][j].to_tuple()
             t_quads[i] = tup
 
         self.side = self.get_tex('white.png')
@@ -68,16 +86,16 @@ class Model:
         for i in range(len(pave.vertices)):
             self.batch.add(4, GL_QUADS, self.side, ('v3f', t_quads[i]), tex_coords)
 
-    def visual_pave_color(self, pave, color):
+    def visual_pave_color(self, pave):
         quads = pave.quads()
         t_quads = list()
         for i in range(len(quads)):
             tup = ()
             for j in range(len(quads[0])):
-                tup += quads[i].sommet[j]
+                tup += quads[i][j].to_tuple()
             t_quads[i] = tup
 
-        self.side = self.get_tex_color(color)
+        self.side = self.get_text_color(pave.color)
 
         tex_coords = ('t2f', (0, 0, 0, 1, 1, 1, 1, 0))
         for i in range(len(pave.vertices)):
@@ -127,18 +145,7 @@ class Model:
             textures.append(self.get_text_color(couleur))
         return textures
 
-    def get_text_color(self, color):
-        couleur = color
-        if (couleur[0], couleur[1], couleur[2]) == (255, 255, 255):
-            return self.get_tex('white.png')
-        elif (couleur[0], couleur[1]) == (255, 255):
-            return self.get_tex('yellow.png')
-        elif couleur[0] == 255:
-            return self.get_tex('red.png')
-        elif couleur[1] == 255:
-            return self.get_tex('green.png')
-        elif couleur[2] == 255:
-            return self.get_tex('blue.png')
+
 
 
 if __name__ == '__main__':
@@ -150,9 +157,15 @@ if __name__ == '__main__':
     from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision, StrategieVision
 
     a = AreneFermee(15, 15, 15)
-    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(25, 25, 1)), direction=Vecteur(0, 1, 0).norm())
-    r.set_wheels_rotation(1, 5)
-    r.set_wheels_rotation(2, 5)
+    p1=Pave(1, 1, 0, centre=Point(14.5, 0.5, 0.5))
+    p2=PaveColored(1, 1, 0, centre=Point(0.5, 14.5, 0.5), color=(0,0,255,0))
+    p3 = PaveColored(1, 1, 0, centre=Point(14.5, 14.5, 0.5), color=(0, 255, 0, 0))
+    a.add(p1)
+    a.add(p2)
+    a.add(p3)
+    r = RobotTarget(pave=Pave(1, 1, 0, centre=Point(0.5,0.5, 1)), direction=Vecteur(1, 1, 0).norm())
+    r.set_wheels_rotation(1, 0)
+    r.set_wheels_rotation(2, 0)
 
     s = Simulation(StrategieVision(r, a))
 

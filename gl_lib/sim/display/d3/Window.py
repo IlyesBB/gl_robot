@@ -4,9 +4,10 @@ import pdb
 import math
 from gl_lib.sim.display.d3.Model import *
 from gl_lib.sim.geometry.point import Vecteur
-from math import pi
+from math import pi, acos
 from gl_lib.sim.robot.sensor import Camera
 from math import pi
+from gl_lib.config import PIX_PAR_M
 
 def projection():
     glMatrixMode(GL_PROJECTION)
@@ -20,9 +21,10 @@ def model():
 
 def push(pos, rot):
     glPushMatrix()
-    glRotatef(-rot[0], 1, 0, 0)
-    glRotatef(-rot[1], 0, 1, 0)
-    glTranslatef(-pos[0], -pos[1], -pos[2], )
+    glRotatef(-90, 1, 0, 0)
+    glRotatef(-rot[0], 0, 0, 1)
+
+    glTranslatef(int(-pos[0]*PIX_PAR_M), int(-pos[1]*PIX_PAR_M), int(-pos[2]*PIX_PAR_M), )
 
 
 class Window(pyglet.window.Window):
@@ -61,9 +63,8 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.set3d()
-        angles=[self.camera.direction.get_angle('x'), self.camera.direction.get_angle('y'), self.camera.direction.get_angle('z')]
+        angles=[self.camera.direction.get_angle(), acos(self.camera.direction*Vecteur(0,1,0)),acos(self.camera.direction*Vecteur(0,0,1))]
         angles=[angles[i]*180/pi for i in range(len(angles))]
-        print(angles)
 
         for i in range(len(angles)):
             if angles[i]<0:
