@@ -1,4 +1,4 @@
-from gl_lib.sim.geometry.point import Point
+from gl_lib.sim.geometry import Point
 
 class Objet3D(object):
     """
@@ -9,7 +9,7 @@ class Objet3D(object):
         """
         centre : Point definissant le centre de l'objet. initialise a (0, 0, 0)
         """
-        self.centre = centre.clone()
+        self.centre = centre
 
     def move(self, vecteur):
         """
@@ -17,13 +17,26 @@ class Objet3D(object):
         """
         self.centre.move(vecteur)
 
-    def rotate_around(self, point, teta):
+    def rotate_around(self, point, teta, axis=None):
         """
         tourne l'objet d'un angle teta auout d'un point
         :param point: Point
         :param teta: float en rad
         """
-        self.centre.rotate_around(point, teta)
+        self.centre.rotate_around(point, teta, axis)
+
+    def clone(self):
+        return Objet3D(self.centre.clone())
+
+    def __eq__(self, other):
+        if not isinstance(other, type(self)):
+            return False
+        if other.centre != self.centre:
+            return False
+        return True
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
     def __repr__(self):
         """

@@ -1,5 +1,4 @@
 from gl_lib.sim.geometry import *
-from gl_lib.sim.geometry.point import *
 from gl_lib.sim.robot.sensor import CapteurIR
 from gl_lib.sim.robot import Robot
 from math import *

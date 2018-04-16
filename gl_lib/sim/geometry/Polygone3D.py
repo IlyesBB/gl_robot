@@ -1,26 +1,26 @@
-from gl_lib.sim.geometry.Objet3D import Objet3D
-from gl_lib.sim.geometry.point import Point, Vecteur
+from gl_lib.sim.geometry import Objet3D, Point, Vecteur
 
 class Polygone3D(Objet3D):
     """
     Classe definissant un polygone de facon abstraite
     """
 
-    def __init__(self, centre=Point(0,0,0), sommets=None):
+    def __init__(self, centre=Point(0,0,0), vertices=None):
         """
         initialise la liste des sommets
         """
         Objet3D.__init__(self, centre=centre)
         self.vertices=list()
-        if sommets is not None:
-            self.vertices=sommets
+        if vertices is not None:
+            self.add_vertices(vertices)
 
-    def add_vertex(self, sommet:Point):
+
+
+    def add_vertex(self, sommet):
         """
         ajoute sommet a la liste sommets du polygone
         """
-        if issubclass(type(sommet), Point):
-            self.vertices.append(sommet)
+        self.vertices.append(sommet.clone())
 
     def add_vertices(self, sommets):
         """
@@ -38,6 +38,7 @@ class Polygone3D(Objet3D):
         Objet3D.move(self, vecteur)
         for s in self.vertices:
             s.move(vecteur)
+        return self
         #on ne verifie pas que vecteur est bien definit
         #car c'est une classe abstraite
 
@@ -45,14 +46,8 @@ class Polygone3D(Objet3D):
         """
         Quand on entre un Polygone3D dans l'interpreteur
         """
-        return "Polygone3D: centre: {}, liste de sommets[{}]({})".format(self.centre, len(self.vertices), self.vertices)
+        return str(type(self))+" Center: {}\nVertices[{}]({})".format(self.centre, len(self.vertices), self.vertices)
 
-
-
-    def clone(self):
-        l = [s.clone() for s in self.vertices]
-        p=Polygone3D(sommets=l)
-        return p
 
 if __name__=='__main__':
     from gl_lib.sim.geometry import *

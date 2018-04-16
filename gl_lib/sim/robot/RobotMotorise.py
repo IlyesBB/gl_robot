@@ -1,8 +1,6 @@
 from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
-from gl_lib.sim.geometry.point import *
 from gl_lib.config import PAS_TEMPS
-from gl_lib.sim.simulation import Simulation
 from math import pi
 
 
@@ -12,7 +10,7 @@ class RobotMotorise(RobotPhysique):
     """
     PAS_MAX = 0.01
 
-    def __init__(self, pave=Pave(1, 1, 1, centre=Point(2, 2, 0)), rg=Roue(), rd=Roue(),
+    def __init__(self, pave=Pave(1, 1, 1, centre=Point(0, 0, 0)), rg=Roue(), rd=Roue(),
                  direction: Vecteur = Vecteur(0, -1, 0)):
         """
         :param pave: forme du robot, a priori Pave
@@ -44,10 +42,10 @@ class RobotMotorise(RobotPhysique):
             self.rd.vitesseRot = dps
             self.rg.vitesseRot = dps
 
-    def get_wheels_rotations(self, port):
+    def get_wheels_rotations(self, port:int):
         """
-        :param port:
-        :return:
+        :param port: 1,2 ou 3
+        :return: int or tuple
         """
         if port == 1:
             return self.rd.vitesseRot
@@ -82,40 +80,51 @@ class RobotMotorise(RobotPhysique):
 
     def update_pos(self):
         """
-        Met à jour la position du robot en fonction de l'avancement des roues
+        Met à jour la position du robot en fonction de la vitesse de rotation des roues
         :return:
         """
-        pas = min(RobotMotorise.PAS_MAX, PAS_TEMPS)
-        n = int(PAS_TEMPS / RobotMotorise.PAS_MAX)
+        # pas: float (représente la pas de temps)
+        # angle_d, angle_g: float (angle de rotation de chaque roue pour cette mise à jour)
+        pas = PAS_TEMPS
         angle_g = self.rg.vitesseRot * pas
         angle_d = self.rd.vitesseRot * pas
+        # d_rot: float (la différence)
+        d_rot = (self.rg.vitesseRot-self.rd.vitesseRot)*pas
 
-        d_rot = abs(self.rg.vitesseRot - self.rd.vitesseRot) * pas
-        p_rot = self.rg.vitesseRot*self.rd.vitesseRot
         if d_rot == 0.0:
-            v = self.direction * ((n + 1) * angle_d * self.rd.diametre * (pi / 180))
+            # Dans ce cas, c'est un déplacement simple
+            v = self.direction * (angle_d * self.rd.diametre * (pi / 180))
             self.move(v)
         else:
-
+            # diffs: tuple[float] (contient les angles de rotation du robot par rapport à son centre
             diffs = (angle_d * (pi / 180) * (self.rd.diametre / self.dist_wheels),
                      angle_g * (pi / 180) * (self.rg.diametre / self.dist_wheels))
-            for i in range(n + 1):
-                v = (self.rg.centre - self.rd.centre).to_vect().norm()
 
-                self.rotate_around(self.rg.centre, diffs[1])
-                self.rotate_around(self.rd.centre, -diffs[0])
+            # Angles dans le sens trigonométriques
+            # négatif pour la roue droite, positif pour la roue gauche
+            # v: Vecteur (celui dont le robot va avancer)
+            if angle_d >= 0.0 and angle_g >= 0.0:
+                v = self.direction * ((abs(angle_g-angle_d) + min(abs(angle_g), abs(angle_d))) *
+                                      min(self.rd.diametre, self.rg.diametre) * (1/2.0) * (pi / 180))
+            elif angle_d <= 0.0 and angle_g <= 0.0:
+                v = self.direction * (-(abs(angle_g - angle_d) + min(abs(angle_g), abs(angle_d))) *
+                                      min(self.rd.diametre, self.rg.diametre) * (1/2.0) * (pi / 180))
+            else:
+                # Cas non gérés
+                v=Vecteur(0,0,0)
 
-                self.forme.rotate_all_around(self.centre, diffs[0] - diffs[1])
-                self.direction.rotate(-diffs[0] + diffs[1])
+            self.move(v)
+            self.direction.rotate(-diffs[0] + diffs[1])
+            self.forme.rotate_all_around(self.centre, -diffs[0] + diffs[1])
 
-        self.rg.angle += (n + 1) * angle_g
-        self.rd.angle += (n + 1) * angle_d
+        self.rg.angle += angle_g
+        self.rd.angle += angle_d
 
 
 if __name__ == '__main__':
     r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
-    r.set_wheels_rotation(1, 0)
-    r.set_wheels_rotation(2, 30)
+    r.set_wheels_rotation(1, 30)
+    r.set_wheels_rotation(2, 0)
     p0 = r.centre.clone()
     n = int(1 / PAS_TEMPS) * 2
 
@@ -132,7 +141,8 @@ if __name__ == '__main__':
     print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
 
     from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
-    from gl_lib.sim.display.d2.gui import AppSimulationThread
+    from gl_lib.sim.robot.display.d2.gui import AppSimulationThread
+    from gl_lib.sim.simulation import Simulation
 
     s = Simulation(StrategieDeplacement(r))
 

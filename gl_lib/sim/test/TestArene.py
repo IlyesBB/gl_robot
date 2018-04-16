@@ -2,8 +2,7 @@ import unittest
 
 from gl_lib.sim.geometry import Arene
 from gl_lib.sim.geometry import Polygone3D
-from gl_lib.sim.geometry import Objet3D
-from gl_lib.sim.geometry.point import Point
+from gl_lib.sim.geometry import Objet3D, Point
 
 
 

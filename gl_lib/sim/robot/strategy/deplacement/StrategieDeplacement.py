@@ -9,6 +9,7 @@ class StrategieDeplacement(Strategie):
         Strategie.__init__(self, robot)
     
     def update(self):
+        Strategie.update(self)
         self.robot.update()
 
     def stop(self):

@@ -1,5 +1,5 @@
 from gl_lib.sim.robot.sensor import Capteur
-from gl_lib.sim.geometry.point import *
+from gl_lib.sim.geometry import *
 from gl_lib.config import PAS_TEMPS
 
 
@@ -13,13 +13,13 @@ class Accelerometre(Capteur):
     DT_MESURE = 0.01
     MAX_CPT = int(DT_MESURE/PAS_TEMPS)
 
-    def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), tete=None):
+    def __init__(self, centre:Point=Point(0, 0, 0), direction:Vecteur=Vecteur(1, 0, 0)):
         """
         On initialise les variables nécessaires pour calculer une vitesse et une accélération entre deux instants
         """
-        Capteur.__init__(self, centre=centre, direction=direction, tete=tete)
+        Capteur.__init__(self, centre=centre, direction=direction)
         try:
-            self.prev_pos = self.centre.clone
+            self.prev_pos = self.centre.clone()
         except:
             self.prev_pos = Point(0,0,0)
         self.speed = Vecteur(0,0,0)
@@ -27,9 +27,9 @@ class Accelerometre(Capteur):
         # Compteur pour savoir quand prendre la mesure
         self.cpt = 1
 
-    def get_mesure(self, value):
+    def get_mesure(self, value:int=1):
         """
-        retourne la vitesse actuelle, et actualise le dernier point de mesure de la position
+        Retourne la vitesse actuelle, et actualise le dernier point de mesure de la position
         Si value vaut 1 : retourne la dernière vitesse mesurée
         Si value vaut 2: retourne la dernière accélération mesurée
         :return: float ou tuple selon value

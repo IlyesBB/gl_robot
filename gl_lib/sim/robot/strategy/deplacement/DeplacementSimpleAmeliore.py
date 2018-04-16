@@ -2,7 +2,7 @@ from gl_lib.sim.robot.strategy.deplacement.DeplacementSimple import DeplacementS
 from gl_lib.sim.geometry import Arene
 from gl_lib.sim.robot import *
 from gl_lib.config import PAS_IR
-from gl_lib.sim.geometry.point import Vecteur, Point
+from gl_lib.sim.geometry import Vecteur, Point
 from gl_lib.sim.robot.strategy.analyse.image import trouver_balise
 from multiprocessing import Process
 from math import pi

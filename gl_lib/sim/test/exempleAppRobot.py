@@ -1,11 +1,10 @@
 import sys
 sys.path.insert(0, "/Users/Macbook pro/PycharmProjects/GurrenLagann-dev")
 
-from gl_lib.sim.display.d2.gui import AppRobot
-from gl_lib.sim.geometry.point import *
+from gl_lib.sim.robot.display.d2.gui import AppRobot
 from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
-from gl_lib.sim.display.d2.view import *
+from gl_lib.sim.robot.display.d2.view import *
 
 """
 Creation et display d'un robot basique avec modulateurs de vitesses pour tester

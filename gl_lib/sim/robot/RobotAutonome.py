@@ -1,6 +1,5 @@
 from gl_lib.sim.robot import Robot
-from gl_lib.sim.geometry import Pave, Objet3D
-from gl_lib.sim.geometry.point import Point, Vecteur
+from gl_lib.sim.geometry import *
 
 class RobotAutonome(Robot):
     """

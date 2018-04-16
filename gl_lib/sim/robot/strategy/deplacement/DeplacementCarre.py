@@ -5,7 +5,7 @@ from math import pi
 from time import sleep
 
 
-class DeplacementCarre(DeplacementDroit):
+class DeplacementCarre(DeplacementDroit, Tourner):
     """
     Fais décrire au robot un carré de coté 70 cm
     """
@@ -20,18 +20,20 @@ class DeplacementCarre(DeplacementDroit):
 
         self.cpt_turn = 1
         self.turning = False
+        self.cote = cote
 
     def update(self):
         if self.advancing:
             DeplacementDroit.update(self)
             if not self.advancing:
+                DeplacementDroit.abort(self)
                 Tourner.init_movement(self, 90)
-        if self.turning:
+        elif self.turning:
             Tourner.update(self)
-            if not self.turning:
-                DeplacementDroit.init_movement(self, self.distance_max)
+        else:
+            DeplacementDroit.init_movement(self, self.cote)
+            self.cpt_turn += 1
 
-                self.cpt_turn += 1
 
     def stop(self):
         if self.cpt_turn > 4:
@@ -42,14 +44,16 @@ class DeplacementCarre(DeplacementDroit):
 
 if __name__ == '__main__':
     from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.display.d2.gui import AppSimulationThread
+    from gl_lib.sim.robot.display.d2.gui import AppAreneThread
     from gl_lib.sim.robot import *
     from gl_lib.sim.robot.sensor import Accelerometre
     from gl_lib.sim.geometry import *
 
-    r = RobotMotorise(Pave(centre=point.Point(3, 6, 0), width=1, height=1, length=1))
-    sim = Simulation(DeplacementCarre(r, 1))
-    app = AppSimulationThread(sim)
+    a = AreneFermee(10,10,10)
+    r = RobotMotorise(Pave(centre=Point(3, 6, 0), width=1, height=1, length=1))
+    sim = Simulation(DeplacementCarre(r, 1), 5)
+    a.add(r)
+    app = AppAreneThread(a)
 
     sim.start()
     app.start()

@@ -1,6 +1,6 @@
 from .Capteur import Capteur
 from .Accelerometre import Accelerometre
-from .CapteurIR import CapteurIR
-from .Camera import Camera
+from .CapteurIR import VueMatriceArene, CapteurIR
+from . import camera
 
-__all__=["Capteur", "Camera", "CapteurIR", "Accelerometre"]
+__all__=["Capteur", "camera","VueMatriceArene", "CapteurIR", "Accelerometre"]

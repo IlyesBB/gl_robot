@@ -1,5 +1,4 @@
 from gl_lib.sim.geometry import *
-from gl_lib.sim.geometry.point import *
 import unittest
 
 class TestTrieObjet(unittest.TestCase):

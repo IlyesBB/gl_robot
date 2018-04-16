@@ -6,7 +6,7 @@ class AreneFermee(Arene):
     definit une arene avec des limites
     """
 
-    def __init__(self, height: int or float = 200, width: int or float = 200, length: int or float = 200):
+    def __init__(self, height: int or float = 10, width: int or float = 10, length: int or float = 10):
         """
         :param height: hauteur
         :param width: largeur

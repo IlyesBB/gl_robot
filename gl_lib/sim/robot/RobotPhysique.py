@@ -1,12 +1,10 @@
 from gl_lib.sim.robot import Robot
-from gl_lib.sim.robot.sensor import Camera, CapteurIR, Accelerometre
 from gl_lib.sim.robot import Tete
-from gl_lib.sim.geometry import Objet3D, Pave, Arene
-from gl_lib.sim.geometry.point import Vecteur, Point
+from gl_lib.sim.geometry import Objet3D, Pave, Arene, Point, Vecteur
 
 
 class RobotPhysique(Robot):
-    def __init__(self, pave: Objet3D = Pave(0, 0, 0), rg: Objet3D = Objet3D(), rd: Objet3D = Objet3D(),
+    def __init__(self, pave: Objet3D = Pave(1, 1, 1), rg: Objet3D = Objet3D(), rd: Objet3D = Objet3D(),
                  direction: Vecteur = Vecteur(0, -1, 0)):
         """
         :param pave: forme du robot, a priori Pave
@@ -15,27 +13,11 @@ class RobotPhysique(Robot):
         :param direction: direction du robot
         """
         Robot.__init__(self, pave, rg, rd, direction)
-        self.tete = Tete(robot=self)
-        self.tete.add_sensors(acc=Accelerometre(tete=self.tete), ir=CapteurIR(tete=self.tete, portee=3),
-                              cam=Camera(tete=self.tete))
-
-    def move(self, vecteur: Vecteur):
-        """
-        deplace le robot et sa tete
-        :param vecteur: Vecteur
-        """
-        Robot.move(self,vecteur)
+        self.tete = Tete(self.centre, self.direction)
 
     def turn(self, sens):
         Robot.turn(self,sens)
         self.tete.turn(sens)
-
-    def move_forward(self, sens: int or float):
-        """ tourne le robot """
-        if sens < 0:
-            self.move(-self.vitesse * self.direction)
-        elif sens > 0:
-            self.move(self.vitesse * self.direction)
 
     def set_dir(self, vecteur: Vecteur):
         """
@@ -45,7 +27,10 @@ class RobotPhysique(Robot):
         self.tete.set_dir(vecteur)
 
     def update(self):
-        self.tete.set_dir(self.direction)
+        self.tete.update()
+
+    def rotate_all_around(self, point:Point, angle:float, axis=None):
+        Robot.rotate_all_around(self,point, angle, axis)
 
 
 if __name__ == '__main__':

@@ -1,12 +1,10 @@
 from pyglet.gl import *
 from pyglet.window import key
-import pdb
-import math
-from gl_lib.sim.robot.sensor.camera.d3 import *
-from gl_lib.sim.geometry.point import Vecteur
-from math import pi, acos
 from math import pi
-from gl_lib.config import PIX_PAR_M
+from gl_lib.sim.robot.sensor.camera.d3 import Model
+from gl_lib.config import PIX_PAR_M, PAS_TEMPS
+from gl_lib.sim.geometry import *
+from gl_lib.sim.robot import RobotMotorise, RobotTarget
 
 def projection():
     glMatrixMode(GL_PROJECTION)
@@ -22,9 +20,8 @@ def push(pos, rot):
     angle=rot.get_angle()*180/pi
     glPushMatrix()
     glRotatef(-90, 1, 0, 0)
-    glRotatef(90+angle, 0, 0, 1)
+    glRotatef(90-angle, 0, 0, 1)
     pos=pos.to_tuple()
-
     glTranslatef(int(-pos[0]*PIX_PAR_M), int(-pos[1]*PIX_PAR_M), int(-pos[2]*PIX_PAR_M), )
 
 
@@ -45,28 +42,30 @@ class Window(pyglet.window.Window):
         self.set_exclusive_mouse(state)
 
     lock = False
-    mouse_lock = property(lambda self: self.lock, setLock)
 
     def __init__(self, arene=None, camera=None):
-        super().__init__(width=1000, height=1000, caption='Robot', resizable=True)
-        self.set_minimum_size(300, 200)
-        self.keys = key.KeyStateHandler()
-        self.push_handlers(self.keys)
-
+        config = Config(double_buffer=True)
+        super().__init__(width=1000, height=800, caption='Robot', resizable=True, visible=True,config=config)
+        self.set_minimum_size(300,200)
         self.model = Model(arene)
-
         self.camera = camera
-
-    def on_mouse_motion(self, x, y, dx, dy):
-        if self.mouse_lock: self.camera.mouse_motion(dx, dy)
+        if arene is None:
+            self.model = Model(self.camera.arene)
+        pyglet.clock.schedule_interval(update, PAS_TEMPS/2)
 
     def on_draw(self):
         self.clear()
         self.set3d()
-
+        for i in range(len(self.model.graphic_objects)):
+            quad_lvertices = Model.get_vertices(self.model,self.model.graphic_objects[i][1])
+            for j in range(6):
+                self.model.graphic_objects[i][0][j].vertices=list(quad_lvertices[j])
         push(self.camera.centre,
             self.camera.direction)
         self.model.draw()
+        self.camera.picture()
+
         glPopMatrix()
 
-        self.camera.picture()
+def update(dt):
+    pass

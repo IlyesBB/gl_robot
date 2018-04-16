@@ -1,7 +1,6 @@
-from gl_lib.sim.display.d2 import view, gui
+from gl_lib.sim.robot.display.d2 import view, gui
 from gl_lib.sim.robot import RobotPhysique
-from gl_lib.sim.geometry import Arene, Pave
-from gl_lib.sim.geometry.point import *
+from gl_lib.sim.geometry import *
 from gl_lib.sim.robot.strategy.deplacement import DeplacementSimpleAmeliore
 from gl_lib.sim.robot import sensor
 

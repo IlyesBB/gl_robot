@@ -1,6 +1,5 @@
 from gl_lib.sim.robot.display.d2.gui import AppRobot
-from gl_lib.sim.geometry.point import *
-from gl_lib.sim.geometry import Arene
+from gl_lib.sim.geometry import *
 from time import sleep
 from tkinter import *
 from gl_lib.config import PAS_TEMPS

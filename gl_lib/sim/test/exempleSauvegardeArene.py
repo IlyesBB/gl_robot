@@ -1,5 +1,4 @@
 from gl_lib.sim.geometry import *
-from gl_lib.sim.geometry.point import *
 
 
 a=Arene()

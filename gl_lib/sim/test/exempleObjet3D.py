@@ -1,5 +1,4 @@
-from gl_lib.sim.geometry import Objet3D
-from gl_lib.sim.geometry.point import *
+from gl_lib.sim.geometry import Objet3D, Point
 
 #Creation d'un carre de cote 1 et deplacement de celui-ci du vecteur v
 v=Point(1,1,1)
