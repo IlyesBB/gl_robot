@@ -41,7 +41,8 @@ class DeplacementDroit(StrategieDeplacement):
         :return:
         """
         if self.advancing:
-            self.robot.update()
+            with self.robot.lock_update_pos:
+                self.robot.update()
             d = max(abs(self.robot.get_wheels_rotations(1)), abs(self.robot.get_wheels_rotations(2))) * \
                 max(self.robot.rd.diametre, self.robot.rg.diametre) * PAS_TEMPS * (pi / 180)
             self.distance += d
@@ -90,8 +91,8 @@ if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, Tete
     from gl_lib.sim.geometry import *
     from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppAreneThread
+    from gl_lib.sim import Simulation
+    from gl_lib.sim.display.d2.gui import AppAreneThread
     v=Vecteur(1,1,0).norm()
     p = Pave(1, 1, 0)
     p.move(v*3)

@@ -1,3 +1,4 @@
+from PIL import Image
 from pyglet.gl import *
 from gl_lib.sim.robot import RobotTarget, Robot
 from gl_lib.sim.robot.sensor.camera import Balise
@@ -19,7 +20,8 @@ class Model:
         self.batch_bg = pyglet.graphics.Batch()
         self.l_textures = list()
         self.graphic_objects = list()
-        l = ['white4.png', 'red.png', 'green.png', 'blue.svg', 'yellow.png', 'balise.png', 'grey.png']
+        self.updatable_g_objs = list()
+        l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise.png', 'grey.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
 
@@ -27,6 +29,9 @@ class Model:
             X, Y, Z = arene.width * PIX_PAR_M, arene.length * PIX_PAR_M, arene.height * PIX_PAR_M
             p = Pave(X,Y,Z)
             p.move(p.vertices[4].to_vect()*-1)
+            #im = Image.open('grey.png')
+            #im.thumbnail((p.width*im.shape[0], p.length), Image.ANTIALIAS)
+            #im.save(outfile, "JPEG")
             self.visual_pave(p, self.l_textures[6], self.batch_bg)
         self.visual_arene(arene)
 
@@ -47,6 +52,11 @@ class Model:
                 #self.visual_pave(i.forme)
                 pass
     def draw(self):
+        for i in range(len(self.updatable_g_objs)):
+            quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
+            for j in range(6):
+                self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
+
         self.batch_bg.draw()
         self.batch.draw()
 
@@ -110,7 +120,7 @@ class Model:
                                tex_coords)
                 l_objs.append(obj)
         p=robot.forme
-        self.graphic_objects.append((l_objs, p))
+        self.updatable_g_objs.append((l_objs, p, robot.lock_update_pos))
 
     def get_text_balise(self, colors):
         """
@@ -127,7 +137,7 @@ class Model:
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone(type_coords=int)
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
@@ -137,7 +147,7 @@ class Model:
         return lvertices
 
 if __name__ == '__main__':
-    from gl_lib.sim.simulation import Simulation
+    from gl_lib.sim import Simulation
     from gl_lib.sim.robot.strategy.deplacement.balise import DroitVersBaliseVision
     from gl_lib.sim.robot.sensor.camera import Balise
     import os

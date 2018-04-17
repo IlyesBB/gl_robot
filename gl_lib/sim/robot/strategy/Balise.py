@@ -12,7 +12,7 @@ class Balise(Objet3D):
         :param couleurs: [tuple[4]] (r, g, v, o)
         """
         if colors is None:
-            colors = [(255, 0, 0, 255), (0, 255, 0, 255), (0, 0, 255, 255), (255, 255, 0, 255)]
+            colors = [(255, 0, 0, 255), (0, 255, 0, 255),  (255,255,0,255), (0,0,255,255)]
         self.colors=colors
 
         self.width=width

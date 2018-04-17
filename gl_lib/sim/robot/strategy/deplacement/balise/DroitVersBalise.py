@@ -8,8 +8,6 @@ class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
     def __init__(self, robot, arene):
         DeplacementDroitAmeliore.__init__(self,robot, 100, arene)
         TournerVersBalise.__init__(self,robot)
-        TournerVersBalise.abort(self)
-        DeplacementDroitAmeliore.abort(self)
         self.robot.set_wheels_rotation(3,0)
         self.is_missing = True
 
@@ -27,16 +25,21 @@ class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
             except:
                 pass
         else:
+            self.is_missing = False
             res = self.robot.tete.lcapteurs[Tete.IR].get_mesure(self.arene, ignore=self.robot)
             if -1 < res < self.proximite_max:
-                TournerVersBalise.abort(self)
+                DroitVersBalise.abort(self)
             self.last_detected = res
+
+    def abort(self):
+        TournerVersBalise.abort(self)
+        DeplacementDroitAmeliore.abort(self)
 
 
     def stop(self):
         try:
             if self.last_detected<self.proximite_max:
-                pass
+                return True
         except:
             pass
         return False

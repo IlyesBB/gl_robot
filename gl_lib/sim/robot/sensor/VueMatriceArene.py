@@ -6,28 +6,31 @@ from gl_lib.config import RES_M
 
 
 class VueMatriceArene(object):
+    """Définit une vue matricielle d'une portion de l'arène
+    Elle est représentée dans un repère associé à la VueMatriceArene
     """
-    definit une view matricielle de l'arene
-    """
+    # La résolution de la matrice
     res = RES_M
 
     def __init__(self, arene: Arene, origine=Point(0, 0, 0), ox=Vecteur(1, 0, 0), ajuste=False):
-        """
-        Initialise la matrice
-        :param arene: representre
+        """Initialise la vue de la matrice
+
+        :param arene: Arène à analyser
+        :param origine: Origine O du repère de la vue
+        :param ox: Vecteur Ox unitaire de ce même repère
+        :param ajuste: A True, à l'analyse, prends Ox tourné de -45, pour centrer la vue
         """
         self.origine = origine
         self.arene = arene
         self.ox = ox
         self.ajuste = ajuste
+        self.matrix = None
 
     def vueDessus(self, dx, dy):
-        """
-        N'affiche que les paves dans la matrice
+        """N'affiche que les pavés dans la matrice
 
-        S'appuie sur une rotation du repere, pour resoudre les cas ou les sommets
-        du rectangle ont tous des coordonnees differentes
-
+        S'appuie sur une rotation du repère, pour résoudre les cas où les sommets
+        du rectangle ont tous des coordonnées différentes
         :param origine: point autour duquel on va representer la matrice
         :param dx: dimension x d'display de l'arene
         :param dy: dimension y d'display de l'arene
@@ -66,7 +69,7 @@ class VueMatriceArene(object):
             centre=obj.centre.clone()
             # inclinaison_m: float
 
-            # on recupere les coordonnees limites des sommets
+            # on recupère les coordonnées limites des sommets
             s_xmax, s_ymax = max(ls[i].x for i in range(0, len(ls))), max(ls[i].y for i in range(0, len(ls)))
             s_xmin, s_ymin = min(ls[i].x for i in range(0, len(ls))), min(ls[i].y for i in range(0, len(ls)))
 
@@ -74,7 +77,7 @@ class VueMatriceArene(object):
             for x in range(nxmax):
                 for y in range(nymax):
                     p = (ox*x+oy*y).to_point()/VueMatriceArene.res
-                    #aux: point p dans le nouveau repere
+                    #aux: point p dans le nouveau repère
                     aux = self.origine + p
                     aux=aux.rotate_around(centre, inclinaison_m).clone()
                     if s_xmin <= aux.x <= s_xmax and s_ymin <= aux.y <= s_ymax:
@@ -83,12 +86,16 @@ class VueMatriceArene(object):
                                 matrice2d[x][y] = 1
                             except:
                                 pass
+        self.matrix = matrice2d
         return matrice2d
 
     def __repr__(self):
         """
         retourne un display sous forme de tableau
-        :return: string
+        :return: str
         """
         print("\nox : ", self.ox,"\norigine: ",self.origine)
+        if self.matrix is not None:
+            for i in range(len(self.matrix)):
+                print(self.matrix[i])
 

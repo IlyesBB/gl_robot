@@ -72,7 +72,7 @@ class Point(object):
         """
         Quand on entre un Point dans l'interpreteur
         """
-        return "({:2.2}, ".format(self.x)+"{:2.2}, ".format(self.y)+"{:2.2})".format(self.z)
+        return "({:6.6}, ".format(self.x)+"{:6.6}, ".format(self.y)+"{:6.6})".format(self.z)
 
 
     def __getattr__(self, nom):
@@ -356,7 +356,7 @@ class Vecteur(object):
         """
         Quand on entre un vecteur dans l'interpreteur
         """
-        return "v->({:.2}, ".format(self.x)+"{:.2}, ".format(self.y)+"{:.2})".format(self.z)
+        return "v->({:6.6}, ".format(self.x)+"{:6.6}, ".format(self.y)+"{:6.6})".format(self.z)
 
     def __getattr__(self, nom):
         """

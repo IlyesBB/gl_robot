@@ -3,7 +3,7 @@ from gl_lib.sim.robot.sensor import Capteur
 from math import pi
 from gl_lib.sim.geometry import Arene, Pave, Point, Vecteur, Objet3D
 from gl_lib.config import PAS_IR, RES_M
-from gl_lib.sim.robot import Robot, RobotPhysique, Tete
+from gl_lib.sim.robot import Robot, Tete
 
 class CapteurIR(Capteur):
     """
@@ -18,8 +18,9 @@ class CapteurIR(Capteur):
         self.arena_v = None
         self.l_ignore = list()
 
-    def creer_matrice(self, arene: Arene):
-        return VueMatriceArene(arene, origine=self.centre, ox=self.direction, ajuste=True)
+    def get_matrix_view(self, arene: Arene):
+        self.arena_v = VueMatriceArene(arene, origine=self.centre, ox=self.direction, ajuste=True)
+        return self.arena_v
 
     def get_mesure(self, arene: Arene, d_ingnore=0.0, ignore=None):
         """
@@ -29,7 +30,7 @@ class CapteurIR(Capteur):
         :param arene: arène dans laquelle effectuer la mesure
         :return: float ou int
         """
-        self.arena_v = self.creer_matrice(arene)
+        self.get_matrix_view(arene)
         m = self.arena_v.vueDessus(self.portee, ignore)
 
         # On parcours la matrice sur la diagonale, dans le sens croissant
@@ -47,9 +48,6 @@ class CapteurIR(Capteur):
             except:
                 print(pos, " est hors de portée")
         return -1
-
-    def print_last_view(self):
-        print(self.arena_v)
 
     def clone(self):
         return CapteurIR(self.centre, self.direction, self.portee)
@@ -123,7 +121,7 @@ class VueMatriceArene(object):
                 if ignore == obj:
                     continue
 
-            # Si on ne peut pas récupérer les informations, nécessaires au traitement, on passe
+            # Si on ne peut pas récupérer les informations nécessaires au traitement, on passe
             # Sinon, on récupère les sommets du pavé, dans un repère où ce dernier est droit
             pave = self.get_pave(obj)
             if pave is None:
@@ -188,8 +186,8 @@ if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, Tete
     from gl_lib.sim.geometry import Pave
     from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppSimulationThread
+    from gl_lib.sim import Simulation
+    from gl_lib.sim.display.d2.gui import AppSimulationThread
     v=Vecteur(1,1,0).norm()
     c = CapteurIR(centre=Point(0, 0, 0), direction=v.clone(), portee=3)
     p = Pave(1, 1, 0)

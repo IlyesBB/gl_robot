@@ -20,7 +20,7 @@ class TournerVersBalise(Tourner, StrategieVision):
     Pour cela, on utilise les images capturée pour la caméra du robot
 
     """
-    PRECISION = 20
+    PRECISION = 10
 
     def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None):
         """
@@ -35,9 +35,8 @@ class TournerVersBalise(Tourner, StrategieVision):
         self.cpt_not_found = 0
         self.time_before_picture = int(DT_SCREENSHOT/PAS_TEMPS)
         self.prev_res = None
-        self.robot.tete.lcapteurs[Tete.CAM].lock = self.lock
         if self.balise is None:
-            self.balise = Balise([(255,0, 0, 255), (0,255,0,255), (255,255,0,255), (0,0,255,255)])
+            self.balise = Balise()
         self.robot.set_wheels_rotation(3,0)
 
     def get_angle(self):
@@ -59,14 +58,14 @@ class TournerVersBalise(Tourner, StrategieVision):
 
         #print("Analysing image ", self.cpt,"...")
         s = self.file_name + str(self.cpt) + FORMAT_SCREENSHOT
-        p=trouver_balise(self.balise.colors, fname=s)
+        p=trouver_balise(self.balise.colors, image=self.robot.tete.lcapteurs[Tete.CAM].get_image())
         if p is None:
             #print("No target found")
             self.cpt_not_found += 1
             self.cpt += 1
             return None, None
 
-        angle = -(p[1]-0.5)*Camera.ANGLE_VY
+        angle = -(p[0]-0.5)*Camera.ANGLE_VY/2
         sens = signe(angle)
         if abs(angle) < TournerVersBalise.PRECISION:
             #print("Target ahead (", angle, " degres from vertical)")
@@ -80,7 +79,7 @@ class TournerVersBalise(Tourner, StrategieVision):
     def update(self):
         Tourner.update(self)
         StrategieVision.update(self)
-        if self.robot.tete.lcapteurs[Tete.CAM].new_pic:
+        if self.cpt < self.robot.tete.lcapteurs[Tete.CAM].cpt:
             res = self.get_angle()
             self.action(res[1], res[0])
             self.last_res = res
@@ -103,8 +102,6 @@ class TournerVersBalise(Tourner, StrategieVision):
     def stop(self):
         if self.sens == 0:
             #print("Target ahead")
-            return True
-        if self.cpt_not_found > 3:
             return True
         return False
 

@@ -1,3 +1,5 @@
+from PIL import Image
+
 from pyglet.gl import *
 from pyglet.window import key
 from math import pi
@@ -56,16 +58,11 @@ class Window(pyglet.window.Window):
     def on_draw(self):
         self.clear()
         self.set3d()
-        for i in range(len(self.model.graphic_objects)):
-            quad_lvertices = Model.get_vertices(self.model,self.model.graphic_objects[i][1])
-            for j in range(6):
-                self.model.graphic_objects[i][0][j].vertices=list(quad_lvertices[j])
-        push(self.camera.centre,
-            self.camera.direction)
-        self.model.draw()
-        self.camera.picture()
 
+        push(self.camera.centre, self.camera.direction)
+        self.model.draw()
         glPopMatrix()
+        self.camera.picture()
 
 def update(dt):
     pass

@@ -65,7 +65,6 @@ class Tourner(StrategieDeplacement):
 
             v=self.robot.direction
             try:
-                # Peut générer des erreurs si la vitesse est nulle
                 if self.rot_angle>(self.angle_max*pi/180):
                     #print("Done turning ", self.sens*self.angle_max, "degrees")
                     Tourner.abort(self)
@@ -83,8 +82,8 @@ class Tourner(StrategieDeplacement):
 
 
 if __name__ == '__main__':
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppSimulationThread
+    from gl_lib.sim import Simulation
+    from gl_lib.sim.display.d2.gui import AppSimulationThread
     from gl_lib.sim.robot import RobotMotorise
     from gl_lib.sim.robot.sensor import Accelerometre
     from gl_lib.sim.geometry import *

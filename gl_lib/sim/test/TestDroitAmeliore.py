@@ -1,8 +1,8 @@
 from unittest import TestCase
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, DDroitAmelioreVision
 from gl_lib.sim.robot import RobotMotorise, Tete
-from gl_lib.sim.robot.display.d2.gui import AppAreneThread
-from gl_lib.sim.simulation import Simulation
+from gl_lib.sim.display.d2.gui import AppAreneThread
+from gl_lib.sim import Simulation
 from gl_lib.sim.geometry import Arene, Point, Pave, Vecteur
 from gl_lib.config import PAS_IR, PAS_TEMPS
 from math import pi

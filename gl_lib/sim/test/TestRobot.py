@@ -30,8 +30,6 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(r.direction, self.r.direction)
         self.assertEqual(r.rd, self.r.rd)
         self.assertEqual(r.rg, self.r.rg)
-        self.assertEqual(r.vitesseRot - self.r.vitesseRot, 0.0)
-        self.assertEqual(r.vitesse - self.r.vitesse, 0.0)
         self.assertEqual(r.dist_wheels - self.r.dist_wheels, 0.0)
 
     def test_eq(self):
@@ -52,14 +50,6 @@ class TestRobot(unittest.TestCase):
 
         r=self.r.clone()
         r.rd = None
-        self.assertNotEqual(r, self.r)
-
-        r=self.r.clone()
-        r.vitesse = None
-        self.assertNotEqual(r, self.r)
-
-        r=self.r.clone()
-        r.vitesseRot = None
         self.assertNotEqual(r, self.r)
 
         r=self.r.clone()

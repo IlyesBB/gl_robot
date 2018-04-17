@@ -11,7 +11,7 @@ from PIL import Image
 import shutil
 
 
-class Camera(Thread, Capteur):
+class Camera(Capteur):
     """
     La caméra a besoin de pouvoir lancer une application pyglet indépedante
     On la fait donc aussi hériter de Thread
@@ -22,23 +22,21 @@ class Camera(Thread, Capteur):
     # Angle de vue de la caméra en y, en degrés
     ANGLE_VY = 180
 
-    def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), arene:Arene=None, get_pic=False, new_pic=False):
+    def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), arene:Arene=None):
         """
         :param centre: Centre de la caméra, peut être attaché à une tête
         :param direction: Direction de la caméra, même remarque
         :param arene: Arène à représenter dans l'application
         """
-        Thread.__init__(self)
         Capteur.__init__(self, centre=centre, direction=direction)
         self.arene = arene
-        self.window = None
-        self.get_pic=get_pic
-        self.new_pic=new_pic
-        self.pix_data = None
-        self._stop_event = Event()
+        self.window = None # Window (gl_lib.sim.robot.sensor.camera.d3.Window)
+        self.raw_im = None # Image
+
+        self.is_set = False
+        self.get_pic = False
         self.fname = fonctions.get_project_repository()+REPNAME_SCREENSHOTS+FILENAME_SCREENSHOT
         self.cpt = 0
-        self.lock = None
         if arene is None:
             self.arene = AreneFermee(10,10,10)
 
@@ -50,7 +48,6 @@ class Camera(Thread, Capteur):
         self.window = Window(self.arene, self)
         glClearColor(0, 0, 0, 0)
         glEnable(GL_DEPTH_TEST)
-
         pyglet.app.run()
 
     def picture(self):
@@ -59,31 +56,35 @@ class Camera(Thread, Capteur):
         A CORRIGER : Paramétrage du nom du fichier
         """
         if self.get_pic:
+            #print("Acquiring image...")
             image = pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
-            self.pix_data = image
-            self.print_picture()
-            self.new_pic = True
+            self.raw_im = Image.frombytes(image.format, (image.width, image.height), image.data)
+            self.raw_im = self.raw_im.rotate(180)
+            self.raw_im = self.raw_im.transpose(Image.FLIP_LEFT_RIGHT)
             self.get_pic = False
             #print("Picture ", self.cpt, " taken")
             self.cpt += 1
+        self.is_set = True
 
     def print_picture(self):
-        s = self.fname+str(self.cpt)+FORMAT_SCREENSHOT
-        self.pix_data.save(s)
+        s = self.fname + str(self.cpt) + FORMAT_SCREENSHOT
+        #print("Printing image...")
+        self.raw_im.save(s)
 
+    def get_image(self):
+        if self.raw_im is not None:
+            return self.raw_im.getdata()
 
     def get_picture(self):
         self.get_pic=True
-        self.new_pic=False
+
     def clone(self):
-        return Camera(self.centre, self.direction, self.arene, self.get_pic, self.new_pic)
+        return Camera(self.centre, self.direction, self.arene)
 
     def stop(self):
-        self._stop_event.set()
-
-    def stopped(self):
-        return self._stop_event.is_set()
-
+        pyglet.app.exit()
+        self.is_on = False
+        self.is_set = False
 
 
 if __name__ == '__main__':

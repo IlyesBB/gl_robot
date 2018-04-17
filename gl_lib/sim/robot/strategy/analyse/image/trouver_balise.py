@@ -1,9 +1,11 @@
 import numpy as np
+from PIL import Image
+
 from gl_lib.sim.geometry import *
 import imageio as imo
 import os
-from math import pi
-from gl_lib.config import PIX_PAR_M
+from math import pi, sqrt
+from gl_lib.config import RATIO_SEARCH_SCREENSHOT
 
 
 def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
@@ -20,46 +22,50 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
     """
 
     if fname is not None:
-        s = fname
-        im=imo.imread(s)
-        w_im, l_im = int(im.shape[0] - 1), int(im.shape[1] - 1)
+        im = Image.open(fname)
     elif image is not None:
-        im = np.asarray(image)
-        w_im, l_im = int(im.shape[0] - 1), int(im.shape[0] - 1)
-        return None
+        im = image
     else:
         return None
-    PAS_RECH = min(w_im, l_im)/50
+    w_im, l_im = image.size[0], image.size[1]
+    PAS_RECH = min(w_im, l_im)/RATIO_SEARCH_SCREENSHOT
     pas = int(PAS_RECH)
     # Côté du carré cherché
     RAYON_RECH = PAS_RECH
-    # Dans l'affichae 3D, l'ordre des sommets change
-    l_lvertices = [[0, 3, 2, 1]]
-    # La deuxième liste sert juste à corriger le bug d'affichage 3D (n'affiche pas la balise à l'endroit)
+    l_lvertices = [[0, 1, 2, 3]]
     i0 = int(RAYON_RECH / PAS_RECH)+1
     # Pour éviter que le carré cherché sorte du tableau
 
     centre_balise = None
-    for x in [i * pas for i in range(i0, int(w_im / pas) - i0)]:
-        for y in [i * pas for i in range(i0, int(l_im / pas) - i0)]:
-            point_act=Point(x,y,0)
-            pave = Pave(RAYON_RECH * 2, RAYON_RECH * 2, 0, centre=point_act.clone())
+    wn_im=int(w_im / pas)
+    ln_im=int(l_im / pas)
+
+    for x in [i * pas for i in range(i0, wn_im - i0)]:
+        for y in [i * pas for i in range(i0, ln_im - i0)]:
+            pave = Pave(RAYON_RECH * 2, RAYON_RECH * 2, 0, centre=Point(x,y,0))
             for lvertices in l_lvertices:
                 balise = True
                 for i in range(len(couleurs)):
                     p = pave.vertices[lvertices[i]].to_tuple(type_coords=int)
-                    #print(p, lvertices[i])
-                    #print(couleurs[i], " != ",tuple(im[p[0]][p[1]]), "\n")
-                    if couleurs[i] != tuple(im[p[0]][p[1]]):
+                    if couleurs[i] != im.getpixel((p[0], p[1])):
+                        #print(couleurs[i], " != ",im.getpixel((p[0], p[1])), (Point(p[0],p[1],0)-Point(x,y,0)).to_vect(), "\n")
                         balise = False
                         break
+                    #print(couleurs[i], " == ", im.getpixel((p[0], p[1])))
+
                 if balise:
-                    centre_balise = (point_act.x/w_im, point_act.y/l_im, 0)
+                    centre_balise = (float(x)/w_im, float(y)/l_im, 0)
                     multibreak()
     if output is None:
         return centre_balise
     else:
         output.put(centre_balise)
+
+
+def ind(i, j, w, h):
+    return i*w+j*h
+
+
 
 
 from contextlib import contextmanager

@@ -87,7 +87,7 @@ if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, RobotTarget, Tete
     from gl_lib.sim.robot.sensor import *
     from gl_lib.sim.geometry import *
-    from gl_lib.sim.simulation import Simulation
+    from gl_lib.sim import Simulation
     from gl_lib.sim.robot.strategy.vision import StrategieDeplacementVision, StrategieVision
 
     a = AreneFermee(15, 15, 15)

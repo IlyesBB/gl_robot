@@ -1,10 +1,12 @@
+from _thread import RLock
+
 from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
 from gl_lib.config import PAS_TEMPS
 from math import pi
 
 
-class RobotMotorise(RobotPhysique):
+class RobotMotorise(Robot):
     """
     Robot dont on commande les moteurs des roues
     """
@@ -18,10 +20,12 @@ class RobotMotorise(RobotPhysique):
         :param rd: roue gauche
         :param direction: direction du robot
         """
-        RobotPhysique.__init__(self, pave, rg, rd, direction)
+        Robot.__init__(self, pave, rg, rd, direction)
+        self.tete = Tete(self.centre, self.direction)
 
         self.angles_roues = (0, 0)
         self.dist_wheels = (self.rd.centre - self.rg.centre).to_vect().get_mag()
+        self.lock_update_pos = RLock()
 
         self.set_wheels_rotation(3, 0)
 
@@ -75,8 +79,9 @@ class RobotMotorise(RobotPhysique):
         self.rd.angle = 0
 
     def update(self):
-        self.update_pos()
-        self.tete.update()
+        with self.lock_update_pos:
+            self.update_pos()
+            self.tete.update()
 
     def update_pos(self):
         """
@@ -139,13 +144,3 @@ if __name__ == '__main__':
     print((r.get_wheels_angles(3)[0] / t_tot, r.get_wheels_angles(3)[1] / t_tot), " rads.s^-1")
     print("distance parcourue théorique: ", (p0 - r.centre).to_vect().get_mag())
     print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
-
-    from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
-    from gl_lib.sim.robot.display.d2.gui import AppSimulationThread
-    from gl_lib.sim.simulation import Simulation
-
-    s = Simulation(StrategieDeplacement(r))
-
-    newGUIThread = AppSimulationThread(s)
-    s.start()
-    newGUIThread.start()

@@ -20,3 +20,4 @@ class TestStrategieVision(unittest.TestCase):
 
 
 
+

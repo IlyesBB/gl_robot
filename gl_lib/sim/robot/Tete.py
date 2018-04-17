@@ -12,8 +12,6 @@ class Tete(Objet3D):
         """
         :param pave: Pave (forme du robot)
         :param direction: Vecteur norme
-        :param vitesserot: float
-        :param n_rotations: nombre de rotation relatives de self.vitesseRot par rapport au robot
         """
         Objet3D.__init__(self, centre)
         self.dir_robot = dir_robot
@@ -40,22 +38,6 @@ class Tete(Objet3D):
 
     def rotate(self, angle:float, axis=None):
         self.dir_rel.rotate(angle, axis)
-
-    def turn_towards(self, vecteur: Vecteur):
-        diff = self.direction.diff_angle(vecteur)
-        if abs(diff) > self.vitesseRot:
-            self.turn(diff)
-            return False
-        else:
-            return True
-
-    def turn_towards_rel(self, teta: float):
-        diff = int(teta / self.vitesseRot) - self.n_rotations
-        if abs(diff) > 0:
-            self.turn(diff)
-            return False
-        else:
-            return True
 
     def set_dir(self):
         angle=self.dir_rel.get_angle()

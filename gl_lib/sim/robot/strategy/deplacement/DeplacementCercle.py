@@ -31,7 +31,7 @@ class DeplacementCercle(Tourner):
         self.rot_angle = 0
         self.turning = True
         diametre = diametre_cercle
-        vitesse = abs(dps_moy)*self.robot.rd.diametre*(1/2.0)
+        vitesse = abs(dps_moy)*self.robot.rd.diametre / 2
         sens = fonctions.signe(angle_max)
         vg = 2*vitesse/self.robot.rd.diametre
         vd = (1-(self.robot.rd.diametre/(2*diametre))) * 2 * vitesse / self.robot.rd.diametre
@@ -44,26 +44,10 @@ class DeplacementCercle(Tourner):
         self.robot.set_wheels_rotation(1,vd)
         self.robot.set_wheels_rotation(2,vg)
 
-    def update(self):
-        if self.turning is True:
-            self.robot.update()
-            dps_wheels = self.robot.get_wheels_rotations(3)
-            vitesse_rot = abs(dps_wheels[0]-dps_wheels[1])*(pi/180)
-            self.rot_angle += vitesse_rot * PAS_TEMPS * (self.robot.rd.diametre / self.robot.dist_wheels)
-
-            v=self.robot.direction
-            try:
-                # Peut générer des erreurs si la vitesse est nulle
-                if self.rot_angle>(self.angle_max*pi/180):
-                    print("Done turning ", self.sens*self.angle_max, "degrees")
-                    Tourner.abort(self)
-                    self.robot.set_wheels_rotation(3,0)
-            except:
-                pass
 
 if __name__ == '__main__':
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppAreneThread
+    from gl_lib.sim import Simulation
+    from gl_lib.sim.display.d2.gui import AppAreneThread
     from gl_lib.sim.robot import *
     from gl_lib.sim.robot.sensor import Accelerometre
     from gl_lib.sim.geometry import *

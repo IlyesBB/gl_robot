@@ -5,7 +5,6 @@ from .Polygone3D import Polygone3D
 from .Arene import Arene
 from .AreneFermee import AreneFermee
 from .Pave import Pave
-from .PaveColored import PaveColored
 
 
-__all__=["Point", "Vecteur", "atan2","signe", "positive_angle","Arene", "PaveColored", "Objet3D", "Pave","Polygone3D", "AreneFermee"]
+__all__=["Point", "Vecteur", "atan2","signe", "positive_angle","Arene", "Objet3D", "Pave","Polygone3D", "AreneFermee"]
