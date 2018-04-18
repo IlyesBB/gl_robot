@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.geometry import Objet3D, Point, Vecteur
 
 class Polygone3D(Objet3D):
@@ -10,11 +13,9 @@ class Polygone3D(Objet3D):
         initialise la liste des sommets
         """
         Objet3D.__init__(self, centre=centre)
-        self.vertices=list()
+        self.vertices = list()
         if vertices is not None:
-            self.add_vertices(vertices)
-
-
+            self.vertices = vertices
 
     def add_vertex(self, sommet):
         """
@@ -41,6 +42,24 @@ class Polygone3D(Objet3D):
         return self
         #on ne verifie pas que vecteur est bien definit
         #car c'est une classe abstraite
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"]="Polygone3D"
+        dct["centre"]=self.centre.__dict__()
+        dct["vertices"]=[self.vertices[i].__dict__() for i in range(len(self.vertices))]
+        return dct
+
+    @staticmethod
+    def deserialize(dct):
+        if dct["__class__"]=="Polygone3D":
+            return Polygone3D(dct["centre"], [dct["vertices"][i] for i in range(len(dct["vertices"]))])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Polygone3D.deserialize)
+
 
     def __repr__(self):
         """

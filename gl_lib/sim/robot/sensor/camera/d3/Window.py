@@ -6,7 +6,6 @@ from math import pi
 from gl_lib.sim.robot.sensor.camera.d3 import Model
 from gl_lib.config import PIX_PAR_M, PAS_TEMPS
 from gl_lib.sim.geometry import *
-from gl_lib.sim.robot import RobotMotorise, RobotTarget
 
 def projection():
     glMatrixMode(GL_PROJECTION)

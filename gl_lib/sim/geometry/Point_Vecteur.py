@@ -1,7 +1,9 @@
+import json
 from math import *
 from gl_lib.config import PIX_PAR_M
 from gl_lib.sim.geometry.fonctions import positive_angle
-
+from collections import OrderedDict
+from gl_lib.utils import Serializable
 
 class Point(object):
     """
@@ -11,7 +13,7 @@ class Point(object):
     z : coordonnee en z
     """
 
-    def __init__(self, x: object, y: object, z: object, type_coords: object = float) -> object:
+    def __init__(self, x, y, z, type_coords: object = float):
         """
         Initialise les coordonnees du point 
         """
@@ -121,6 +123,30 @@ class Point(object):
             return Point(self.x / float(n), self.y / float(n), self.z / float(n))
         elif isinstance(n, float):
             return Point(self.x / n, self.y / n, self.z / n)
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"]="Point"
+        dct["x"]=self.x
+        dct["y"]=self.y
+        dct["z"]=self.z
+        return dct
+
+    def save(self, filename):
+        obj=self.__dict__()
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(obj, f, indent=4)
+
+    @staticmethod
+    def deserialize(dct):
+        print(dct)
+        if dct["__class__"]=="Point":
+            return Point(dct["x"], dct["y"], dct["z"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Point.deserialize)
 
     def __eq__(self, point):
         """
@@ -364,6 +390,7 @@ class Vecteur(object):
         """
         print("L'attribut {} n'est pas accessible dans {} !".format(nom, type(self)))
 
+
     def __eq__(self, vecteur):
         """
         Quand on teste l'egalite
@@ -390,8 +417,50 @@ class Vecteur(object):
         return self / self.get_mag()
 
 
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"]="Vecteur"
+        dct["x"]=self.x
+        dct["y"]=self.y
+        dct["z"]=self.z
+        return dct
+
+    def save(self, filename):
+        obj=self.__dict__()
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(obj, f, indent=4)
+
+    @staticmethod
+    def deserialize(dct):
+        if dct["__class__"]=="Vecteur":
+            return Vecteur(dct["x"], dct["y"], dct["z"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Vecteur.deserialize)
+
+
+
+
 if __name__ == '__main__':
-    p=Point(0,0,0)
-    p2=p
-    p2.move(Vecteur(1,1,0))
-    print(p,p2)
+    v=Vecteur(1,1,1)
+    import os
+
+    v2 = v.__dict__()
+    print(v2)
+    v.save("vector.json")
+
+    v3 = Vecteur.load("vector.json")
+    print(v3)
+
+    p=Point(2,2,2)
+
+    p2 = p.__dict__()
+    print(p2)
+    p.save("dot.json")
+
+    p3 = Point.load("dot.json")
+    print(p3)
+
+

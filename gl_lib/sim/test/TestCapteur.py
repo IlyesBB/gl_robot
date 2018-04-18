@@ -11,7 +11,7 @@ class TestCapteur(TestObjet3D):
     def setUp(self):
         self.obj=Capteur()
         self.tete=Tete()
-        self.obj2=Capteur(tete=self.tete)
+        self.obj2=Capteur(self.tete.centre, self.tete.direction)
 
     def test_init(self):
         self.assertIsInstance(self.obj.centre, Point)

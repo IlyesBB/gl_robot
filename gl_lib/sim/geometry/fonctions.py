@@ -41,6 +41,7 @@ def get_project_repository():
     stream = os.popen("find -name 'gl_lib' | grep -v 'local' | grep -v 'venv'")
     s = str(stream.read()).replace(".", "/home")
     l = s.split('\n')
+    stream.close()
     return l[0]
 
 if __name__=='__main__':

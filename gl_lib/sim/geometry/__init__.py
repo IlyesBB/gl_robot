@@ -1,3 +1,5 @@
+from .ApproximableAPave import ApproximableAPave
+from .PaveTarget import PaveTarget
 from .fonctions import atan2, signe, positive_angle
 from .Point_Vecteur import Point, Vecteur
 from .Objet3D import Objet3D
@@ -7,4 +9,5 @@ from .AreneFermee import AreneFermee
 from .Pave import Pave
 
 
-__all__=["Point", "Vecteur", "atan2","signe", "positive_angle","Arene", "Objet3D", "Pave","Polygone3D", "AreneFermee"]
+__all__=["Point", "Vecteur", "atan2","signe", "positive_angle","Arene", "Objet3D", "Pave","Polygone3D", "AreneFermee",
+         "ApproximableAPave", "PaveTarget"]

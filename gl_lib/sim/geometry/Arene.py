@@ -63,9 +63,6 @@ class Arene(object):
             dic.update({"__class": obj.__class__.__name__})
             return dic
 
-        if (issubclass(Arene, type(self)) == False):
-            print("sauvegarde Arene prend une Aréne en paramétre");
-            return None
         f = open(fichier, 'w')
         areneJson = json.dump(self, f, indent=4, sort_keys=True, default=my_enc)
         f.close()

@@ -1,4 +1,5 @@
-from gl_lib.config import PIX_PAR_M
+
+from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot.sensor.camera import Camera
 from gl_lib.sim.robot import Tete
 from gl_lib.sim.robot.sensor import Capteur
@@ -11,31 +12,40 @@ from gl_lib.sim.geometry import Vecteur, Point
 
 class TestCamera(TestCapteur):
     def setUp(self):
-        self.obj = Camera()
+        self.obj = Camera(Point(1,1,1),Vecteur(1,0,0))
         self.tete=Tete()
         self.obj2 = Camera(self.tete.centre, self.tete.direction)
 
     def test_init(self):
-        TestCapteur.test_init(self)
-        self.assertIsInstance(self.obj, Thread)
         self.assertIsInstance(self.obj, Capteur)
 
-    def test_start(self):
-        print(self.obj.direction, self.obj.centre)
-        self.obj.start()
-        sleep(3)
+    def test_picture(self):
+        """
+        Prend une photo
+        :return:
+        """
+        self.obj.take_picture()
+        while not self.obj.is_set:
+            pass
+        self.obj.stop()
+        self.assertNotEqual(self.obj.get_image(), None)
+        self.obj.print_image("sc_perso.png")
+
+    def test_video(self):
+        """
+        Affiche une arène vide en 3D, effectue quelques rotations
+        :return:
+        """
+        td = Thread(target = self.obj.run)
+
+        n=10
+        teta = (pi/2)/10
+        td.start()
+        while not self.obj.is_set:
+            pass
+        for i in range(n):
+            self.obj.rotate(teta)
+            sleep(PAS_TEMPS)
+
         self.obj.stop()
 
-    def test_rot_window(self):
-        TestCamera.test_start(self)
-
-        self.obj = Camera(Point(1,1,1)*PIX_PAR_M*0.1,Vecteur(1,0,0))
-        TestCamera.test_start(self)
-
-        self.obj = Camera(Point(1,1,1), Vecteur(1,0,0).rotate(pi/4))
-        TestCamera.test_start(self)
-
-        v=Vecteur(1,1,0).norm()
-        for i in range(3):
-            self.obj = Camera(((v*i*0.01*PIX_PAR_M).to_point()), v)
-            TestCamera.test_start(self)

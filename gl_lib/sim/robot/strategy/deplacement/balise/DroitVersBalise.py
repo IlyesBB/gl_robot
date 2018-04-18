@@ -8,6 +8,7 @@ class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
     def __init__(self, robot, arene):
         DeplacementDroitAmeliore.__init__(self,robot, 100, arene)
         TournerVersBalise.__init__(self,robot)
+        DroitVersBalise.abort(self)
         self.robot.set_wheels_rotation(3,0)
         self.is_missing = True
 

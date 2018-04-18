@@ -1,7 +1,7 @@
 from gl_lib.sim.robot import RobotMotorise, Roue
 from gl_lib.sim.geometry import *
 
-class RobotTarget(RobotMotorise):
+class RobotTarget(RobotMotorise, PaveTarget):
     """
     Robot destiné à avoir une balise sur le dos
     """
@@ -12,4 +12,11 @@ class RobotTarget(RobotMotorise):
         """
         RobotMotorise.__init__(self, pave, rg, rd, direction)
         self.balise=balise
+
+    def get_face(self):
+        return 1
+
+    def get_target(self):
+        return self.balise
+
 

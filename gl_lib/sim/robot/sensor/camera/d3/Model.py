@@ -1,6 +1,5 @@
 from PIL import Image
 from pyglet.gl import *
-from gl_lib.sim.robot import RobotTarget, Robot
 from gl_lib.sim.robot.sensor.camera import Balise
 from gl_lib.config import PIX_PAR_M, REPNAME_TEXTURES
 from gl_lib.sim.geometry import *
@@ -15,6 +14,7 @@ class Model:
         return pyglet.graphics.TextureGroup(tex)
 
     def __init__(self, arene):
+        cur_dir = os.getcwd()
         os.chdir(fonctions.get_project_repository() + REPNAME_TEXTURES)
         self.batch = pyglet.graphics.Batch()
         self.batch_bg = pyglet.graphics.Batch()
@@ -24,6 +24,7 @@ class Model:
         l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise.png', 'grey.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
+        os.chdir(cur_dir)
 
         if isinstance(arene, AreneFermee):
             X, Y, Z = arene.width * PIX_PAR_M, arene.length * PIX_PAR_M, arene.height * PIX_PAR_M
@@ -35,25 +36,20 @@ class Model:
             self.visual_pave(p, self.l_textures[6], self.batch_bg)
         self.visual_arene(arene)
 
-    def get_text_color(self, color):
-        if color is None:
-            return self.l_textures[0]
-        i = fonctions.signe(color[0]) + fonctions.signe(color[1]) + fonctions.signe(color[2])
-        return self.l_textures[i]
 
     def visual_arene(self, arene:Arene):
         for i in range(len(arene.objets3D)):
             t=type(arene.objets3D[i])
-            if issubclass(t, Pave):
-                self.visual_pave(arene.objets3D[i])
-            elif issubclass(t, RobotTarget):
-                self.visual_robot_target(arene.objets3D[i])
-            elif issubclass(t, Robot):
-                #self.visual_pave(i.forme)
-                pass
+            if issubclass(t, PaveTarget):
+                self.visual_pave_target(arene.objets3D[i])
+            elif issubclass(t, ApproximableAPave):
+                self.visual_pave(arene.objets3D[i].get_pave())
+
+
     def draw(self):
         for i in range(len(self.updatable_g_objs)):
             quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
+            print(self.updatable_g_objs[i][1].centre/PIX_PAR_M)
             for j in range(6):
                 self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
 
@@ -88,19 +84,16 @@ class Model:
         p=pave
         self.graphic_objects.append((l_objs, p))
 
-    def visual_pave_color(self, pave):
-        self.side = self.get_text_color(pave.color)
-        self.visual_pave(pave, self.side)
-
-    def visual_robot_target(self, robot):
+    def visual_pave_target(self, p_target):
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
-        face = 1
-        p = robot.forme.clone()
+        face = p_target.get_face()
+        p = p_target.get_pave().clone()
         tex_coords = ('t2f/static', (1, 1, 0, 1, 0, 0, 1, 0))
         self.side = self.l_textures[0]
 
         for i in range(len(p.vertices)):
             p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
+
         l_objs = list()
         for l in range(len(l_ln)):
             if l == face:
@@ -119,18 +112,8 @@ class Model:
                                         p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
                                tex_coords)
                 l_objs.append(obj)
-        p=robot.forme
-        self.updatable_g_objs.append((l_objs, p, robot.lock_update_pos))
-
-    def get_text_balise(self, colors):
-        """
-        :param color:
-        :return:
-        """
-        textures = list()
-        for couleur in colors:
-            textures.append(self.get_text_color(couleur))
-        return textures
+        p=p_target.get_pave()
+        self.updatable_g_objs.append((l_objs, p))
 
     def get_vertices(self, pave):
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]

@@ -15,12 +15,13 @@ class StrategieVision(Strategie):
     def stop_3D(self):
         self.robot.tete.lcapteurs[Tete.CAM].stop()
 
-    def print_screen(self):
+    def print_screen(self, filename):
         self.robot.tete.lcapteurs[Tete.CAM].get_picture()
+        while not self.robot.tete.lcapteurs[Tete.CAM].is_set:
+            pass
         self.robot.tete.lcapteurs[Tete.CAM].picture()
-        self.robot.tete.lcapteurs[Tete.CAM].print_picture()
+        self.robot.tete.lcapteurs[Tete.CAM].print_picture(filename)
 
 
     def update(self):
         pass
-

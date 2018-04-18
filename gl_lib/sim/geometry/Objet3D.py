@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.geometry import Point
 
 class Objet3D(object):
@@ -51,3 +54,24 @@ class Objet3D(object):
         si ce n'est pas possible:
         """
         print("L'attribut {} n'est pas accessible dans {} !".format(nom, type(self)))
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"]="Objet3D"
+        dct["centre"]=self.centre
+        return dct
+
+    def save(self, filename):
+        obj=self.__dict__()
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(obj, f, indent=4)
+
+    @staticmethod
+    def deserialize(dct):
+        if dct["__class__"]=="Point":
+            return Point(dct["x"], dct["y"], dct["z"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Point.deserialize)

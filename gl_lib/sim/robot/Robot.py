@@ -1,9 +1,9 @@
-from gl_lib.sim.geometry import Objet3D, Vecteur, Point, Pave
+from gl_lib.sim.geometry import Objet3D, Vecteur, Point, Pave, ApproximableAPave
 from gl_lib.config import PAS_TEMPS
 from math import pi
 
 
-class Robot(Objet3D):
+class Robot(Objet3D, ApproximableAPave):
     """
     Classe definissant les elements essentiels d'un robot
     """
@@ -75,3 +75,5 @@ class Robot(Objet3D):
     def clone(self):
         return Robot(self.forme.clone(), self.rd.clone(), self.rg.clone(), self.direction.clone())
 
+    def get_pave(self):
+        return self.forme

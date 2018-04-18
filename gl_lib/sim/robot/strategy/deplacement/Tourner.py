@@ -38,7 +38,7 @@ class Tourner(StrategieDeplacement):
         self.prev_dir=self.robot.direction.clone()
 
     def init_movement(self, angle_max, vitesse=30):
-        #print("Turning ", angle_max, " degres...")
+        print("\nTurning ", angle_max, " degres...")
 
         self.turning = True
         self.rot_angle = 0

@@ -29,7 +29,6 @@ class TournerVersBalise(Tourner, StrategieVision):
         StrategieVision.__init__(self, robot, arene)
         Tourner.__init__(self, robot)
         self.balise = balise
-        self.file_name = fonctions.get_project_repository()+REPNAME_SCREENSHOTS+FILENAME_SCREENSHOT
         self.cpt_t = 0
         self.cpt = 0
         self.cpt_not_found = 0
@@ -56,8 +55,7 @@ class TournerVersBalise(Tourner, StrategieVision):
             else:
                 return self.angle_max, self.sens
 
-        #print("Analysing image ", self.cpt,"...")
-        s = self.file_name + str(self.cpt) + FORMAT_SCREENSHOT
+        #print("\nAnalysing image ", self.cpt,"...")
         p=trouver_balise(self.balise.colors, image=self.robot.tete.lcapteurs[Tete.CAM].get_image())
         if p is None:
             #print("No target found")
@@ -65,7 +63,7 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.cpt += 1
             return None, None
 
-        angle = -(p[0]-0.5)*Camera.ANGLE_VY/2
+        angle = -(p[0]-0.5)*Camera.ANGLE_VY/4
         sens = signe(angle)
         if abs(angle) < TournerVersBalise.PRECISION:
             #print("Target ahead (", angle, " degres from vertical)")
@@ -85,13 +83,13 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.last_res = res
 
         if self.cpt_t >= self.time_before_picture:
-            self.robot.tete.lcapteurs[Tete.CAM].get_picture()
+            self.robot.tete.lcapteurs[Tete.CAM].take_picture()
             self.cpt_t = 0
         self.cpt_t += 1
+
     def action(self, sens, angle):
         res = (angle, sens)
         if res[1] is None:
-            self.sens = None
             Tourner.abort(self)
         elif res[1] == 0:
             Tourner.abort(self)

@@ -12,19 +12,19 @@ from threading import Thread
 
 class TestDroitVersBalise(unittest.TestCase):
     def setUp(self):
-        v=Vecteur(1,1,0).norm()
-        p0 = Point(1,1,1)
-        self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v.clone()), AreneFermee(3,3,3))
-        self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v*3), direction=Vecteur(1,0,0))
-        self.strat2 = DeplacementCercle(self.target, 360, 1)
+        v2 = Vecteur(1,0,0)
+        p0 = Point(0.5,0.5,0.6)
+        self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v2.clone()), AreneFermee(3,3,3))
+        self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
+        self.strat2 = DeplacementCercle(self.target, 360, 2)
         self.strat.arene.add(self.target)
 
     def test_vis(self):
         td = Thread(target=self.strat.start_3D)
         sim = Simulation([self.strat, self.strat2])
 
-        sim.start()
         td.start()
+        sim.start()
         sim.join()
         td.join()
         while not sim.stop:

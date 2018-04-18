@@ -13,11 +13,6 @@ import shutil
 
 class Camera(Capteur):
     """
-    La caméra a besoin de pouvoir lancer une application pyglet indépedante
-    On la fait donc aussi hériter de Thread
-
-    Attention: Il ne faut pas redéfinir la méthode __eq__ dans cette classe ou ses classes mères
-    au risque de générer des bugs
     """
     # Angle de vue de la caméra en y, en degrés
     ANGLE_VY = 180
@@ -33,9 +28,9 @@ class Camera(Capteur):
         self.window = None # Window (gl_lib.sim.robot.sensor.camera.d3.Window)
         self.raw_im = None # Image
 
-        self.is_set = False
+        self.is_set, self.is_running = False, False
         self.get_pic = False
-        self.fname = fonctions.get_project_repository()+REPNAME_SCREENSHOTS+FILENAME_SCREENSHOT
+        self.rep_name = fonctions.get_project_repository()+REPNAME_SCREENSHOTS
         self.cpt = 0
         if arene is None:
             self.arene = AreneFermee(10,10,10)
@@ -45,6 +40,7 @@ class Camera(Capteur):
         Lance l'application pyglet
         :return:
         """
+        self.is_running = True
         self.window = Window(self.arene, self)
         glClearColor(0, 0, 0, 0)
         glEnable(GL_DEPTH_TEST)
@@ -52,13 +48,13 @@ class Camera(Capteur):
 
     def picture(self):
         """
-        Enregistre une image dans le répertoire sim, sous le nom screenshot.png
-        A CORRIGER : Paramétrage du nom du fichier
+        Cette méthode est appelée à la fin de on_draw de la window
         """
         if self.get_pic:
             #print("Acquiring image...")
             image = pyglet.image.get_buffer_manager().get_color_buffer().get_image_data()
             self.raw_im = Image.frombytes(image.format, (image.width, image.height), image.data)
+            # L'image récupérée est alternée...
             self.raw_im = self.raw_im.rotate(180)
             self.raw_im = self.raw_im.transpose(Image.FLIP_LEFT_RIGHT)
             self.get_pic = False
@@ -66,24 +62,44 @@ class Camera(Capteur):
             self.cpt += 1
         self.is_set = True
 
-    def print_picture(self):
-        s = self.fname + str(self.cpt) + FORMAT_SCREENSHOT
+
+
+    def print_image(self, fname):
+        """
+        Enregistre la dernière image enregistrée dans le fichier de nom fname
+        :param fname:
+        :return:
+        """
         #print("Printing image...")
-        self.raw_im.save(s)
+        if self.raw_im is not None:
+            s=self.rep_name+fname
+            print(s)
+            self.raw_im.save(s)
 
     def get_image(self):
         if self.raw_im is not None:
             return self.raw_im.getdata()
 
-    def get_picture(self):
-        self.get_pic=True
+    def take_picture(self):
+        """
+        Si aucune application n'a été lancée avant l'appel de cette fontion, une application est lancée
+        :return:
+        """
+        self.get_pic = True
+        if not self.is_running and not self.is_set:
+            td = Thread(target=self.run)
+            td.start()
+
+
+
+
+
 
     def clone(self):
         return Camera(self.centre, self.direction, self.arene)
 
     def stop(self):
         pyglet.app.exit()
-        self.is_on = False
         self.is_set = False
 
 

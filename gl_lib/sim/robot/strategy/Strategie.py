@@ -1,4 +1,4 @@
-from gl_lib.sim.robot import RobotMotorise
+from gl_lib.sim.robot import RobotMotorise, Tete
 from gl_lib.sim.robot.sensor import Accelerometre, CapteurIR
 from gl_lib.sim.robot.sensor.camera import Camera
 class Strategie(object):
@@ -10,6 +10,7 @@ class Strategie(object):
         robot : Robot
         """
         self.robot = robot
+        self.robot.tete = Tete(self.robot.centre, self.robot.direction)
         self.robot.tete.add_sensors(acc=Accelerometre(self.robot.tete.centre, self.robot.tete.direction),
                                     ir=CapteurIR(self.robot.tete.centre, self.robot.tete.direction, portee=3),
                                     cam=Camera(self.robot.tete.centre, self.robot.tete.direction))

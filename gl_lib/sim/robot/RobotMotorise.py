@@ -21,8 +21,7 @@ class RobotMotorise(Robot):
         :param direction: direction du robot
         """
         Robot.__init__(self, pave, rg, rd, direction)
-        self.tete = Tete(self.centre, self.direction)
-
+        self.tete = None
         self.angles_roues = (0, 0)
         self.dist_wheels = (self.rd.centre - self.rg.centre).to_vect().get_mag()
         self.lock_update_pos = RLock()
@@ -124,6 +123,9 @@ class RobotMotorise(Robot):
 
         self.rg.angle += angle_g
         self.rd.angle += angle_d
+
+
+
 
 
 if __name__ == '__main__':
