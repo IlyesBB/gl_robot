@@ -111,17 +111,18 @@ class Pave(Polygone3D, ApproximableAPave):
         return p.__dict__()
 
     @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Pave.deserialize)
+
+
+    @staticmethod
     def deserialize(dct):
         if dct["__class__"]==Point.__name__:
             return Point.deserialize(dct)
         elif dct["__class__"]==Pave.__name__:
             return Pave(dct["width"], dct["length"], dct["height"],
                 dct["centre"], [dct["vertices"][i] for i in range(len(dct["vertices"]))])
-
-    @staticmethod
-    def load(filename):
-        with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Pave.deserialize)
 
     def get_pave(self):
         return self

@@ -79,9 +79,8 @@ class RobotMotorise(Robot):
         self.rd.angle = 0
 
     def update(self):
-        with self.lock_update_pos:
-            self.update_pos()
-            self.tete.update()
+        self.update_pos()
+        self.tete.update()
 
     def update_pos(self):
         """
@@ -154,6 +153,8 @@ class RobotMotorise(Robot):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=RobotMotorise.deserialize)
 
+    def clone(self):
+        return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(), self.tete.clone())
 
 if __name__ == '__main__':
     def test_mecanism():

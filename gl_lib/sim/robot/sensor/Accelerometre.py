@@ -93,6 +93,9 @@ class Accelerometre(Capteur):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Accelerometre.deserialize)
 
+    def clone(self):
+        p=self.prev_pos.clone() if self.prev_pos is not None else None
+        return Accelerometre(self.centre.clone(), self.direction.clone(), p, self.speed.clone(), self.acc.clone())
 
 if __name__ == '__main__':
     a=Accelerometre()

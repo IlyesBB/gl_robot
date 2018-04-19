@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.robot.strategy.deplacement import Tourner
 from gl_lib.sim.robot.strategy import Balise
 from gl_lib.sim.robot.strategy.vision import StrategieVision
@@ -22,18 +25,19 @@ class TournerVersBalise(Tourner, StrategieVision):
     """
     PRECISION = 10
 
-    def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None):
+    def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None, time_before_picture=DT_SCREENSHOT,
+                 cpt_t:int=0, cpt:int=0, cpt_not_found:int=0, prev_res:tuple=(None, None)):
         """
         :param balise: contient des couleurs, si aucune n'est donnée en argument, on en crée une
         """
         StrategieVision.__init__(self, robot, arene)
         Tourner.__init__(self, robot)
         self.balise = balise
-        self.cpt_t = 0
-        self.cpt = 0
-        self.cpt_not_found = 0
-        self.time_before_picture = int(DT_SCREENSHOT/PAS_TEMPS)
-        self.prev_res = None
+        self.cpt_t = cpt_t
+        self.cpt = cpt
+        self.cpt_not_found = cpt_not_found
+        self.cpt_before_picture = int(time_before_picture/PAS_TEMPS)
+        self.prev_res = prev_res
         if self.balise is None:
             self.balise = Balise()
         self.robot.set_wheels_rotation(3,0)
@@ -82,7 +86,7 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.action(res[1], res[0])
             self.last_res = res
 
-        if self.cpt_t >= self.time_before_picture:
+        if self.cpt_t >= self.cpt_before_picture:
             self.robot.tete.lcapteurs[Tete.CAM].take_picture()
             self.cpt_t = 0
         self.cpt_t += 1
@@ -102,4 +106,33 @@ class TournerVersBalise(Tourner, StrategieVision):
             #print("Target ahead")
             return True
         return False
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = TournerVersBalise.__name__
+        dct["robot"] = self.robot.__dict__()
+        dct["arene"] = self.arene.__dict__()
+
+        dct["balise"] = self.balise.__dict__()
+        dct["cpt_before_picture"] = self.cpt_before_picture
+        dct["cpt_t"] = self.cpt_t
+        dct["cpt"] = self.cpt
+        dct["cpt_not_found"] = self.cpt_not_found
+
+        dct["prev_res"] = tuple(self.prev_res) if self.prev_res is not None else None
+
+        return dct
+
+    @staticmethod
+    def deserialize(dct):
+        res = StrategieVision.deserialize(dct)
+        if res is not None:
+            return res
+        elif dct["__class__"] == TournerVersBalise.__name__:
+            return TournerVersBalise(dct)
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=TournerVersBalise.deserialize)
 

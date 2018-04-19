@@ -17,6 +17,7 @@ class Robot(Objet3D, ApproximableAPave):
         rd: Objet3D, roue droite
         rg: Objet3D, roue gauche
         """
+        print(pave, direction, rg, rd)
         Objet3D.__init__(self)
         self.direction = direction
         self.forme = pave
@@ -30,7 +31,6 @@ class Robot(Objet3D, ApproximableAPave):
         self.rg.centre = self.centre+(self.direction.rotate(pi/4)*self.forme.width/2)
 
         self.dist_wheels=self.forme.width
-
 
 
     def rotate_around(self, point:Point, angle:float, axis=None):

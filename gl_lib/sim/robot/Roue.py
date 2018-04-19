@@ -33,7 +33,7 @@ class Roue(Objet3D):
         return self.angle
 
     def clone(self):
-        return Roue(self.diametre, self.centre.clone())
+        return Roue(self.diametre, self.centre.clone(), self.vitesseRot, self.angle)
 
     def __eq__(self, other):
         if Objet3D.__eq__(self, other) is False:

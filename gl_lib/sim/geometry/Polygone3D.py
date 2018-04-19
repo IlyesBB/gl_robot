@@ -8,14 +8,14 @@ class Polygone3D(Objet3D):
     Classe definissant un polygone de facon abstraite
     """
 
-    def __init__(self, centre=Point(0,0,0), vertices=None):
+    def __init__(self, **kwargs):
         """
         initialise la liste des sommets
         """
-        Objet3D.__init__(self, centre=centre)
-        self.vertices = list()
-        if vertices is not None:
-            self.vertices = vertices
+        Objet3D.__init__(self, centre=kwargs["centre"])
+        self.vertices = kwargs["vertices"]
+        if self.vertices is None:
+            self.vertices = list()
 
     def add_vertex(self, sommet):
         """
@@ -66,7 +66,7 @@ class Polygone3D(Objet3D):
         return dct
 
     def dict(self):
-        p = Polygone3D(self.centre, self.vertices)
+        p = Polygone3D(centre=self.centre, vertices=self.vertices)
         return p.__dict__()
 
     @staticmethod
@@ -74,7 +74,7 @@ class Polygone3D(Objet3D):
         if dct["__class__"]==Point.__name__:
             return Point.deserialize(dct)
         elif dct["__class__"]==Polygone3D.__name__:
-            return Polygone3D(dct["centre"], [dct["vertices"][i] for i in range(len(dct["vertices"]))])
+            return Polygone3D(centre=dct["centre"], vertices=[dct["vertices"][i] for i in range(len(dct["vertices"]))])
 
     @staticmethod
     def load(filename):
@@ -82,10 +82,8 @@ class Polygone3D(Objet3D):
             return json.load(f, object_hook=Polygone3D.deserialize)
 
     def clone(self):
-        if len(self.vertices) > 0:
-            return Polygone3D(self.centre.clone(), [self.vertices[i].clone() for i in range(len(self.vertices))])
-        else:
-            return Polygone3D(self.centre.clone())
+        d=self.__dict__()
+        return Polygone3D(centre=d["centre"], vertices=d["vertices"])
 
 
 

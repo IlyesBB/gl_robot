@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
 from gl_lib.sim.geometry.fonctions import signe
 from gl_lib.config import PAS_TEMPS
@@ -11,7 +14,8 @@ class Tourner(StrategieDeplacement):
     Fais décrire au robot un carré de coté 70 cm
     """
 
-    def __init__(self, robot: RobotMotorise, angle_max=None, vitesse=30):
+    def __init__(self, robot: RobotMotorise, angle_max=None, vitesse=30,
+                 sens = None, turning = False, rot_angle=0):
         """
 
         :param robot:
@@ -19,10 +23,11 @@ class Tourner(StrategieDeplacement):
         StrategieDeplacement.__init__(self, robot)
         self.rot_angle = 0
 
-        if angle_max is not None:
+        if angle_max is not None and turning is False:
             self.turning = True
             self.sens = signe(angle_max)
             self.angle_max = abs(angle_max)
+            self.rot_angle = 0
 
             if self.sens > 0:
                 self.robot.set_wheels_rotation(1, vitesse)
@@ -31,9 +36,10 @@ class Tourner(StrategieDeplacement):
                 self.robot.set_wheels_rotation(2, vitesse)
                 self.robot.set_wheels_rotation(1, 0)
         else:
-            self.sens = None
-            self.angle_max = None
-            self.turning = False
+            self.sens = sens
+            self.angle_max = angle_max
+            self.turning = turning
+            self.rot_angle = rot_angle
         self.robot.reset_wheels_angles()
         self.prev_dir=self.robot.direction.clone()
 
@@ -79,18 +85,41 @@ class Tourner(StrategieDeplacement):
         self.turning=False
         self.sens = None
         self.rot_angle = 0
+        self.angle_max = None
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = self.__class__.__name__
+        dct["robot"] = self.robot.__dict__()
+
+        dct["turning"] = self.turning
+        dct["sens"] = self.sens
+        dct["rot_angle"] = self.rot_angle
+        dct["angle_max"] = self.angle_max
+
+        return dct
+
+    @staticmethod
+    def deserialize(dct):
+        res = StrategieDeplacement.deserialize(dct)
+        if res is not None:
+            return res
+        elif dct["__class__"] == Tourner.__name__:
+            return Tourner(dct["robot"], dct["angle_max"], 30, dct["sens"], dct["turning"], dct["rot_angle"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Tourner.deserialize)
+
+    def clone(self):
+        return Tourner(self.robot.clone(), self.angle_max, 30,self.sens, self.turning, self.rot_angle)
 
 
 if __name__ == '__main__':
-    from gl_lib.sim import Simulation
-    from gl_lib.sim.display.d2.gui import AppSimulationThread
-    from gl_lib.sim.robot import RobotMotorise
-    from gl_lib.sim.robot.sensor import Accelerometre
-    from gl_lib.sim.geometry import *
+    st = Tourner(RobotMotorise(), 45)
 
-    r = RobotMotorise(Pave(centre=Point(3, 6, 0), width=1, height=1, length=1), direction=Vecteur(1,0,0))
-    sim = Simulation(Tourner(r, 90))
-    app = AppSimulationThread(sim)
+    st.save("tourner.json")
 
-    sim.start()
-    app.start()
+    st2 = Tourner.load("tourner.json")
+    print(st2)

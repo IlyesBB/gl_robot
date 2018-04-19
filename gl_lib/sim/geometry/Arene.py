@@ -42,21 +42,6 @@ class Arene(Objet3D):
     def remove(self,obj:Objet3D):
         self.objets3D.remove(obj)
 
-    def __repr__(self):
-        """
-        Quand on entre une arene dans l interpreteur
-        """
-        s = "Arene(objets3D=["
-
-        if len(self.objets3D) < 1:
-            return s+"]))"
-        s += repr(self.objets3D[0])+","
-        if len(self.objets3D) > 1:
-            for obj in self.objets3D:
-                s+="\n"+repr(obj)+","
-        s += "]\n)"
-        return s
-
     def __getattr__(self, nom):
         """
         Permet d'acceder a un attribut
@@ -72,7 +57,7 @@ class Arene(Objet3D):
             l=[self.objets3D[i].__dict__() for i in range(len(self.objets3D))]
         else:
             l=list()
-        dct["__class__"] = Arene.__name__
+        dct["__class__"] = self.__class__.__name__
         dct["objets3D"] = l
         if self.centre is not None:
             dct["centre"] = self.centre.__dict__()

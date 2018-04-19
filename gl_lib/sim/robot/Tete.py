@@ -27,6 +27,8 @@ class Tete(Objet3D):
                           Camera(self.centre, self.direction)]
         if lcapteurs is not None:
             self.lcapteurs = lcapteurs
+            for c in self.lcapteurs:
+                c.attach(self.centre, c.direction)
         if direction is not None:
             self.direction = direction
 
@@ -120,6 +122,9 @@ class Tete(Objet3D):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Tete.deserialize)
 
+    def clone(self):
+        l = [self.lcapteurs[i].clone() for i in range(len(self.lcapteurs)) if self.lcapteurs[i] is not None]
+        return Tete(self.centre.clone(), self.dir_robot.clone(), self.dir_rel.clone(), self.direction.clone(), l)
 
 if __name__ == '__main__':
     t= Tete()

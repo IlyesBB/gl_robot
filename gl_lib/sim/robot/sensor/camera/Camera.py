@@ -96,7 +96,7 @@ class Camera(Capteur):
             td.start()
 
     def clone(self):
-        return Camera(self.centre, self.direction)
+        return Camera(self.centre.clone(), self.direction.clone(), self.get_pic, self.is_running, self.is_set, self.cpt)
 
     def stop(self):
         pyglet.app.exit()

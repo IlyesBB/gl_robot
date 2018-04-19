@@ -84,7 +84,7 @@ class CapteurIR(Capteur):
             return json.load(f, object_hook=CapteurIR.deserialize)
 
     def clone(self):
-        return CapteurIR(self.centre, self.direction, self.portee)
+        return CapteurIR(self.centre.clone(), self.direction.clone(), self.portee, self.arena_v.clone(), self.l_ignore)
 
     def __eq__(self, other):
         if self.centre != other.centre:

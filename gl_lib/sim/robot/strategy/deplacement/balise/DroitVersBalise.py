@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 from gl_lib.sim.robot.strategy.deplacement.balise import TournerVersBalise
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, Tourner
 from gl_lib.sim.robot.strategy.vision import StrategieVision
@@ -44,6 +46,7 @@ class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
         except:
             pass
         return False
+
 
 
 class DroitVersBaliseVision(DroitVersBalise, StrategieVision):
