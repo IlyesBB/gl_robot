@@ -1,18 +1,27 @@
 import json
 
+class Clonable(object):
+    def clone(self):
+        return None
 
-class Serializable(object):
-    def serialize(self):
-        return
+class Serializable(Clonable):
+    def __dict__(self):
+        return None
 
-    def deserialize(self, filename):
-        return
+    def save(self, filename):
+        obj = self.__dict__()
+        f = open(filename, 'w', encoding='utf-8')
+        json.dump(obj, f, indent=4)
+        f.close()
 
-def save(serializable:Serializable, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
-        json.dump(serializable.serialize(), f, indent=4)
+    def dict(self):
+        """Permet de créer des dictionnaires à partir des classes filles"""
+        return None
 
-def load(serializable:Serializable, filename):
-    with open(filename, 'w', encoding='utf-8') as f:
-        return json.load(f, object_hook=serializable.deserialize)
+    @staticmethod
+    def deserialize(dct):
+        return None
 
+    @staticmethod
+    def load(filename):
+        return None

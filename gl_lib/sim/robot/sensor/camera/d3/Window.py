@@ -42,7 +42,6 @@ class Window(pyglet.window.Window):
         self.lock = state
         self.set_exclusive_mouse(state)
 
-    lock = False
 
     def __init__(self, arene=None, camera=None):
         config = Config(double_buffer=True)

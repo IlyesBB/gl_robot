@@ -1,3 +1,3 @@
-from .Serializable import save, load, Serializable
+from .Serializable import Serializable
 
-__all__=["Serializable", "save", "load"]
+__all__=["Serializable"]

@@ -1,7 +1,6 @@
 from gl_lib.sim.geometry import *
-from gl_lib.sim.robot import Tete
 
-class Capteur(object):
+class Capteur(Objet3D):
     """
     Classe abstraite
 
@@ -9,11 +8,8 @@ class Capteur(object):
     """
 
     def __init__(self, centre:Point=Point(0, 0, 0), direction:Vecteur=Vecteur(1, 0, 0)):
-        self.centre=centre
+        Objet3D.__init__(self, centre)
         self.direction = direction
-
-    def __repr__(self):
-        return "Sensor de type : {} , position : {}".format(type(self), self.centre)
 
     def update(self):
         pass
@@ -33,3 +29,7 @@ class Capteur(object):
 
     def move(self, vector:Vecteur):
         self.centre.move(vector)
+
+    def attach(self, position:Point, direction:Vecteur):
+        self.centre = position
+        self.direction = direction

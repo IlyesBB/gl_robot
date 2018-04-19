@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.robot.sensor import Capteur
 from pyglet.gl import *
 from threading import Thread, RLock, Event
@@ -17,23 +20,22 @@ class Camera(Capteur):
     # Angle de vue de la caméra en y, en degrés
     ANGLE_VY = 180
 
-    def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), arene:Arene=None):
+    def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0),get_pic:bool=False,
+                 is_running:bool=False, is_set:bool=False,cpt:int=0):
         """
         :param centre: Centre de la caméra, peut être attaché à une tête
         :param direction: Direction de la caméra, même remarque
-        :param arene: Arène à représenter dans l'application
         """
         Capteur.__init__(self, centre=centre, direction=direction)
-        self.arene = arene
+        # arene doit être initialisé en dehors de la classe
+        self.arene = None
         self.window = None # Window (gl_lib.sim.robot.sensor.camera.d3.Window)
         self.raw_im = None # Image
 
-        self.is_set, self.is_running = False, False
-        self.get_pic = False
+        self.is_set, self.is_running = is_set, is_running
+        self.get_pic = get_pic
+        self.cpt = cpt
         self.rep_name = fonctions.get_project_repository()+REPNAME_SCREENSHOTS
-        self.cpt = 0
-        if arene is None:
-            self.arene = AreneFermee(10,10,10)
 
     def run(self):
         """
@@ -45,6 +47,9 @@ class Camera(Capteur):
         glClearColor(0, 0, 0, 0)
         glEnable(GL_DEPTH_TEST)
         pyglet.app.run()
+
+    def set_environnement(self, arene:Arene):
+        self.arene = arene
 
     def picture(self):
         """
@@ -90,29 +95,46 @@ class Camera(Capteur):
             td = Thread(target=self.run)
             td.start()
 
-
-
-
-
-
     def clone(self):
-        return Camera(self.centre, self.direction, self.arene)
+        return Camera(self.centre, self.direction)
 
     def stop(self):
         pyglet.app.exit()
         self.is_set = False
 
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = Camera.__name__
+        dct["centre"] = self.centre.__dict__()
+        dct["direction"] = self.direction.__dict__()
+
+        dct["is_set"] = self.is_set
+        dct["is_running"] = self.is_running
+        dct["get_pic"] = self.get_pic
+        dct["cpt"] = self.cpt
+
+        return dct
+
+    @staticmethod
+    def deserialize(dct):
+        """ On ne récupère pas la liste d'objest à ignorer"""
+        if dct["__class__"] == Vecteur.__name__:
+            return Vecteur.deserialize(dct)
+        if dct["__class__"] == Point.__name__:
+            return Point.deserialize(dct)
+        if dct["__class__"] == Camera.__name__:
+            return Camera(dct["centre"], dct["direction"], dct["get_pic"],
+                          dct["is_running"], dct["is_set"], dct["cpt"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Camera.deserialize)
+
 
 if __name__ == '__main__':
 
-    Pave1 = Pave(10, 8, 30)
-
-    Pave2 = Pave(15, 6, 25)
-
-    Pave3 = Pave(7, 7, 7)
-    arene = AreneFermee()
-    arene.add(Pave1)
-    arene.add(Pave2)
-    arene.add(Pave3)
-    c = Camera(centre=Point(26, 6, 3), direction=Vecteur(1, 0, 0).norm(), arene=arene)
-    c.start()
+    c= Camera(Point(0,0,0), Vecteur(1,0,0))
+    print(c.__dict__())
+    open("camera.json", 'w', encoding='utf-8')
+    # Problème...

@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.robot.sensor import Capteur
 from gl_lib.sim.geometry import *
 from gl_lib.config import PAS_TEMPS
@@ -13,19 +16,20 @@ class Accelerometre(Capteur):
     DT_MESURE = 0.01
     MAX_CPT = int(DT_MESURE/PAS_TEMPS)
 
-    def __init__(self, centre:Point=Point(0, 0, 0), direction:Vecteur=Vecteur(1, 0, 0)):
+    def __init__(self, centre:Point=Point(0, 0, 0), direction:Vecteur=Vecteur(1, 0, 0), prev_pos:Point=None,
+                 speed:Vecteur=Vecteur(0,0,0), acc:Vecteur=Vecteur(0,0,0)):
         """
         On initialise les variables nécessaires pour calculer une vitesse et une accélération entre deux instants
         """
         Capteur.__init__(self, centre=centre, direction=direction)
-        try:
-            self.prev_pos = self.centre.clone()
-        except:
-            self.prev_pos = Point(0,0,0)
-        self.speed = Vecteur(0,0,0)
-        self.acc = Vecteur(0,0,0)
+        self.prev_pos = prev_pos
+        self.prev_pos = Point(0,0,0)
+        self.speed = speed
+        self.acc = acc
         # Compteur pour savoir quand prendre la mesure
-        self.cpt = 1
+        self.cpt = 0
+        if prev_pos is None:
+            self.prev_pos = self.centre.clone()
 
     def get_mesure(self, value:int=1):
         """
@@ -46,10 +50,9 @@ class Accelerometre(Capteur):
         Fonction destinée à être appelée tous les PAS_TEMPS
         Ne met à jour les mesures que si l'accéléromètre est prêt à répondre
         Sinon avance d'une unitée de temps
-        :return:
         """
 
-        if Accelerometre.MAX_CPT <1 or self.cpt>=Accelerometre.MAX_CPT:
+        if Accelerometre.MAX_CPT <1 or self.cpt>=Accelerometre.MAX_CPT-1:
             # Si DT_MESURE < PAS_TEMPS, la mesure est mise à jour dès que possible
             # Ou alors on a attendu assez longtemps
             new_speed = (self.centre - self.prev_pos).to_vect() / PAS_TEMPS
@@ -61,26 +64,43 @@ class Accelerometre(Capteur):
             # Sinon, on avance d'une unité de temps
             self.cpt += 1
 
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = Accelerometre.__name__
+        dct["centre"] = self.centre.__dict__()
+        dct["direction"] = self.direction.__dict__()
+
+        dct["prev_pos"] = self.prev_pos.__dict__()
+        dct["speed"] = self.speed.__dict__()
+        dct["acc"] = self.acc.__dict__()
+        dct["cpt"] = self.cpt
+
+        return dct
+
+
+    @staticmethod
+    def deserialize(dct):
+        """ On ne récupère pas la liste d'objest à ignorer"""
+        if dct["__class__"] == Vecteur.__name__:
+            return Vecteur.deserialize(dct)
+        if dct["__class__"] == Point.__name__:
+            return Point.deserialize(dct)
+        if dct["__class__"] == Accelerometre.__name__:
+            return Accelerometre(dct["centre"], dct["direction"],dct["prev_pos"], dct["speed"], dct["acc"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Accelerometre.deserialize)
+
 
 if __name__ == '__main__':
-    from gl_lib.sim.robot import RobotMotorise, Tete
+    a=Accelerometre()
 
-    r=RobotMotorise()
-    acc=Accelerometre(tete=r.tete)
+    a.save("accelerometre.json")
 
-    v=Vecteur(1,0,0)*PAS_TEMPS
-    p0=r.centre.clone()
+    a2 = Accelerometre.load("accelerometre.json")
+    print(a2)
 
-    print(r.tete.add_sensors(acc=Accelerometre(tete=r.tete)))
-    print(r.tete.lcapteurs[Tete.ACC].get_mesure(3))
-
-    n=int(1/PAS_TEMPS)
-    for i in range(1,n):
-        r.move(v)
-        r.update()
-        print("vitesse mesurée :", r.tete.lcapteurs[Tete.ACC].get_mesure(1))
-        print((p0-r.centre).to_vect().get_mag()/(i*PAS_TEMPS), r.tete.lcapteurs[Tete.ACC].get_mesure(1))
-
-    print(n*PAS_TEMPS, " s")
 
 

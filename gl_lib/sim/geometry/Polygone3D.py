@@ -45,14 +45,35 @@ class Polygone3D(Objet3D):
 
     def __dict__(self):
         dct = OrderedDict()
-        dct["__class__"]="Polygone3D"
-        dct["centre"]=self.centre.__dict__()
-        dct["vertices"]=[self.vertices[i].__dict__() for i in range(len(self.vertices))]
+        dct["__class__"]=Polygone3D.__name__
+        if self.centre is not None:
+            try:
+                dct["centre"] = self.centre.__dict__()
+            except:
+                pass
+        else:
+            dct["centre"] = None
+
+        n=len(self.vertices)
+        if self.vertices is not None and n>0:
+            dct["vertices"] = [0]*n
+            for i in range(n):
+                dv = self.vertices[i].__dict__()
+                dct["vertices"][i] = self.vertices[i].__dict__()
+
+        else:
+            dct["vertices"] = []
         return dct
+
+    def dict(self):
+        p = Polygone3D(self.centre, self.vertices)
+        return p.__dict__()
 
     @staticmethod
     def deserialize(dct):
-        if dct["__class__"]=="Polygone3D":
+        if dct["__class__"]==Point.__name__:
+            return Point.deserialize(dct)
+        elif dct["__class__"]==Polygone3D.__name__:
             return Polygone3D(dct["centre"], [dct["vertices"][i] for i in range(len(dct["vertices"]))])
 
     @staticmethod
@@ -60,18 +81,25 @@ class Polygone3D(Objet3D):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Polygone3D.deserialize)
 
+    def clone(self):
+        if len(self.vertices) > 0:
+            return Polygone3D(self.centre.clone(), [self.vertices[i].clone() for i in range(len(self.vertices))])
+        else:
+            return Polygone3D(self.centre.clone())
 
-    def __repr__(self):
-        """
-        Quand on entre un Polygone3D dans l'interpreteur
-        """
-        return str(type(self))+" Center: {}\nVertices[{}]({})".format(self.centre, len(self.vertices), self.vertices)
+
+
 
 
 if __name__=='__main__':
     from gl_lib.sim.geometry import *
-    p=Pave(10,10,0)
-    p2=p.clone()
+    p=Polygone3D(vertices=[Point(1,1,1)])
+
+    d=p.__dict__()
+
+    p.save("polygone3D.json")
+
+    p2 = Polygone3D.deserialize(d)
     print(p2)
-    p2.move(Vecteur(10, 0, 0))
-    print(p2)
+
+    p3 = Polygone3D.load("polygone3D.json")

@@ -1,4 +1,6 @@
+import json
 from _thread import RLock
+from collections import OrderedDict
 
 from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
@@ -13,7 +15,7 @@ class RobotMotorise(Robot):
     PAS_MAX = 0.01
 
     def __init__(self, pave=Pave(1, 1, 1, centre=Point(0, 0, 0)), rg=Roue(), rd=Roue(),
-                 direction: Vecteur = Vecteur(0, -1, 0)):
+                 direction: Vecteur = Vecteur(1, 0, 0), tete:Tete=Tete()):
         """
         :param pave: forme du robot, a priori Pave
         :param rg: roue droite
@@ -21,10 +23,9 @@ class RobotMotorise(Robot):
         :param direction: direction du robot
         """
         Robot.__init__(self, pave, rg, rd, direction)
-        self.tete = None
-        self.angles_roues = (0, 0)
+        self.tete = tete
+        self.tete.attach(self.centre, self.direction)
         self.dist_wheels = (self.rd.centre - self.rg.centre).to_vect().get_mag()
-        self.lock_update_pos = RLock()
 
         self.set_wheels_rotation(3, 0)
 
@@ -124,25 +125,59 @@ class RobotMotorise(Robot):
         self.rg.angle += angle_g
         self.rd.angle += angle_d
 
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = RobotMotorise.__name__
+        dct["direction"] = self.direction.__dict__()
+        dct["tete"] = self.tete.__dict__() if self.tete is not None else None
+        dct["forme"] = self.forme.__dict__()
+        dct["dist_wheels"] = self.dist_wheels
+        dct["rg"] = self.rg.__dict__()
+        dct["rd"] = self.rd.__dict__()
+        return dct
+
+    @staticmethod
+    def deserialize(dct):
+        res = Tete.deserialize(dct)
+        if res is not None:
+            return res
+        elif dct["__class__"] == Roue.__name__:
+            return Roue.deserialize(dct)
+        elif dct["__class__"] == Pave.__name__:
+            return Pave.deserialize(dct)
+        elif dct["__class__"] == RobotMotorise.__name__:
+            return RobotMotorise(dct["forme"], dct["rg"], dct["rd"] ,dct["direction"], dct["tete"])
 
 
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=RobotMotorise.deserialize)
 
 
 if __name__ == '__main__':
-    r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
-    r.set_wheels_rotation(1, 30)
-    r.set_wheels_rotation(2, 0)
-    p0 = r.centre.clone()
-    n = int(1 / PAS_TEMPS) * 2
+    def test_mecanism():
+        r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
+        r.set_wheels_rotation(1, 30)
+        r.set_wheels_rotation(2, 30)
+        p0 = r.centre.clone()
+        n = int(1 / PAS_TEMPS) * 2
 
-    for i in range(1, n):
-        r.update()
+        for i in range(1, n):
+            r.update()
 
-    t_tot = n * PAS_TEMPS
-    print("temps de la simulation: ", t_tot, " s")
-    print("vitesse mesurée :", r.tete.lcapteurs[Tete.ACC].get_mesure(1))
+        t_tot = n * PAS_TEMPS
+        print("temps de la simulation: ", t_tot, " s")
+        print("vitesse mesurée :", r.tete.lcapteurs[Tete.ACC].get_mesure(1))
 
-    print(r.get_wheels_angles(3), " rads")
-    print((r.get_wheels_angles(3)[0] / t_tot, r.get_wheels_angles(3)[1] / t_tot), " rads.s^-1")
-    print("distance parcourue théorique: ", (p0 - r.centre).to_vect().get_mag())
-    print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
+        print(r.get_wheels_angles(3), " rads")
+        print((r.get_wheels_angles(3)[0] / t_tot, r.get_wheels_angles(3)[1] / t_tot), " rads.s^-1")
+        print("distance parcourue théorique: ", (p0 - r.centre).to_vect().get_mag())
+        print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
+
+
+    r=RobotMotorise()
+    r.save("robotmotorise.json")
+    r2 = RobotMotorise.load("robotmotorise.json")
+    print(r2)
+

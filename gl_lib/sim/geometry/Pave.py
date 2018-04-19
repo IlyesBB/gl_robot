@@ -59,10 +59,8 @@ class Pave(Polygone3D, ApproximableAPave):
         return self.clone()
 
     def clone(self):
-        l=list()
-        for i in range(len(self.vertices)):
-            l.append(self.vertices[i].clone())
-        return Pave(self.width, self.length, self.height, self.centre.clone(), l)
+        return Pave(self.width, self.length, self.height, self.centre.clone(),
+                    [self.vertices[i] for i in range(len(self.vertices))])
 
     def move(self, vecteur: Vecteur):
         Polygone3D.move(self, vecteur)
@@ -83,36 +81,42 @@ class Pave(Polygone3D, ApproximableAPave):
                 return False
         return True
 
-    def __repr__(self):
-        s = "Pave {} : width {} : length {} : height {}\n".format(self.centre, self.width, self.length, self.height)
-        s += "["
-        for i in range(len(self.vertices)):
-            s += str(self.vertices[i])+", "
-        s += "]"
+
+    def str(self):
+        s= "Pave ({:6.6}, {:6.6}, {:6.6})," \
+           " at ({}), rotated {} degres\n".format(self.width, self.length, self.height, str(self.centre),
+                                         int(self.get_inclinaisont()*180/pi))
         return s
+
+    def get_inclinaisont(self):
+        return (self.vertices[1]-self.vertices[0]).to_vect().diff_angle(Vecteur(1,0,0))
 
     def __ne__(self, pave):
         return not self.__eq__(pave)
 
     def __dict__(self):
+        dct2 = Polygone3D.dict(self)
         dct = OrderedDict()
         l=[self.vertices[i].__dict__() for i in range(len(self.vertices))]
-        dct["__class__"] = "Pave"
-        dct["centre"] = self.centre.__dict__()
+        dct["__class__"] = Pave.__name__
+        dct["centre"] = dct2["centre"]
         dct["width"] = self.width
         dct["length"] = self.length
         dct["height"] = self.height
-        dct["vertices"] = l
+        dct["vertices"] = dct2["vertices"]
         return dct
+
+    def dict(self):
+        p = Pave.clone(self)
+        return p.__dict__()
 
     @staticmethod
     def deserialize(dct):
-        if dct["__class__"] == "Pave":
-            print(dct["vertices"])
-            return Pave(dct["width"],dct["length"],dct["height"],Point.deserialize(dct["centre"]),
-                        [Point.deserialize(dct["vertices"][i]) for i in range(1,len(dct["vertices"]))])
-
-        pass
+        if dct["__class__"]==Point.__name__:
+            return Point.deserialize(dct)
+        elif dct["__class__"]==Pave.__name__:
+            return Pave(dct["width"], dct["length"], dct["height"],
+                dct["centre"], [dct["vertices"][i] for i in range(len(dct["vertices"]))])
 
     @staticmethod
     def load(filename):
@@ -129,5 +133,6 @@ if __name__ == '__main__':
     sleep(3)
     dct = p.__dict__()
 
-    p3 = Pave.deserialize(dct)
+
+    p3 = Pave.load("pave.json")
     print(p3)

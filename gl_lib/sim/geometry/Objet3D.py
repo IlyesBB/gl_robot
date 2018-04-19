@@ -1,14 +1,14 @@
 import json
 from collections import OrderedDict
-
+from gl_lib.utils import Serializable
 from gl_lib.sim.geometry import Point
 
-class Objet3D(object):
+class Objet3D(Serializable):
     """
     Classe definissant un objet 3D de facon abstraite
     """
 
-    def __init__(self, centre=Point(0,0,0)):
+    def __init__(self, centre=None):
         """
         centre : Point definissant le centre de l'objet. initialise a (0, 0, 0)
         """
@@ -45,7 +45,16 @@ class Objet3D(object):
         """
         Quand on entre un objet3D dans l'interpreteur
         """
-        return "Objet3D: centre: {}".format(self.centre)
+        s = ""
+        d = self.__dict__()
+        for k in d.keys():
+            if isinstance(d[k], list) and len(d[k])>0:
+                s += k + " :\n"
+                for i in range(len(d[k])):
+                    s += "\t" + str(d[k][i]) + "\n"
+            else:
+                s += k+" : "+str(d[k])+"\n"
+        return s
 
     def __getattr__(self, nom):
         """
@@ -57,21 +66,35 @@ class Objet3D(object):
 
     def __dict__(self):
         dct = OrderedDict()
-        dct["__class__"]="Objet3D"
-        dct["centre"]=self.centre
+        dct["__class__"]=Objet3D.__name__
+        dct["centre"]=self.centre.__dict__()
         return dct
 
-    def save(self, filename):
-        obj=self.__dict__()
-        with open(filename, 'w', encoding='utf-8') as f:
-            json.dump(obj, f, indent=4)
+    def dict(self):
+        o = Objet3D.clone(self)
+        return o.__dict__()
+    cpt = 0
 
     @staticmethod
     def deserialize(dct):
-        if dct["__class__"]=="Point":
-            return Point(dct["x"], dct["y"], dct["z"])
+        if dct["__class__"]==Objet3D.__name__:
+            return Objet3D(dct["centre"])
+        elif dct["__class__"]==Point.__name__:
+            return Point.deserialize(dct)
+
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Point.deserialize)
+            return json.load(f, object_hook=Objet3D.deserialize)
+
+
+
+
+if __name__ == '__main__':
+    o = Objet3D(Point(0,0,0))
+
+    o.save("objet3D.json")
+
+    o2 = Objet3D.load("objet3D.json")
+    print(o2)
