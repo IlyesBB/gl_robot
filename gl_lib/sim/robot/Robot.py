@@ -17,7 +17,6 @@ class Robot(Objet3D, ApproximableAPave):
         rd: Objet3D, roue droite
         rg: Objet3D, roue gauche
         """
-        print(pave, direction, rg, rd)
         Objet3D.__init__(self)
         self.direction = direction
         self.forme = pave

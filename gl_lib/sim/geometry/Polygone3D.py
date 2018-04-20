@@ -8,14 +8,12 @@ class Polygone3D(Objet3D):
     Classe definissant un polygone de facon abstraite
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, centre:Point=Point(0,0,0), vertices:[Point]=list()):
         """
         initialise la liste des sommets
         """
-        Objet3D.__init__(self, centre=kwargs["centre"])
-        self.vertices = kwargs["vertices"]
-        if self.vertices is None:
-            self.vertices = list()
+        Objet3D.__init__(self, centre=centre)
+        self.vertices = vertices
 
     def add_vertex(self, sommet):
         """

@@ -1,5 +1,5 @@
 from gl_lib.sim.robot.strategy.Strategie import Strategie
-from gl_lib.sim.robot import Tete
+from gl_lib.sim.robot import Tete, Robot
 from threading import RLock
 
 class StrategieDeplacement(Strategie):

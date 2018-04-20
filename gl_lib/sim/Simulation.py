@@ -19,7 +19,7 @@ class Simulation(Thread):
         self.strategie = strategie
         self.acceleration_factor = float(acceleration_factor)
         self.cpt = 0
-        self.stop = False
+        self.stop = True
         self.is_list = isinstance(self.strategie, list)
         self.tic = tic
 
@@ -30,6 +30,7 @@ class Simulation(Thread):
         """
         print("Starting simulation...")
         b = False
+        self.stop = False
         while not b and not self.stop:
             if not self.is_list:
                 self.strategie.update()

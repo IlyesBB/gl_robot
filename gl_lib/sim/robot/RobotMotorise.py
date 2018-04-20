@@ -29,6 +29,10 @@ class RobotMotorise(Robot):
 
         self.set_wheels_rotation(3, 0)
 
+    def __str__(self):
+        s = str(RobotMotorise.__name__)+", at "+str(self.centre)+", directed to "+str(self.direction)+"\n"
+        return s
+
     # ports: 1 pour roue gauche, 2 pour roue droite
     # sommer pour modifier les deux
 

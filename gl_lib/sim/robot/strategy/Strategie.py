@@ -1,4 +1,5 @@
 import json
+import os
 from collections import OrderedDict
 
 from gl_lib.sim.robot import RobotMotorise, Tete, RobotTarget
@@ -11,12 +12,15 @@ class Strategie(Serializable):
     """
     definit une strategy de robot de facon abstraite
     """
+    robot = ...  # type: RobotMotorise
 
     def __init__(self, robot: RobotMotorise):
         """
         robot : Robot
         """
         self.robot = robot
+        if robot is None:
+            raise NameError("{} not defined".format(robot))
 
     def stop(self):
         return False
@@ -26,7 +30,7 @@ class Strategie(Serializable):
 
     def __dict__(self):
         dct = OrderedDict()
-        dct["__class__"] = self.__class__.__name__
+        dct["__class__"] = Strategie.__name__
         dct["robot"] = self.robot.__dict__()
         return dct
 
@@ -58,3 +62,10 @@ class Strategie(Serializable):
             else:
                 s += k + " : " + str(d[k]) + "\n"
         return s
+
+
+if __name__=='__main__':
+    s = Strategie(RobotMotorise())
+    s.save("strategie.json")
+    s2 = Strategie.load("strategie.json")
+    print(s2)
