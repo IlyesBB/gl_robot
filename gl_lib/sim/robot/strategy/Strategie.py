@@ -35,19 +35,19 @@ class Strategie(Serializable):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = RobotMotorise.deserialize(dct)
+    def hook(dct):
+        res = RobotMotorise.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == RobotTarget.__name__:
-            return RobotTarget.deserialize(dct)
+            return RobotTarget.hook(dct)
         elif dct["__class__"] == Strategie.__name__:
             return Strategie(dct["robot"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Strategie.deserialize)
+            return json.load(f, object_hook=Strategie.hook)
 
     def __repr__(self):
         """

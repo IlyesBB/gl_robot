@@ -103,24 +103,24 @@ class Tete(Objet3D):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"] == Vecteur.__name__:
-            return Vecteur.deserialize(dct)
+            return Vecteur.hook(dct)
         elif dct["__class__"] == Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         elif dct["__class__"] == CapteurIR.__name__:
-            return CapteurIR.deserialize(dct)
+            return CapteurIR.hook(dct)
         elif dct["__class__"] == Camera.__name__:
-            return Camera.deserialize(dct)
+            return Camera.hook(dct)
         elif dct["__class__"] == Accelerometre.__name__:
-            return Accelerometre.deserialize(dct)
+            return Accelerometre.hook(dct)
         elif dct["__class__"] == Tete.__name__:
             return Tete(dct["centre"], dct["dir_robot"], dct["dir_rel"], dct["direction"], dct["lcapteurs"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Tete.deserialize)
+            return json.load(f, object_hook=Tete.hook)
 
     def clone(self):
         l = [self.lcapteurs[i].clone() for i in range(len(self.lcapteurs)) if self.lcapteurs[i] is not None]

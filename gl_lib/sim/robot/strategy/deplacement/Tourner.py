@@ -100,8 +100,8 @@ class Tourner(StrategieDeplacement):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = StrategieDeplacement.deserialize(dct)
+    def hook(dct):
+        res = StrategieDeplacement.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == Tourner.__name__:
@@ -110,7 +110,7 @@ class Tourner(StrategieDeplacement):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Tourner.deserialize)
+            return json.load(f, object_hook=Tourner.hook)
 
     def clone(self):
         return Tourner(self.robot.clone(), self.angle_max, 30,self.sens, self.turning, self.rot_angle)

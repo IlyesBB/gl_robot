@@ -35,8 +35,8 @@ class RobotTarget(RobotMotorise, PaveTarget):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = RobotMotorise.deserialize(dct)
+    def hook(dct):
+        res = RobotMotorise.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == RobotTarget.__name__:
@@ -45,7 +45,7 @@ class RobotTarget(RobotMotorise, PaveTarget):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=RobotTarget.deserialize)
+            return json.load(f, object_hook=RobotTarget.hook)
 
     def clone(self):
         return RobotTarget(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(), self.tete.clone(),

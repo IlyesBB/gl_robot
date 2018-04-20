@@ -140,14 +140,14 @@ class RobotMotorise(Robot):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = Tete.deserialize(dct)
+    def hook(dct):
+        res = Tete.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == Roue.__name__:
-            return Roue.deserialize(dct)
+            return Roue.hook(dct)
         elif dct["__class__"] == Pave.__name__:
-            return Pave.deserialize(dct)
+            return Pave.hook(dct)
         elif dct["__class__"] == RobotMotorise.__name__:
             return RobotMotorise(dct["forme"], dct["rg"], dct["rd"] ,dct["direction"], dct["tete"])
 
@@ -155,7 +155,7 @@ class RobotMotorise(Robot):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=RobotMotorise.deserialize)
+            return json.load(f, object_hook=RobotMotorise.hook)
 
     def clone(self):
         return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(), self.tete.clone())

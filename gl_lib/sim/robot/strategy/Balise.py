@@ -30,7 +30,7 @@ class Balise(object):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"]==Balise.__name__:
             return Balise(dct["widtch"], dct["length"], dct["height"], dct["colors"])
 

@@ -116,12 +116,12 @@ class Camera(Capteur):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         """ On ne récupère pas la liste d'objest à ignorer"""
         if dct["__class__"] == Vecteur.__name__:
-            return Vecteur.deserialize(dct)
+            return Vecteur.hook(dct)
         if dct["__class__"] == Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         if dct["__class__"] == Camera.__name__:
             return Camera(dct["centre"], dct["direction"], dct["get_pic"],
                           dct["is_running"], dct["is_set"], dct["cpt"])
@@ -129,7 +129,7 @@ class Camera(Capteur):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Camera.deserialize)
+            return json.load(f, object_hook=Camera.hook)
 
 
 if __name__ == '__main__':

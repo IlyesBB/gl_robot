@@ -19,7 +19,7 @@ class Serializable(Clonable):
         return None
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         return None
 
     @staticmethod

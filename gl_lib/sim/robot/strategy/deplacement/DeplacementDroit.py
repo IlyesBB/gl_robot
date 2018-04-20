@@ -49,19 +49,17 @@ class DeplacementDroit(StrategieDeplacement):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        for key in dct.keys():
-            if isinstance(dct[key], OrderedDict):
-                res = Strategie.deserialize(dct[key])
-                if res is not None:
-                    dct[key] = res
+    def hook(dct):
+        res = RobotMotorise.hook(dct)
+        if res is not None:
+                return res
         if dct["__class__"] == DeplacementDroit.__name__:
             return DeplacementDroit(**dct)
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=DeplacementDroit.deserialize)
+            return json.load(f, object_hook=DeplacementDroit.hook)
 
     def init_movement(self, distance_max, vitesse):
         self.advancing = True  # Booléen indiquant si le robot est en marche
@@ -98,40 +96,8 @@ class DeplacementDroit(StrategieDeplacement):
 
     def clone(self):
         d = self.__dict__()
-        return DeplacementDroit.deserialize(d)
+        return DeplacementDroit.hook(d)
 
-
-if __name__ == '__main__':
-    from gl_lib.sim.robot import RobotMotorise, Tete
-    from gl_lib.sim.geometry import *
-    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
-    from gl_lib.sim import Simulation
-
-    v = Vecteur(1, 1, 0).norm()
-    p = Pave(1, 1, 0)
-    p.move(v * 3)
-    p.rotate(-pi / 4)
-
-    r = RobotMotorise(direction=v.clone())
-    a = Arene()
-    a.add(p)
-    # a.add(r)
-
-    strat = DeplacementDroit(robot=r, distance_max=3)
-    s = Simulation(strat)
-    # s.start()
-    while not s.stop:
-        pass
-
-    dda = DeplacementDroit(robot=RobotMotorise())
-    d = dda.__dict__()
-    dda.save("deplacement_droit.json")
-
-    with open("deplacement_droit.json", 'r', encoding='utf-8') as f:
-        s = f.read()
-
-    dda2 = DeplacementDroit.deserialize(dda.__dict__())
-    print(type(dda2), type(dda2.robot))
 
 class DeplacementDroitAmeliore(DeplacementDroit):
     INIT = {'proximite_max': 1.0, 'last_detected': None}
@@ -180,8 +146,8 @@ class DeplacementDroitAmeliore(DeplacementDroit):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = RobotTarget.deserialize(dct)
+    def hook(dct):
+        res = RobotTarget.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == DeplacementDroitAmeliore.__name__:
@@ -190,7 +156,7 @@ class DeplacementDroitAmeliore(DeplacementDroit):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=DeplacementDroitAmeliore.deserialize)
+            return json.load(f, object_hook=DeplacementDroitAmeliore.hook)
 
     def clone(self):
         return DeplacementDroitAmeliore(**self.__dict__())
@@ -204,3 +170,36 @@ class DDroitAmelioreVision(DeplacementDroitAmeliore, StrategieVision):
     def __init__(self, robot, distance, arene):
         StrategieVision.__init__(self, robot, arene)
         DeplacementDroitAmeliore.__init__(self, robot=robot, distance_max=distance, arene=arene)
+
+
+if __name__ == '__main__':
+    from gl_lib.sim.robot import RobotMotorise, Tete
+    from gl_lib.sim.geometry import *
+    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
+    from gl_lib.sim import Simulation
+
+    v = Vecteur(1, 1, 0).norm()
+    p = Pave(1, 1, 0)
+    p.move(v * 3)
+    p.rotate(-pi / 4)
+
+    r = RobotMotorise(direction=v.clone())
+    a = Arene()
+    a.add(p)
+    # a.add(r)
+
+    strat = DeplacementDroit(robot=r, distance_max=3)
+    s = Simulation(strat)
+    # s.start()
+    while not s.stop:
+        pass
+
+    dda = DeplacementDroit(robot=RobotMotorise())
+    d = dda.__dict__()
+    dda.save("deplacement_droit.json")
+
+    dda2 = DeplacementDroit.load("deplacement_droit.json")
+
+    print(dda2)
+
+

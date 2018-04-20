@@ -69,9 +69,9 @@ class CapteurIR(Capteur):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         """ On ne récupère pas la liste d'objest à ignorer"""
-        res = VueMatriceArene.deserialize(dct)
+        res = VueMatriceArene.hook(dct)
         if res is not None:
             return res
         if dct["__class__"] == CapteurIR.__name__:
@@ -81,7 +81,7 @@ class CapteurIR(Capteur):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=CapteurIR.deserialize)
+            return json.load(f, object_hook=CapteurIR.hook)
 
     def clone(self):
         return CapteurIR(self.centre.clone(), self.direction.clone(), self.portee, self.arena_v.clone(), self.l_ignore)
@@ -221,21 +221,21 @@ class VueMatriceArene(object):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         """ On ne copie pas la liste d'objets à ingorer"""
         if dct["__class__"] == Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         elif dct["__class__"] == Vecteur.__name__:
-            return Vecteur.deserialize(dct)
+            return Vecteur.hook(dct)
         elif dct["__class__"] == Arene.__name__:
-            return Arene.deserialize(dct)
+            return Arene.hook(dct)
         elif dct["__class__"] == VueMatriceArene.__name__:
             return VueMatriceArene(dct["arene"], dct["origine"], dct["ox"], dct["ajuste"], dct["matrice"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=VueMatriceArene.deserialize)
+            return json.load(f, object_hook=VueMatriceArene.hook)
 
 if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, Tete
@@ -248,7 +248,7 @@ if __name__ == '__main__':
     c.save("capteurIR.json")
     dct = c.__dict__()
     print(dct)
-    c3 = CapteurIR.deserialize(dct)
+    c3 = CapteurIR.hook(dct)
     print(c3)
 
     #c2 = CapteurIR.load("capteurIR.json")

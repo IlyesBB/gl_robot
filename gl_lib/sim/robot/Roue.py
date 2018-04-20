@@ -53,17 +53,17 @@ class Roue(Objet3D):
         return dct
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         """ On ne récupère pas la liste d'objest à ignorer"""
         if dct["__class__"] == Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         elif dct["__class__"] == Roue.__name__:
             return Roue(dct["diametre"], dct["centre"], dct["vitesseRot"], dct["angle"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Roue.deserialize)
+            return json.load(f, object_hook=Roue.hook)
 
 
 if __name__ == '__main__':

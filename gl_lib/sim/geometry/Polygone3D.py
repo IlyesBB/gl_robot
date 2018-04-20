@@ -68,16 +68,16 @@ class Polygone3D(Objet3D):
         return p.__dict__()
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"]==Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         elif dct["__class__"]==Polygone3D.__name__:
             return Polygone3D(centre=dct["centre"], vertices=[dct["vertices"][i] for i in range(len(dct["vertices"]))])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Polygone3D.deserialize)
+            return json.load(f, object_hook=Polygone3D.hook)
 
     def clone(self):
         d=self.__dict__()
@@ -95,7 +95,7 @@ if __name__=='__main__':
 
     p.save("polygone3D.json")
 
-    p2 = Polygone3D.deserialize(d)
+    p2 = Polygone3D.hook(d)
     print(p2)
 
     p3 = Polygone3D.load("polygone3D.json")

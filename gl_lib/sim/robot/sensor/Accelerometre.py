@@ -79,19 +79,19 @@ class Accelerometre(Capteur):
 
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         """ On ne récupère pas la liste d'objest à ignorer"""
         if dct["__class__"] == Vecteur.__name__:
-            return Vecteur.deserialize(dct)
+            return Vecteur.hook(dct)
         if dct["__class__"] == Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         if dct["__class__"] == Accelerometre.__name__:
             return Accelerometre(dct["centre"], dct["direction"],dct["prev_pos"], dct["speed"], dct["acc"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Accelerometre.deserialize)
+            return json.load(f, object_hook=Accelerometre.hook)
 
     def clone(self):
         p=self.prev_pos.clone() if self.prev_pos is not None else None

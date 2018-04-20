@@ -37,8 +37,8 @@ class StrategieVision(Strategie):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = AreneRobot.deserialize(dct)
+    def hook(dct):
+        res = AreneRobot.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == StrategieVision.__name__:
@@ -47,7 +47,7 @@ class StrategieVision(Strategie):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=StrategieVision.deserialize)
+            return json.load(f, object_hook=StrategieVision.hook)
 
 if __name__=='__main__':
     st = StrategieVision(RobotMotorise(), AreneRobot())

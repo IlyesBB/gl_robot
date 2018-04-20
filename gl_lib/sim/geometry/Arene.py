@@ -76,18 +76,18 @@ class Arene(Objet3D):
         return a.__dict__()
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"]==Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
         elif dct["__class__"]==Pave.__name__:
-            return Pave.deserialize(dct)
+            return Pave.hook(dct)
         elif dct["__class__"]==Arene.__name__:
             return Arene(dct["objets3D"], dct["centre"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Arene.deserialize)
+            return json.load(f, object_hook=Arene.hook)
 
 
 if __name__ == '__main__':

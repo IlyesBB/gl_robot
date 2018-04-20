@@ -124,8 +124,8 @@ class TournerVersBalise(Tourner, StrategieVision):
         return dct
 
     @staticmethod
-    def deserialize(dct):
-        res = StrategieVision.deserialize(dct)
+    def hook(dct):
+        res = StrategieVision.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == TournerVersBalise.__name__:
@@ -134,5 +134,5 @@ class TournerVersBalise(Tourner, StrategieVision):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=TournerVersBalise.deserialize)
+            return json.load(f, object_hook=TournerVersBalise.hook)
 

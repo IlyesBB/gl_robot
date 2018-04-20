@@ -141,14 +141,14 @@ class Point(object):
             json.dump(obj, f, indent=4)
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"] == Point.__name__:
             return Point(dct["x"], dct["y"], dct["z"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Point.deserialize)
+            return json.load(f, object_hook=Point.hook)
 
     def __eq__(self, point):
         """
@@ -433,14 +433,14 @@ class Vecteur(object):
             json.dump(obj, f, indent=4)
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"] == Vecteur.__name__:
             return Vecteur(dct["x"], dct["y"], dct["z"])
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Vecteur.deserialize)
+            return json.load(f, object_hook=Vecteur.hook)
 
 
 if __name__ == '__main__':

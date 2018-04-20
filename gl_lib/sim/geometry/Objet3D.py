@@ -76,17 +76,17 @@ class Objet3D(Serializable):
     cpt = 0
 
     @staticmethod
-    def deserialize(dct):
+    def hook(dct):
         if dct["__class__"]==Objet3D.__name__:
             return Objet3D(dct["centre"])
         elif dct["__class__"]==Point.__name__:
-            return Point.deserialize(dct)
+            return Point.hook(dct)
 
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Objet3D.deserialize)
+            return json.load(f, object_hook=Objet3D.hook)
 
 
 

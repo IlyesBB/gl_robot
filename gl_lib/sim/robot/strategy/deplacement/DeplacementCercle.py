@@ -65,8 +65,8 @@ class DeplacementCercle(Tourner):
 
 
     @staticmethod
-    def deserialize(dct):
-        res = Tourner.deserialize(dct)
+    def hook(dct):
+        res = Tourner.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == DeplacementCercle.__name__:
@@ -75,7 +75,7 @@ class DeplacementCercle(Tourner):
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=DeplacementCercle.deserialize)
+            return json.load(f, object_hook=DeplacementCercle.hook)
 
     def clone(self):
         return Tourner(self.robot.clone(), self.angle_max, 30,self.sens, self.turning, self.rot_angle)

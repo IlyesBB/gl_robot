@@ -7,17 +7,17 @@ from gl_lib.sim.geometry import *
 class AreneRobot(Arene):
 
     @staticmethod
-    def deserialize(dct):
-        res = RobotMotorise.deserialize(dct)
+    def hook(dct):
+        res = RobotMotorise.hook(dct)
         if res is not None:
             return res
         elif dct["__class__"] == RobotTarget:
-            return RobotTarget.deserialize(dct)
+            return RobotTarget.hook(dct)
 
     @staticmethod
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=AreneRobot.deserialize)
+            return json.load(f, object_hook=AreneRobot.hook)
 
 
 if __name__=='__main__':
