@@ -95,8 +95,8 @@ class DeplacementDroit(StrategieDeplacement):
         return not self.advancing
 
     def clone(self):
-        d = self.__dict__()
-        return DeplacementDroit.hook(d)
+        print(str(self.__dict__()))
+        return json.loads(json.dumps(self.__dict__()), object_hook=DeplacementDroit.hook, encoding='utf-8')
 
 
 class DeplacementDroitAmeliore(DeplacementDroit):
@@ -200,6 +200,6 @@ if __name__ == '__main__':
 
     dda2 = DeplacementDroit.load("deplacement_droit.json")
 
-    print(dda2)
+    print(dda2.clone())
 
 
