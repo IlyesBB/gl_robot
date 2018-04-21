@@ -7,6 +7,7 @@ class Robot(Objet3D, ApproximableAPave):
     """
     Classe definissant les elements essentiels d'un robot
     """
+    KEY = ["direction", "pave", "rg", "rd"]
 
     def __init__(self, pave:Objet3D=Pave(1,1,1, Point(0,0,0)), rg:Objet3D=Objet3D(), rd:Objet3D=Objet3D(), direction:Vecteur=Vecteur(0,1,0)):
         """

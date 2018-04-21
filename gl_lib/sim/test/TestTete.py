@@ -18,7 +18,7 @@ class TestTest(TestCase):
         self.assertIsInstance(self.tete, Tete)
         self.assertIsInstance(self.tete.dir_robot, Vecteur)
         self.assertIsInstance(self.tete.direction, Vecteur)
-        self.assertIsInstance(self.tete.lcapteurs, list)
+        self.assertIsInstance(self.tete.sensors, list)
 
     def test_rotate(self):
         angle = random.choice([1, -1]) * random.random() * 2 * pi
@@ -26,10 +26,10 @@ class TestTest(TestCase):
         self.tete.rotate(angle)
         self.tete.update()
         print(self.tete.dir_rel.get_angle(), angle)
-        print(self.tete.direction, self.tete.lcapteurs[0].direction)
+        print(self.tete.direction, self.tete.sensors[0].direction)
 
-        for i in range(len(self.tete.lcapteurs)):
-            self.assertEqual(self.tete.direction, self.tete.lcapteurs[i].direction)
+        for i in range(len(self.tete.sensors)):
+            self.assertEqual(self.tete.direction, self.tete.sensors[i].direction)
 
         self.assertEqual(angle, self.tete.dir_robot.diff_angle(self.tete.direction, 1))
 

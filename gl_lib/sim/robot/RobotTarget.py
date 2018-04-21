@@ -8,7 +8,7 @@ class RobotTarget(RobotMotorise, PaveTarget):
     """
     Robot destiné à avoir une balise sur le dos
     """
-    def __init__(self, pave=Pave(1,1,1),rg=Roue(0.25),rd=Roue(0.25), direction=Vecteur(1,1,0).norm(), tete:Tete=None, balise=None):
+    def __init__(self, pave=Pave(1,1,1),rg=Roue(0.25),rd=Roue(0.25), direction=Vecteur(1,1,0).norm(), tete:Tete=Tete(), balise=None):
         """
 
         :param balise:

@@ -6,6 +6,7 @@ class StrategieDeplacement(Strategie):
     """
     definit une strategy de deplacement de facon abstraite
     """
+    KEYS = ["robot"]
     def __init__(self, robot):
         Strategie.__init__(self, robot)
 

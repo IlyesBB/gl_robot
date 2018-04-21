@@ -73,7 +73,6 @@ class VueMatriceArene(object):
             s_xmax, s_ymax = max(ls[i].x for i in range(0, len(ls))), max(ls[i].y for i in range(0, len(ls)))
             s_xmin, s_ymin = min(ls[i].x for i in range(0, len(ls))), min(ls[i].y for i in range(0, len(ls)))
 
-            print(s_xmin, s_xmax, s_ymin, s_ymax)
             for x in range(nxmax):
                 for y in range(nymax):
                     p = (ox*x+oy*y).to_point()/VueMatriceArene.res

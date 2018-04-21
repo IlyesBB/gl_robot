@@ -8,7 +8,7 @@ from gl_lib.sim.robot import Tete
 
 class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
     def __init__(self, robot, arene):
-        DeplacementDroitAmeliore.__init__(self,robot, 100, arene)
+        DeplacementDroitAmeliore.__init__(self,robot=robot, distance_max=100, arene=arene)
         TournerVersBalise.__init__(self,robot)
         DroitVersBalise.abort(self)
         self.robot.set_wheels_rotation(3,0)
@@ -29,7 +29,7 @@ class DroitVersBalise(TournerVersBalise, DeplacementDroitAmeliore):
                 pass
         else:
             self.is_missing = False
-            res = self.robot.tete.lcapteurs[Tete.IR].get_mesure(self.arene, ignore=self.robot)
+            res = self.robot.tete.lcapteurs["ir"].get_mesure(self.arene, ignore=self.robot)
             if -1 < res < self.proximite_max:
                 DroitVersBalise.abort(self)
             self.last_detected = res

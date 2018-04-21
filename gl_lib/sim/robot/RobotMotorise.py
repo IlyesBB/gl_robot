@@ -173,7 +173,7 @@ if __name__ == '__main__':
 
         t_tot = n * PAS_TEMPS
         print("temps de la simulation: ", t_tot, " s")
-        print("vitesse mesurée :", r.tete.lcapteurs[Tete.ACC].get_mesure(1))
+        print("vitesse mesurée :", r.tete.sensors[Tete.ACC].get_mesure(1))
 
         print(r.get_wheels_angles(3), " rads")
         print((r.get_wheels_angles(3)[0] / t_tot, r.get_wheels_angles(3)[1] / t_tot), " rads.s^-1")

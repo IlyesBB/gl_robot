@@ -6,24 +6,24 @@ from gl_lib.sim.robot import Tete, AreneRobot, RobotMotorise
 from threading import RLock
 
 class StrategieVision(Strategie):
-    def __init__(self, robot, arene):
+    def __init__(self, robot:RobotMotorise, arene):
         Strategie.__init__(self, robot)
         self.arene=arene
-        self.robot.tete.lcapteurs[Tete.CAM].arene=arene
+        self.robot.tete.sensors["cam"].arene=arene
 
     def start_3D(self):
-        self.robot.tete.lcapteurs[Tete.CAM].run()
+        self.robot.tete.sensors["cam"].run()
 
 
     def stop_3D(self):
-        self.robot.tete.lcapteurs[Tete.CAM].stop()
+        self.robot.tete.sensors["cam"].stop()
 
     def print_screen(self, filename):
-        self.robot.tete.lcapteurs[Tete.CAM].get_picture()
-        while not self.robot.tete.lcapteurs[Tete.CAM].is_set:
+        self.robot.tete.sensors["cam"].get_picture()
+        while not self.robot.tete.sensors["cam"].is_set:
             pass
-        self.robot.tete.lcapteurs[Tete.CAM].picture()
-        self.robot.tete.lcapteurs[Tete.CAM].print_picture(filename)
+        self.robot.tete.sensors["cam"].picture()
+        self.robot.tete.sensors["cam"].print_picture(filename)
 
     def update(self):
         pass

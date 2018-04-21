@@ -23,6 +23,7 @@ class DeplacementDroit(StrategieDeplacement):
     advancing = ...  # type: bool
     posDepart = ...  # type: Point
     INIT = {'advancing': True, 'distance': 0.0, 'distance_max': 1.0, 'vitesse': 60, 'posDepart': None}
+    KEYS = StrategieDeplacement.KEYS + ["advancing", "distance", "distance_max", "posDepart"]
 
     def __init__(self, **kwargs):
         """Prend en argument obligatoire un robot. Par défaut, la classe commande le robot pour avancer sur un mètre
@@ -41,11 +42,11 @@ class DeplacementDroit(StrategieDeplacement):
     def __dict__(self):
         dct = OrderedDict()
         dct["__class__"] = DeplacementDroit.__name__
-        dct["robot"] = self.robot.__dict__()
-        dct["advancing"] = self.advancing
-        dct["distance"] = self.distance
-        dct["distance_max"] = self.distance_max
-        dct["posDepart"] = self.posDepart.__dict__() if self.posDepart is not None else None
+        for key in DeplacementDroit.KEYS:
+            try:
+                dct[key] = self.__getattribute__(key).__dict__()
+            except:
+                dct[key] = self.__getattribute__(key)
         return dct
 
     @staticmethod
@@ -94,14 +95,11 @@ class DeplacementDroit(StrategieDeplacement):
     def stop(self):
         return not self.advancing
 
-    def clone(self):
-        print(str(self.__dict__()))
-        return json.loads(json.dumps(self.__dict__()), object_hook=DeplacementDroit.hook, encoding='utf-8')
-
 
 class DeplacementDroitAmeliore(DeplacementDroit):
     INIT = {'proximite_max': 1.0, 'last_detected': None}
     ARGS = ["robot", "arene"]
+    KEYS = DeplacementDroit.KEYS + ["last_detected","proximite_max", "arene"]
 
     def __init__(self, **kwargs):
         keys = kwargs.keys()
@@ -114,14 +112,14 @@ class DeplacementDroitAmeliore(DeplacementDroit):
                 kwargs[key] = DeplacementDroitAmeliore.INIT[key]
 
         # robot, distance_max, arene, proximite_max=None, advancing=True, distance=0, posDepart:Point=None, last_detected = None
-        DeplacementDroit.__init__(self, **kwargs)
+        DeplacementDroit.__init__(self, **{key : kwargs[key] for key in DeplacementDroit.KEYS if key in kwargs.keys()})
         self.arene = kwargs["arene"]
         self.proximite_max = kwargs["proximite_max"]
         self.last_detected = kwargs["last_detected"]
 
     def update(self):
         if self.advancing:
-            res = self.robot.tete.lcapteurs[Tete.IR].get_mesure(self.arene, ignore=self.robot)
+            res = self.robot.tete.sensors["ir"].get_mesure(self.arene, ignore=self.robot)
             if res > -1:
                 if res < self.proximite_max:
                     # print("Obstacle ahead detected ( ", res, " meters )")
@@ -132,17 +130,11 @@ class DeplacementDroitAmeliore(DeplacementDroit):
     def __dict__(self):
         dct = OrderedDict()
         dct["__class__"] = DeplacementDroitAmeliore.__name__
-        dct["robot"] = self.robot.__dict__()
-        dct["arene"] = self.arene.__dict__()
-
-        dct["advancing"] = self.advancing
-        dct["distance"] = self.distance
-        dct["distance_max"] = self.distance_max
-        dct["posDepart"] = self.posDepart.__dict__() if self.posDepart is not None else None
-
-        dct["proximite_max"] = self.proximite_max
-        dct["last_detected"] = self.last_detected
-
+        for key in DeplacementDroitAmeliore.KEYS:
+            try:
+                dct[key] = self.__getattribute__(key).__dict__()
+            except:
+                dct[key] = self.__getattribute__(key)
         return dct
 
     @staticmethod
@@ -157,13 +149,6 @@ class DeplacementDroitAmeliore(DeplacementDroit):
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=DeplacementDroitAmeliore.hook)
-
-    def clone(self):
-        return DeplacementDroitAmeliore(**self.__dict__())
-
-    def dict(self):
-        dda = DeplacementDroitAmeliore.clone(self)
-        return dda.__dict__()
 
 
 class DDroitAmelioreVision(DeplacementDroitAmeliore, StrategieVision):
@@ -194,12 +179,9 @@ if __name__ == '__main__':
     while not s.stop:
         pass
 
-    dda = DeplacementDroit(robot=RobotMotorise())
+    dda = DeplacementDroitAmeliore(robot=RobotMotorise(), arene=Arene())
     d = dda.__dict__()
     dda.save("deplacement_droit.json")
 
-    dda2 = DeplacementDroit.load("deplacement_droit.json")
-
-    print(dda2.clone())
-
-
+    dda2 = DeplacementDroitAmeliore.load("deplacement_droit.json")
+    print(dda2)

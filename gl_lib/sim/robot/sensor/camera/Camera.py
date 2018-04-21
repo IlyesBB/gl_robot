@@ -135,6 +135,4 @@ class Camera(Capteur):
 if __name__ == '__main__':
 
     c= Camera(Point(0,0,0), Vecteur(1,0,0))
-    print(c.__dict__())
-    open("camera.json", 'w', encoding='utf-8')
-    # Problème...
+

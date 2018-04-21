@@ -13,7 +13,7 @@ class Tourner(StrategieDeplacement):
     """
     Fais décrire au robot un carré de coté 70 cm
     """
-
+    KEYS = StrategieDeplacement.KEYS + ["turning", "sens", "angle_max", "rot_angle"]
     def __init__(self, robot: RobotMotorise, angle_max=None, vitesse=30,
                  sens = None, turning = False, rot_angle=0):
         """
@@ -106,14 +106,6 @@ class Tourner(StrategieDeplacement):
             return res
         elif dct["__class__"] == Tourner.__name__:
             return Tourner(dct["robot"], dct["angle_max"], 30, dct["sens"], dct["turning"], dct["rot_angle"])
-
-    @staticmethod
-    def load(filename):
-        with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=Tourner.hook)
-
-    def clone(self):
-        return Tourner(self.robot.clone(), self.angle_max, 30,self.sens, self.turning, self.rot_angle)
 
 
 if __name__ == '__main__':

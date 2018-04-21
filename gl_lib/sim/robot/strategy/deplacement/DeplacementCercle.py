@@ -90,7 +90,7 @@ if __name__ == '__main__':
 
     a = AreneRobot()
     r = RobotMotorise(Pave(centre=Point(3, 6, 0), width=1, height=1, length=1))
-    sim = Simulation(DeplacementCercle(r, -90, 0.5), 4)
+    sim = Simulation(DeplacementCercle(r, -360, 0.5), 4)
     a.add(r)
     app = AppAreneThread(a)
     sim.start()
@@ -99,6 +99,7 @@ if __name__ == '__main__':
     max_x, max_y = sim.strategie.robot.centre.x, sim.strategie.robot.centre.y
     dps_wheels = sim.strategie.robot.get_wheels_rotations(3)
     while not sim.stop:
+        print(sim.strategie.robot.centre)
         if sim.strategie.robot.centre.x < min_x:
             min_x = sim.strategie.robot.centre.x
         if sim.strategie.robot.centre.x > max_x:

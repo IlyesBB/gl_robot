@@ -29,7 +29,7 @@ class TestStrategieVision(unittest.TestCase):
         sens = None
         thd = Thread(target=self.strat.start_3D)
         thd.start()
-        while not self.strat.robot.tete.lcapteurs[Tete.CAM].is_set:
+        while not self.strat.robot.tete.sensors["cam"].is_set:
             pass
         sim.start()
         while not sim.stop:

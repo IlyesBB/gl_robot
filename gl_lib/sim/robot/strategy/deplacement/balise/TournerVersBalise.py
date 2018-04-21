@@ -53,14 +53,14 @@ class TournerVersBalise(Tourner, StrategieVision):
         Si aucune balise trouvée retourne None
         :return: int
         """
-        if self.cpt >= self.robot.tete.lcapteurs[Tete.CAM].cpt:
+        if self.cpt >= self.robot.tete.sensors["cam"].cpt:
             if self.sens is not None and self.angle_max is not None:
                 return self.angle_max*self.sens, self.sens
             else:
                 return self.angle_max, self.sens
 
         #print("\nAnalysing image ", self.cpt,"...")
-        p=trouver_balise(self.balise.colors, image=self.robot.tete.lcapteurs[Tete.CAM].get_image())
+        p=trouver_balise(self.balise.colors, image=self.robot.tete.sensors["cam"].get_image())
         if p is None:
             #print("No target found")
             self.cpt_not_found += 1
@@ -81,13 +81,13 @@ class TournerVersBalise(Tourner, StrategieVision):
     def update(self):
         Tourner.update(self)
         StrategieVision.update(self)
-        if self.cpt < self.robot.tete.lcapteurs[Tete.CAM].cpt:
+        if self.cpt < self.robot.tete.sensors["cam"].cpt:
             res = self.get_angle()
             self.action(res[1], res[0])
             self.last_res = res
 
         if self.cpt_t >= self.cpt_before_picture:
-            self.robot.tete.lcapteurs[Tete.CAM].take_picture()
+            self.robot.tete.sensors["cam"].take_picture()
             self.cpt_t = 0
         self.cpt_t += 1
 

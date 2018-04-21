@@ -3,14 +3,14 @@ from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot.sensor.camera import Camera
 from gl_lib.sim.robot import Tete
 from gl_lib.sim.robot.sensor import Capteur
-from .TestCapteur import TestCapteur
+import unittest
 from threading import Thread
 from time import sleep
 from math import pi
 from gl_lib.sim.geometry import Vecteur, Point
 
 
-class TestCamera(TestCapteur):
+class TestCamera(unittest.TestCase):
     def setUp(self):
         self.obj = Camera(Point(1,1,1),Vecteur(1,0,0))
         self.tete=Tete()
