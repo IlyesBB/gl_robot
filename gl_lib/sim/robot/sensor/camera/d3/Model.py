@@ -19,7 +19,7 @@ class Model:
         self.batch_bg = pyglet.graphics.Batch()
         self.l_textures = list()
         self.graphic_objects = list()
-        l = ['white4.png', 'red.png', 'green.png', 'blue.svg', 'yellow.png', 'balise.png', 'grey.png']
+        l = ['white.png', 'red.png', 'green.png', 'blue.svg', 'yellow.png', 'balise.png', 'grey.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
 
@@ -127,7 +127,7 @@ class Model:
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone(type_coords=int)
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
