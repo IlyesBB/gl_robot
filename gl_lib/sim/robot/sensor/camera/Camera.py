@@ -98,7 +98,11 @@ class Camera(Capteur):
         return Camera(self.centre.clone(), self.direction.clone(), self.get_pic, self.is_running, self.is_set, self.cpt)
 
     def stop(self):
-        pyglet.app.exit()
+        try:
+            self.window.close()
+            pyglet.app.exit()
+        except:
+            pass
         self.is_set = False
 
     def __dict__(self):

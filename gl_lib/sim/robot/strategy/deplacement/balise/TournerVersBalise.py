@@ -80,7 +80,6 @@ class TournerVersBalise(Tourner, StrategieVision):
 
     def update(self):
         Tourner.update(self)
-        StrategieVision.update(self)
         if self.cpt < self.robot.tete.sensors["cam"].cpt:
             res = self.get_angle()
             self.action(res[1], res[0])

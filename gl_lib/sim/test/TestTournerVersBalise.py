@@ -23,7 +23,7 @@ class TestStrategieVision(unittest.TestCase):
 
     def test_vis(self):
         import threading
-        sim = Simulation(self.strat)
+        sim = Simulation([self.strat])
 
         t_max = 10/PAS_TEMPS
         sens = None

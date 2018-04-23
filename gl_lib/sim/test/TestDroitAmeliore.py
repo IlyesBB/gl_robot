@@ -24,7 +24,7 @@ class TestDroitAmeliore(TestCase):
 
     def test_detection_2D(self):
         print("Evaluating direct detection with infrared ray simulation...")
-        sim = Simulation(self.strat)
+        sim = Simulation([self.strat])
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)
