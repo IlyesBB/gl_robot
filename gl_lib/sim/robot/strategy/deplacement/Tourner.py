@@ -79,13 +79,15 @@ class Tourner(StrategieDeplacement):
                 pass
 
     def stop(self):
-        return not self.turning
+        try:
+            return self.rot_angle > (self.angle_max*pi/180)
+        except:
+            return False
 
     def abort(self):
         self.turning=False
         self.sens = None
-        self.rot_angle = 0
-        self.angle_max = None
+
 
     def __dict__(self):
         dct = OrderedDict()

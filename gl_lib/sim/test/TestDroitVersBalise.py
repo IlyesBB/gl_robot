@@ -16,7 +16,7 @@ class TestDroitVersBalise(unittest.TestCase):
         p0 = Point(0.5,0.5,0.6)
         self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v2.clone()), AreneFermee(3,3,3))
         self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
-        self.strat2 = DeplacementCercle(self.target, 360, 2)
+        self.strat2 = DeplacementCercle(self.target, -360, 5000)
         self.strat.arene.add(self.target)
 
     def test_vis(self):
@@ -28,5 +28,7 @@ class TestDroitVersBalise(unittest.TestCase):
         sim.join()
         td.join()
         while not sim.stop:
+            sleep(1)
+            print(self.target.centre)
             pass
         self.strat.stop_3D()

@@ -1,5 +1,9 @@
 import json
 from collections import OrderedDict
+from threading import Thread
+from time import sleep
+
+import pyglet
 
 from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot import RobotMotorise
@@ -8,12 +12,11 @@ from math import pi, cos, sin
 from gl_lib.sim.geometry import fonctions
 
 class DeplacementCercle(Tourner):
-    """Dirige le robot pour dessiner un cercle, approximé par un polygone dont tout les points sont sur ce cercle
+    """Dirige le robot pour dessiner un cercle, approximé par un polygone dont tous les points sont sur ce cercle
 
     Le robot commence à dessiner le cercle dans le sens de sa direction
-    On se
     """
-    def __init__(self, robot:RobotMotorise, angle_max:float or int = 360, diametre:int or float = None,
+    def __init__(self, robot:RobotMotorise, angle_max:float or int = 360, diametre:int or float = 0.5,
                  vitesse: int or float = 30, sens=None, turning=False, rot_angle=0):
         """
 
@@ -25,11 +28,22 @@ class DeplacementCercle(Tourner):
         Tourner.__init__(self, robot,angle_max, vitesse,sens, turning, rot_angle)
         self.diametre = abs(diametre)
 
-        if angle_max is not None and not self.turning:
-            self.sens = fonctions.signe(diametre)
-            self.init_movement(angle_max,self.diametre,vitesse)
+        if angle_max is not None:
+            self.sens = fonctions.signe(angle_max)
+            DeplacementCercle.init_movement(self,angle_max,self.diametre,vitesse)
+
+
 
     def init_movement(self, angle_max,diametre_cercle=1, dps_moy=30):
+        """ Initilise la trajectoire circulaire
+
+        On Initialise les vitesses en résolvant un système à deux équations, du fait qu'on connaît le diamètre,
+        et le périmètre du cercle (approché) qu'on dessine selon les vitesses
+        :param angle_max: float (°)
+        :param diametre_cercle: float (m)
+        :param dps_moy: (°/s)
+        :return:
+        """
         if angle_max is None:
             return
         self.angle_max = abs(angle_max)
@@ -63,7 +77,6 @@ class DeplacementCercle(Tourner):
         return dct
 
 
-
     @staticmethod
     def hook(dct):
         res = Tourner.hook(dct)
@@ -88,18 +101,24 @@ if __name__ == '__main__':
     from gl_lib.sim.robot.sensor import Accelerometre
     from gl_lib.sim.geometry import *
 
+
     a = AreneRobot()
-    r = RobotMotorise(Pave(centre=Point(3, 6, 0), width=1, height=1, length=1))
-    sim = Simulation(DeplacementCercle(r, -360, 0.5), 4)
+    r = RobotMotorise(Pave(centre=Point(3.7, 6.7, 0), width=1, height=1, length=1))
+    r.tete.sensors["cam"].arene = AreneFermee(3,3,3)
+    td= Thread(target=r.tete.sensors["cam"].run)
+    sim = Simulation([DeplacementCercle(r, 360, 1)], 3)
     a.add(r)
     app = AppAreneThread(a)
-    sim.start()
     app.start()
     min_x, min_y = sim.strategie.robot.centre.x, sim.strategie.robot.centre.y
     max_x, max_y = sim.strategie.robot.centre.x, sim.strategie.robot.centre.y
     dps_wheels = sim.strategie.robot.get_wheels_rotations(3)
+    #td.start()
+    sim.start()
+    print(sim.stop, sim.strategie.stop())
     while not sim.stop:
-        print(sim.strategie.robot.centre)
+        sleep(1)
+        print(sim.cpt, sim.strategie.robot.get_wheels_rotations(3))
         if sim.strategie.robot.centre.x < min_x:
             min_x = sim.strategie.robot.centre.x
         if sim.strategie.robot.centre.x > max_x:
@@ -108,15 +127,20 @@ if __name__ == '__main__':
             min_y = sim.strategie.robot.centre.y
         if sim.strategie.robot.centre.y > max_y:
             max_y = sim.strategie.robot.centre.y
+
+    print(sim.stop)
+
     d_rot = abs(dps_wheels[0]-dps_wheels[1])*PAS_TEMPS*(pi/180)
     max_rot = max(dps_wheels[0], dps_wheels[1])*PAS_TEMPS*(pi/180)
     d_dist = max_rot*(sim.strategie.robot.rd.diametre/2)
     n=(2*pi)/d_rot
     gr_diametre = n*d_dist/(2*pi)
     app.stop()
+    #pyglet.app.exit()
 
-    sim.strategie.save("deplacementcercle.json")
+    print(abs(max_x-min_x), abs(max_y-min_y))
+
+    #sim.strategie.save("deplacementcercle.json")
 
     strat2 = DeplacementCercle.load("deplacementcercle.json")
-    print(strat2)
 

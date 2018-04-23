@@ -78,7 +78,6 @@ class Camera(Capteur):
         #print("Printing image...")
         if self.raw_im is not None:
             s=self.rep_name+fname
-            print(s)
             self.raw_im.save(s)
 
     def get_image(self):
