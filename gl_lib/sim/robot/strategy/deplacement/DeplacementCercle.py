@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
 
     a = AreneRobot()
-    r = RobotMotorise(Pave(centre=Point(3.7, 6.7, 0), width=1, height=1, length=1), direction=Vecteur(1,0,0))
+    r = RobotMotorise(Pave(centre=Point(3.7, 6.7, 0), width=1, height=1, length=1))
     r.tete.sensors["cam"].arene = AreneFermee(3,3,3)
     td= Thread(target=r.tete.sensors["cam"].run)
     sim = Simulation([DeplacementCercle(r, 360, 1)], 3)

@@ -26,7 +26,6 @@ class RobotMotorise(Robot):
         self.tete = tete
         self.tete.attach(self.centre, self.direction)
         self.dist_wheels = (self.rd.centre - self.rg.centre).to_vect().get_mag()
-        self.lock_update = RLock()
 
         self.set_wheels_rotation(3, 0)
 
@@ -84,9 +83,8 @@ class RobotMotorise(Robot):
         self.rd.angle = 0
 
     def update(self):
-        with self.lock_update:
-            self.update_pos()
-            self.tete.update()
+        self.update_pos()
+        self.tete.update()
 
     def update_pos(self):
         """

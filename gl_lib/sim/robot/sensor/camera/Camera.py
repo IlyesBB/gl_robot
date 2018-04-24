@@ -100,11 +100,15 @@ class Camera(Capteur):
         return Camera(self.centre.clone(), self.direction.clone(), self.get_pic, self.is_running, self.is_set, self.cpt)
 
     def stop(self):
+<<<<<<< HEAD
         try:
             pyglet.app.exit()
             self.window.close()
         except:
             pass
+=======
+        pyglet.app.exit()
+>>>>>>> parent of 2cc9880... ajout d'un set_trace pour trouver le bug dans deplacement droit
         self.is_set = False
 
     def __dict__(self):

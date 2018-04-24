@@ -23,7 +23,11 @@ class TestStrategieVision(unittest.TestCase):
 
     def test_vis(self):
         import threading
+<<<<<<< HEAD
         sim = Simulation([self.strat], tic=3, tmax=8, final_actions=[self.strat.stop_3D])
+=======
+        sim = Simulation(self.strat)
+>>>>>>> parent of 2cc9880... ajout d'un set_trace pour trouver le bug dans deplacement droit
 
         t_max = 10/PAS_TEMPS
         sens = None

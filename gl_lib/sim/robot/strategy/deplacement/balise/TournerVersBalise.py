@@ -81,7 +81,12 @@ class TournerVersBalise(Tourner, StrategieVision):
 
     def update(self):
         Tourner.update(self)
+<<<<<<< HEAD
         if self.cpt <= self.robot.tete.sensors["cam"].cpt:
+=======
+        StrategieVision.update(self)
+        if self.cpt < self.robot.tete.sensors["cam"].cpt:
+>>>>>>> parent of 2cc9880... ajout d'un set_trace pour trouver le bug dans deplacement droit
             res = self.get_angle()
             self.action(res[1], res[0])
             self.last_res = res

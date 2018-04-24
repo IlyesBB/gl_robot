@@ -10,7 +10,6 @@ class Model:
 
     def get_tex(self, file):
         tex = pyglet.image.load(file).texture
-        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST)
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST)
         return pyglet.graphics.TextureGroup(tex)
 
@@ -49,10 +48,10 @@ class Model:
 
     def draw(self):
         for i in range(len(self.updatable_g_objs)):
-            quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1].get_pave())
-            with self.updatable_g_objs[i][1].lock_update:
-                for j in range(6):
-                    self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
+            quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
+            print(self.updatable_g_objs[i][1].centre/PIX_PAR_M)
+            for j in range(6):
+                self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
 
         self.batch_bg.draw()
         self.batch.draw()
@@ -114,7 +113,7 @@ class Model:
                                tex_coords)
                 l_objs.append(obj)
         p=p_target.get_pave()
-        self.updatable_g_objs.append((l_objs, p_target))
+        self.updatable_g_objs.append((l_objs, p))
 
     def get_vertices(self, pave):
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
