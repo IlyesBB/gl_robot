@@ -38,10 +38,11 @@ def get_project_repository():
     """
     os.chdir("/home/")
     #p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    stream = os.popen("find -name 'gl_lib' | grep -v 'local'")
+    stream = os.popen("find -name 'gl_lib' | grep -v 'local' | grep -v 'venv' | grep -vi 'lien'")
     s = str(stream.read()).replace(".", "/home")
     l = s.split('\n')
-    return l[len(l)-2]
+    stream.close()
+    return l[0]
 
 if __name__=='__main__':
     res = get_project_repository()

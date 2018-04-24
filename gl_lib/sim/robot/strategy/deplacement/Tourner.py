@@ -1,3 +1,6 @@
+import json
+from collections import OrderedDict
+
 from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
 from gl_lib.sim.geometry.fonctions import signe
 from gl_lib.config import PAS_TEMPS
@@ -10,8 +13,9 @@ class Tourner(StrategieDeplacement):
     """
     Fais décrire au robot un carré de coté 70 cm
     """
-
-    def __init__(self, robot: RobotMotorise, angle_max=None, vitesse=30):
+    KEYS = StrategieDeplacement.KEYS + ["turning", "sens", "angle_max", "rot_angle"]
+    def __init__(self, robot: RobotMotorise, angle_max=None, vitesse=30,
+                 sens = None, turning = False, rot_angle=0):
         """
 
         :param robot:
@@ -19,10 +23,11 @@ class Tourner(StrategieDeplacement):
         StrategieDeplacement.__init__(self, robot)
         self.rot_angle = 0
 
-        if angle_max is not None:
+        if angle_max is not None and turning is False:
             self.turning = True
             self.sens = signe(angle_max)
             self.angle_max = abs(angle_max)
+            self.rot_angle = 0
 
             if self.sens > 0:
                 self.robot.set_wheels_rotation(1, vitesse)
@@ -31,14 +36,15 @@ class Tourner(StrategieDeplacement):
                 self.robot.set_wheels_rotation(2, vitesse)
                 self.robot.set_wheels_rotation(1, 0)
         else:
-            self.sens = None
-            self.angle_max = None
-            self.turning = False
+            self.sens = sens
+            self.angle_max = angle_max
+            self.turning = turning
+            self.rot_angle = rot_angle
         self.robot.reset_wheels_angles()
         self.prev_dir=self.robot.direction.clone()
 
     def init_movement(self, angle_max, vitesse=30):
-        #print("Turning ", angle_max, " degres...")
+        print("\nTurning ", angle_max, " degres...")
 
         self.turning = True
         self.rot_angle = 0
@@ -65,7 +71,6 @@ class Tourner(StrategieDeplacement):
 
             v=self.robot.direction
             try:
-                # Peut générer des erreurs si la vitesse est nulle
                 if self.rot_angle>(self.angle_max*pi/180):
                     #print("Done turning ", self.sens*self.angle_max, "degrees")
                     Tourner.abort(self)
@@ -74,24 +79,41 @@ class Tourner(StrategieDeplacement):
                 pass
 
     def stop(self):
-        return not self.turning
+        try:
+            return self.rot_angle > (self.angle_max*pi/180)
+        except:
+            return False
 
     def abort(self):
         self.turning=False
         self.sens = None
-        self.rot_angle = 0
+
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = self.__class__.__name__
+        dct["robot"] = self.robot.__dict__()
+
+        dct["turning"] = self.turning
+        dct["sens"] = self.sens
+        dct["rot_angle"] = self.rot_angle
+        dct["angle_max"] = self.angle_max
+
+        return dct
+
+    @staticmethod
+    def hook(dct):
+        res = StrategieDeplacement.hook(dct)
+        if res is not None:
+            return res
+        elif dct["__class__"] == Tourner.__name__:
+            return Tourner(dct["robot"], dct["angle_max"], 30, dct["sens"], dct["turning"], dct["rot_angle"])
 
 
 if __name__ == '__main__':
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppSimulationThread
-    from gl_lib.sim.robot import RobotMotorise
-    from gl_lib.sim.robot.sensor import Accelerometre
-    from gl_lib.sim.geometry import *
+    st = Tourner(RobotMotorise(), 45)
 
-    r = RobotMotorise(Pave(centre=Point(3, 6, 0), width=1, height=1, length=1), direction=Vecteur(1,0,0))
-    sim = Simulation(Tourner(r, 90))
-    app = AppSimulationThread(sim)
+    st.save("tourner.json")
 
-    sim.start()
-    app.start()
+    st2 = Tourner.load("tourner.json")
+    print(st2)

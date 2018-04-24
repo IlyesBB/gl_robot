@@ -1,4 +1,4 @@
-from gl_lib.sim.display.d2.view.Vue2D import Vue2D
+from gl_lib.sim.display.d2.view import Vue2D
 from gl_lib.sim.geometry import *
 from tkinter import *
 from gl_lib.config import PIX_PAR_M
@@ -12,6 +12,7 @@ class Vue2DVecteur(Vue2D):
         
         Cree la ligne dans canevas
         """
+        Vue2D.__init__(self)
         self.vecteur=vecteur
         self.ligne=canevas.create_line(0, 0, vecteur.x*PIX_PAR_M, vecteur.y*PIX_PAR_M)
         

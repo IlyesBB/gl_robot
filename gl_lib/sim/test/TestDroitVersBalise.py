@@ -5,26 +5,26 @@ from gl_lib.sim.robot.strategy.deplacement.balise import DroitVersBaliseVision
 from gl_lib.sim.robot.strategy.vision import StrategieVision
 from gl_lib.sim.robot.sensor.camera import Balise
 from gl_lib.sim.geometry import AreneFermee,Pave, Vecteur, Point
-from gl_lib.sim.simulation import Simulation
+from gl_lib.sim import Simulation
 from time import sleep
 from math import pi
-
+from threading import Thread
 
 class TestDroitVersBalise(unittest.TestCase):
     def setUp(self):
-        v=Vecteur(1,1,0).norm()
-        p0 = Point(1,1,1)
-        self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v.clone()), AreneFermee(5,5,5))
-        self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v*3), direction=v.clone())
-        self.strat2 = DeplacementCercle(self.target, -360, 1)
+        v2 = Vecteur(1,0,0)
+        p0 = Point(0.5,0.5,0.6)
+        self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v2.clone()), AreneFermee(3,3,3))
+        self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
+        self.strat2 = DeplacementCercle(self.target, 360, 1, 120)
         self.strat.arene.add(self.target)
 
     def test_vis(self):
+        td = Thread(target=self.strat.start_3D)
+        sim = Simulation([self.strat, self.strat2], tmax=10, final_actions=[self.strat.stop_3D])
 
-        sim = Simulation([self.strat, self.strat2])
-
-        sim.start()
-        self.strat.start_3D()
-        while not sim.stop:
+        td.start()
+        while not self.strat.robot.tete.sensors["cam"].is_set:
             pass
-        self.strat.stop()
+        sim.start()
+

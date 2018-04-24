@@ -3,7 +3,9 @@ from gl_lib.sim.robot import RobotMotorise, RobotTarget
 from gl_lib.sim.geometry import *
 from math import pi
 import unittest
-
+from threading import Thread
+from gl_lib.sim import Simulation
+from time import sleep
 
 class TestStrategieVision(unittest.TestCase):
 
@@ -16,7 +18,12 @@ class TestStrategieVision(unittest.TestCase):
         self.strat.arene.add(self.target)
 
     def test_vis(self):
-        self.strat.start_3D()
+        td = Thread(target=self.strat.start_3D)
+        sim = Simulation(self.strat)
 
+        td.start()
+        sim.start()
 
+        sleep(15)
 
+        self.strat.stop_3D()

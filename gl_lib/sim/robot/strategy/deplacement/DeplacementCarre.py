@@ -43,8 +43,8 @@ class DeplacementCarre(DeplacementDroit, Tourner):
 
 
 if __name__ == '__main__':
-    from gl_lib.sim.simulation import Simulation
-    from gl_lib.sim.robot.display.d2.gui import AppAreneThread
+    from gl_lib.sim import Simulation
+    from gl_lib.sim.display.d2.gui import AppAreneThread
     from gl_lib.sim.robot import *
     from gl_lib.sim.robot.sensor import Accelerometre
     from gl_lib.sim.geometry import *

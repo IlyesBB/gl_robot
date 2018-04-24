@@ -1,14 +1,15 @@
-from gl_lib.sim.geometry import Objet3D, Vecteur, Point, Pave
+from gl_lib.sim.geometry import Objet3D, Vecteur, Point, Pave, ApproximableAPave
 from gl_lib.config import PAS_TEMPS
 from math import pi
 
 
-class Robot(Objet3D):
+class Robot(Objet3D, ApproximableAPave):
     """
     Classe definissant les elements essentiels d'un robot
     """
+    KEY = ["direction", "pave", "rg", "rd"]
 
-    def __init__(self, pave:Objet3D=Pave(0,0,0), rg:Objet3D=Objet3D(), rd:Objet3D=Objet3D(), direction:Vecteur=Vecteur(0,1,0), vitesserot:float=0.1, vitesse:float=5.0):
+    def __init__(self, pave:Objet3D=Pave(1,1,1, Point(0,0,0)), rg:Objet3D=Objet3D(), rd:Objet3D=Objet3D(), direction:Vecteur=Vecteur(0,1,0)):
         """
         Constructeur du robot
         
@@ -19,8 +20,6 @@ class Robot(Objet3D):
         """
         Objet3D.__init__(self)
         self.direction = direction
-        self.vitesse = vitesse
-        self.vitesseRot = vitesserot
         self.forme = pave
         self.forme.rotate(self.direction.get_angle())
         self.centre = pave.centre.clone()  # initalise le centre au centre du pave
@@ -33,31 +32,6 @@ class Robot(Objet3D):
 
         self.dist_wheels=self.forme.width
 
-
-
-
-    def move_forward(self, sens: int or float=1):
-        """
-        deplace le robot dans le sens voulu (1 pour l'avant, -1 pour l'arriere par ex), sur sa direction
-        La fonction deplacer vien du module Vecteur eet se trouve dans la class point
-        """
-        if sens < 0:
-            self.move(self.direction * -self.vitesse)
-        elif sens > 0:
-            self.move(self.direction * self.vitesse)
-
-    def turn(self, sens: int or float):
-        """
-        tourne le robot par rapport a une des roues selon le sens 
-        """
-        if sens > 0:
-            self.direction.rotate(-self.vitesseRot)
-            self.rotate_around(self.rd.centre, -self.vitesseRot)
-        elif sens < 0:
-            self.direction.rotate(self.vitesseRot)
-            self.rotate_around(self.rg.centre, self.vitesseRot)
-        elif sens == 0:
-            self.move_forward()
 
     def rotate_around(self, point:Point, angle:float, axis=None):
         """
@@ -94,12 +68,12 @@ class Robot(Objet3D):
             return False
         if other.direction != self.direction:
             return False
-        if other.vitesse != self.vitesse or self.vitesseRot != other.vitesseRot:
-            return False
         if other.dist_wheels != self.dist_wheels:
             return False
         return True
 
     def clone(self):
-        return Robot(self.forme.clone(), self.rd.clone(), self.rg.clone(), self.direction.clone(), self.vitesseRot, self.vitesse)
+        return Robot(self.forme.clone(), self.rd.clone(), self.rg.clone(), self.direction.clone())
 
+    def get_pave(self):
+        return self.forme

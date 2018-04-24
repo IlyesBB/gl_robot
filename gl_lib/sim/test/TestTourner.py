@@ -1,13 +1,13 @@
 import unittest
 from gl_lib.sim.robot.strategy.deplacement import Tourner
 from gl_lib.sim.robot import RobotMotorise
-from gl_lib.sim.simulation import Simulation
+from gl_lib.sim import Simulation
 from gl_lib.sim.geometry.fonctions import positive_angle
 from time import sleep
 import random as rm
 from gl_lib.config import PAS_TEMPS
 from math import pi
-from gl_lib.sim.robot.display.d2.gui import AppAreneThread
+from gl_lib.sim.d2.gui import AppAreneThread
 from gl_lib.sim.geometry import Arene, Pave, Point
 
 

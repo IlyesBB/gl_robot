@@ -1,6 +1,9 @@
+import json
 from math import *
 from gl_lib.config import PIX_PAR_M
 from gl_lib.sim.geometry.fonctions import positive_angle
+from collections import OrderedDict
+from gl_lib.utils import Serializable
 
 
 class Point(object):
@@ -11,7 +14,7 @@ class Point(object):
     z : coordonnee en z
     """
 
-    def __init__(self, x: object, y: object, z: object, type_coords: object = float) -> object:
+    def __init__(self, x, y, z, type_coords: object = float):
         """
         Initialise les coordonnees du point 
         """
@@ -49,7 +52,7 @@ class Point(object):
         v = (self - point).to_vect()
         v.rotate(teta, axis)
         # dans ce sens, l'addition renvoi un Vecteur
-        self.set_position(point+v)
+        self.set_position(point + v)
         return self
 
     def to_vect(self):
@@ -70,10 +73,12 @@ class Point(object):
 
     def __repr__(self):
         """
-        Quand on entre un Point dans l'interpreteur
+        Quand on entre un vecteur dans l'interpreteur
         """
-        return "({:2.2}, ".format(self.x)+"{:2.2}, ".format(self.y)+"{:2.2})".format(self.z)
+        return "Point(x={}, y={}, z={})".format(self.x, self.y, self.z)
 
+    def __str__(self):
+        return "({:6.6}, {:6.6}, {:6.6})".format(self.x, self.y, self.z)
 
     def __getattr__(self, nom):
         """
@@ -121,6 +126,29 @@ class Point(object):
             return Point(self.x / float(n), self.y / float(n), self.z / float(n))
         elif isinstance(n, float):
             return Point(self.x / n, self.y / n, self.z / n)
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = Point.__name__
+        dct["x"] = self.x
+        dct["y"] = self.y
+        dct["z"] = self.z
+        return dct
+
+    def save(self, filename):
+        obj = self.__dict__()
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(obj, f, indent=4)
+
+    @staticmethod
+    def hook(dct):
+        if dct["__class__"] == Point.__name__:
+            return Point(dct["x"], dct["y"], dct["z"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Point.hook)
 
     def __eq__(self, point):
         """
@@ -208,7 +236,7 @@ class Vecteur(object):
             if signe >= 0:
                 return positive_angle(-a1)
             else:
-                return (2*pi)*positive_angle(-a1)
+                return (2 * pi) * positive_angle(-a1)
         else:
             return -a1
 
@@ -217,7 +245,7 @@ class Vecteur(object):
         retourne la difference d'angle entre 2 vecteurs dans le repere (x, y)
         """
         # v: Vecteur
-        angle=None
+        angle = None
         v = self ** vecteur
         if self != Vecteur(0.0, 0.0, 0.0) and vecteur != Vecteur(0.0, 0.0, 0.0):
             # utilise les proprietes du produit vectoriel pour determiner si l'angle est positif ou negatif
@@ -233,7 +261,7 @@ class Vecteur(object):
                 try:
                     angle = -acos(res)
                 except:
-                    angle -acos(res % 1)
+                    angle - acos(res % 1)
             else:
                 if self == vecteur:
                     angle = 0
@@ -243,9 +271,8 @@ class Vecteur(object):
                 if signe > 0:
                     angle = positive_angle(angle)
                 elif signe < 0:
-                    angle = positive_angle(angle)-2*pi
+                    angle = positive_angle(angle) - 2 * pi
             return angle
-
 
     def get_mag(self):
         """
@@ -356,7 +383,10 @@ class Vecteur(object):
         """
         Quand on entre un vecteur dans l'interpreteur
         """
-        return "v->({:.2}, ".format(self.x)+"{:.2}, ".format(self.y)+"{:.2})".format(self.z)
+        return "Vecteur(x={}, y={}, z={})".format(self.x, self.y, self.z)
+
+    def __str__(self):
+        return "->({:6.6}, {:6.6}, {:6.6})".format(self.x, self.y, self.z)
 
     def __getattr__(self, nom):
         """
@@ -389,9 +419,46 @@ class Vecteur(object):
         """
         return self / self.get_mag()
 
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = Vecteur.__name__
+        dct["x"] = self.x
+        dct["y"] = self.y
+        dct["z"] = self.z
+        return dct
+
+    def save(self, filename):
+        obj = self.__dict__()
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(obj, f, indent=4)
+
+    @staticmethod
+    def hook(dct):
+        if dct["__class__"] == Vecteur.__name__:
+            return Vecteur(dct["x"], dct["y"], dct["z"])
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=Vecteur.hook)
+
 
 if __name__ == '__main__':
-    p=Point(0,0,0)
-    p2=p
-    p2.move(Vecteur(1,1,0))
-    print(p,p2)
+    v = Vecteur(1, 1, 1)
+    import os
+    os.chdir("/home/ilyes/")
+
+    d = v.__dict__()
+    v.save("vector.json")
+
+    v3 = Vecteur.load("vector.json")
+    print(v3)
+
+    p = Point(2, 2, 2)
+
+    d2 = p.__dict__()
+    print(d2)
+    p.save("dot.json")
+
+    p3 = Point.load("dot.json")
+    print(p3)

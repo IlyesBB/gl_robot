@@ -5,9 +5,6 @@ class Vue2D(object):
     def __init__(self):
         pass
     
-    def afficher(self, canvas):
-        pass
-    
 
 
 

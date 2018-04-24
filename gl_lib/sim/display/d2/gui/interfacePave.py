@@ -1,7 +1,7 @@
 from tkinter import *
 from gl_lib.sim.geometry import Arene, Pave, Objet3D
 from gl_lib.sim.display.d2.view import *
-from gl_lib.sim.geometry.point import Vecteur
+from gl_lib.sim.geometry import Vecteur
 from gl_lib.sim.robot import Robot
 from math import *
 

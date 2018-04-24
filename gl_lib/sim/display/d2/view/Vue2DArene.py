@@ -1,5 +1,6 @@
 from gl_lib.sim.display.d2.view import Vue2DRobot, Vue2DRobotPhysique, Vue2DPave, Vue2D
 from gl_lib.sim.geometry import Arene, Pave
+from gl_lib.sim.robot import *
 
 
 
@@ -23,21 +24,13 @@ class Vue2DArene(Vue2D):
 
         for o in objets:
             # o : Objet3D
-            try:
-                view = Vue2DRobotPhysique(o, canevas)
-                view.afficher(canevas)
-                continue
-            except:
-                pass
-            try:
-                vue = Vue2DRobot(o, canevas)
-                vue.afficher(canevas)
-                continue
-            except:
-                pass
-            try:
+            if issubclass(type(o), Pave):
                 vue = Vue2DPave(o, canevas)
                 vue.afficher(canevas)
-                continue
-            except:
-                pass
+            elif issubclass(type(o), RobotMotorise):
+                view = Vue2DRobotPhysique(o, canevas)
+                view.afficher(canevas)
+            elif issubclass(type(o), Robot):
+                vue = Vue2DRobot(o, canevas)
+                vue.afficher(canevas)
+

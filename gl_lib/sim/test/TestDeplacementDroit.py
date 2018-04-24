@@ -1,8 +1,8 @@
 import unittest
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit
 from gl_lib.sim.robot import RobotMotorise, Tete
-from gl_lib.sim.simulation import Simulation
-from gl_lib.sim.robot.display.d2.gui import AppAreneThread
+from gl_lib.sim import Simulation
+from gl_lib.sim.display.d2.gui import AppAreneThread
 from time import sleep
 from gl_lib.sim.geometry import Arene, Point, Pave
 from gl_lib.config import PAS_TEMPS
@@ -28,6 +28,7 @@ class TestDeplacementDroit(unittest.TestCase):
 
         dist = (self.strat.robot.centre-p).to_vect().get_mag()
         self.assertLess(abs(dist-self.distance), abs(dps_wheels[0])*(pi/180)*PAS_TEMPS*self.strat.robot.rd.diametre/2)
+
 
 
 

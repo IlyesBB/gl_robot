@@ -4,7 +4,6 @@ from .Vue2DPave import Vue2DPave
 from .Vue2DRobot import Vue2DRobot
 from .Vue2DRobot import Vue2DRobotPhysique
 from .Vue2DArene import Vue2DArene
-from .VueMatriceArene import VueMatriceArene
 
-__all__=["Vue2D", "Vue2DRobotPhysique", "Vue2DVecteur", "Vue2DPave", "VueMatriceArene",
+__all__=["Vue2D", "Vue2DRobotPhysique", "Vue2DVecteur", "Vue2DPave",
          "Vue2DRobot", "Vue2DArene"]

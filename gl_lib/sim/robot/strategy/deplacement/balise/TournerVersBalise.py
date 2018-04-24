@@ -1,3 +1,7 @@
+import json
+import pdb
+from collections import OrderedDict
+
 from gl_lib.sim.robot.strategy.deplacement import Tourner
 from gl_lib.sim.robot.strategy import Balise
 from gl_lib.sim.robot.strategy.vision import StrategieVision
@@ -20,24 +24,23 @@ class TournerVersBalise(Tourner, StrategieVision):
     Pour cela, on utilise les images capturée pour la caméra du robot
 
     """
-    PRECISION = 20
+    PRECISION = 5
 
-    def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None):
+    def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None, time_before_picture=DT_SCREENSHOT,
+                 cpt_t:int=0, cpt:int=0, cpt_not_found:int=0, prev_res:tuple=(None, None)):
         """
         :param balise: contient des couleurs, si aucune n'est donnée en argument, on en crée une
         """
         StrategieVision.__init__(self, robot, arene)
         Tourner.__init__(self, robot)
         self.balise = balise
-        self.file_name = fonctions.get_project_repository()+REPNAME_SCREENSHOTS+FILENAME_SCREENSHOT
-        self.cpt_t = 0
-        self.cpt = 0
-        self.cpt_not_found = 0
-        self.time_before_picture = int(DT_SCREENSHOT/PAS_TEMPS)
-        self.prev_res = None
-        self.robot.tete.lcapteurs[Tete.CAM].lock = self.lock
+        self.cpt_t = cpt_t
+        self.cpt = cpt
+        self.cpt_not_found = cpt_not_found
+        self.cpt_before_picture = int(time_before_picture/PAS_TEMPS)
+        self.prev_res = prev_res
         if self.balise is None:
-            self.balise = Balise([(255,0, 0, 255), (0,255,0,255), (255,255,0,255), (0,0,255,255)])
+            self.balise = Balise()
         self.robot.set_wheels_rotation(3,0)
 
     def get_angle(self):
@@ -51,22 +54,14 @@ class TournerVersBalise(Tourner, StrategieVision):
         Si aucune balise trouvée retourne None
         :return: int
         """
-        if self.cpt >= self.robot.tete.lcapteurs[Tete.CAM].cpt:
-            if self.sens is not None and self.angle_max is not None:
-                return self.angle_max*self.sens, self.sens
-            else:
-                return self.angle_max, self.sens
-
-        #print("Analysing image ", self.cpt,"...")
-        s = self.file_name + str(self.cpt) + FORMAT_SCREENSHOT
-        p=trouver_balise(self.balise.colors, fname=s)
+        #print("\nAnalysing image ", self.cpt,"...")
+        p=trouver_balise(self.balise.colors, image=self.robot.tete.sensors["cam"].get_image())
         if p is None:
             #print("No target found")
             self.cpt_not_found += 1
             self.cpt += 1
             return None, None
-
-        angle = -(p[1]-0.5)*Camera.ANGLE_VY
+        angle = -(p[0]-0.5)*Camera.ANGLE_VY/4
         sens = signe(angle)
         if abs(angle) < TournerVersBalise.PRECISION:
             #print("Target ahead (", angle, " degres from vertical)")
@@ -78,21 +73,14 @@ class TournerVersBalise(Tourner, StrategieVision):
         return (angle, sens)
 
     def update(self):
+        res = self.get_angle()
+        self.action(res[1], res[0])
         Tourner.update(self)
-        StrategieVision.update(self)
-        if self.robot.tete.lcapteurs[Tete.CAM].new_pic:
-            res = self.get_angle()
-            self.action(res[1], res[0])
-            self.last_res = res
+        self.robot.tete.sensors["cam"].take_picture()
 
-        if self.cpt_t >= self.time_before_picture:
-            self.robot.tete.lcapteurs[Tete.CAM].get_picture()
-            self.cpt_t = 0
-        self.cpt_t += 1
     def action(self, sens, angle):
         res = (angle, sens)
         if res[1] is None:
-            self.sens = None
             Tourner.abort(self)
         elif res[1] == 0:
             Tourner.abort(self)
@@ -104,7 +92,37 @@ class TournerVersBalise(Tourner, StrategieVision):
         if self.sens == 0:
             #print("Target ahead")
             return True
-        if self.cpt_not_found > 3:
-            return True
         return False
+
+    def show_last_pic(self):
+        self.robot.tete.sensors["cam"].raw_im.show()
+
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = TournerVersBalise.__name__
+        dct["robot"] = self.robot.__dict__()
+        dct["arene"] = self.arene.__dict__()
+
+        dct["balise"] = self.balise.__dict__()
+        dct["cpt_before_picture"] = self.cpt_before_picture
+        dct["cpt_t"] = self.cpt_t
+        dct["cpt"] = self.cpt
+        dct["cpt_not_found"] = self.cpt_not_found
+
+        dct["prev_res"] = tuple(self.prev_res) if self.prev_res is not None else None
+
+        return dct
+
+    @staticmethod
+    def hook(dct):
+        res = StrategieVision.hook(dct)
+        if res is not None:
+            return res
+        elif dct["__class__"] == TournerVersBalise.__name__:
+            return TournerVersBalise(dct)
+
+    @staticmethod
+    def load(filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=TournerVersBalise.hook)
 
