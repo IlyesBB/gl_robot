@@ -1,4 +1,5 @@
 import json
+import pdb
 from collections import OrderedDict
 
 from gl_lib.sim.robot.strategy.deplacement import Tourner
@@ -53,7 +54,7 @@ class TournerVersBalise(Tourner, StrategieVision):
         Si aucune balise trouvée retourne None
         :return: int
         """
-        if self.cpt >= self.robot.tete.sensors["cam"].cpt:
+        if self.cpt > self.robot.tete.sensors["cam"].cpt:
             if self.sens is not None and self.angle_max is not None:
                 return self.angle_max*self.sens, self.sens
             else:
@@ -66,9 +67,9 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.cpt_not_found += 1
             self.cpt += 1
             return None, None
-
         angle = -(p[0]-0.5)*Camera.ANGLE_VY/4
         sens = signe(angle)
+        pdb.set_trace()
         if abs(angle) < TournerVersBalise.PRECISION:
             #print("Target ahead (", angle, " degres from vertical)")
             sens = 0
@@ -80,7 +81,7 @@ class TournerVersBalise(Tourner, StrategieVision):
 
     def update(self):
         Tourner.update(self)
-        if self.cpt < self.robot.tete.sensors["cam"].cpt:
+        if self.cpt <= self.robot.tete.sensors["cam"].cpt:
             res = self.get_angle()
             self.action(res[1], res[0])
             self.last_res = res

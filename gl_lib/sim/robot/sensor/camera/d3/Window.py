@@ -18,10 +18,11 @@ def model():
 
 
 def push(pos, rot):
-    angle=rot.get_angle()*180/pi
+    angle=rot.diff_angle(Vecteur(-1,0,0))*180/pi
     glPushMatrix()
+    glRotatef(-90, 0, 1, 0)
     glRotatef(-90, 1, 0, 0)
-    glRotatef(90-angle, 0, 0, 1)
+    glRotatef(angle, 0, 0, 1)
     pos=pos.to_tuple()
     glTranslatef(int(-pos[0]*PIX_PAR_M), int(-pos[1]*PIX_PAR_M), int(-pos[2]*PIX_PAR_M), )
 
@@ -51,7 +52,7 @@ class Window(pyglet.window.Window):
         self.camera = camera
         if arene is None:
             self.model = Model(self.camera.arene)
-        pyglet.clock.schedule_interval(update, PAS_TEMPS/2)
+        pyglet.clock.schedule_interval(update, PAS_TEMPS/5)
 
     def on_draw(self):
         self.clear()

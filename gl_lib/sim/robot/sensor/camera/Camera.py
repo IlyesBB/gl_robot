@@ -44,7 +44,7 @@ class Camera(Capteur):
         """
         self.is_running = True
         self.window = Window(self.arene, self)
-        glClearColor(0, 0, 0, 0)
+        glClearColor(190, 190, 190, 0)
         glEnable(GL_DEPTH_TEST)
         pyglet.app.run()
 
@@ -62,6 +62,7 @@ class Camera(Capteur):
             # L'image récupérée est alternée...
             self.raw_im = self.raw_im.rotate(180)
             self.raw_im = self.raw_im.transpose(Image.FLIP_LEFT_RIGHT)
+            #self.print_image("screenshot"+str(self.cpt)+".png")
             self.get_pic = False
             #print("Picture ", self.cpt, " taken")
             self.cpt += 1
@@ -75,6 +76,7 @@ class Camera(Capteur):
         :param fname:
         :return:
         """
+        os.chdir("/")
         #print("Printing image...")
         if self.raw_im is not None:
             s=self.rep_name+fname
@@ -99,8 +101,8 @@ class Camera(Capteur):
 
     def stop(self):
         try:
-            self.window.close()
             pyglet.app.exit()
+            self.window.close()
         except:
             pass
         self.is_set = False

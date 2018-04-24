@@ -23,7 +23,7 @@ class TestStrategieVision(unittest.TestCase):
 
     def test_vis(self):
         import threading
-        sim = Simulation([self.strat])
+        sim = Simulation([self.strat], tic=3, tmax=8, final_actions=[self.strat.stop_3D])
 
         t_max = 10/PAS_TEMPS
         sens = None
@@ -32,13 +32,6 @@ class TestStrategieVision(unittest.TestCase):
         while not self.strat.robot.tete.sensors["cam"].is_set:
             pass
         sim.start()
-        while not sim.stop:
-            sens = self.strat.sens
-            if sim.cpt > t_max:
-                sim.stop = True
-            pass
-        self.strat.stop_3D()
 
-        self.assertEqual(sens, 0)
-        if sim.cpt > t_max:
-            print("Maximal time before detection exceeded (", t_max*PAS_TEMPS," s)")
+
+

@@ -31,7 +31,7 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
     PAS_RECH = min(w_im, l_im)/RATIO_SEARCH_SCREENSHOT
     pas = int(PAS_RECH)
     # Côté du carré cherché
-    RAYON_RECH = PAS_RECH
+    RAYON_RECH = PAS_RECH/2
     l_lvertices = [[0, 1, 2, 3]]
     i0 = int(RAYON_RECH / PAS_RECH)+1
     # Pour éviter que le carré cherché sorte du tableau
@@ -42,13 +42,15 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
 
     for x in [i * pas for i in range(i0, wn_im - i0)]:
         for y in [i * pas for i in range(i0, ln_im - i0)]:
-            pave = Pave(RAYON_RECH * 2, RAYON_RECH * 2, 0, centre=Point(x,y,0))
+            p0=Point(x,y,0)
+            #print("\n","*"*10,p0, "*"*10)
+            pave = Pave(RAYON_RECH * 2, RAYON_RECH * 2, 0, centre=p0.clone())
             for lvertices in l_lvertices:
                 balise = True
                 for i in range(len(couleurs)):
                     p = pave.vertices[lvertices[i]].to_tuple(type_coords=int)
                     if couleurs[i] != im.getpixel((p[0], p[1])):
-                        #print(couleurs[i], " != ",im.getpixel((p[0], p[1])), (Point(p[0],p[1],0)-Point(x,y,0)).to_vect(), "\n")
+                        #print(couleurs[i], " != ",im.getpixel((p[0], p[1])), (Point(p[0],p[1],0)-p0).to_vect(), "\n")
                         balise = False
                         break
                     #print(couleurs[i], " == ", im.getpixel((p[0], p[1])))

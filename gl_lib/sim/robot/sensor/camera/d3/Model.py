@@ -34,7 +34,7 @@ class Model:
             #im = Image.open('grey.png')
             #im.thumbnail((p.width*im.shape[0], p.length), Image.ANTIALIAS)
             #im.save(outfile, "JPEG")
-            self.visual_pave(p, self.l_textures[6], self.batch_bg)
+            self.visual_pave(p, self.l_textures[6], self.batch_bg, ('t2f/static', (0, 0, 10, 0, 10, 10, 0, 10)))
         self.visual_arene(arene)
 
 
@@ -57,7 +57,7 @@ class Model:
         self.batch_bg.draw()
         self.batch.draw()
 
-    def visual_pave(self, pave, texture=None, batch=None):
+    def visual_pave(self, pave, texture=None, batch=None, texture_coords=None):
         if texture is None:
             self.side = self.l_textures[0]
         else:
@@ -68,7 +68,7 @@ class Model:
         else:
             cur_batch = self.batch_bg
 
-        tex_coords = ('t2f/static', (0, 0, 1, 0, 1, 1, 0, 1))
+        tex_coords = texture_coords if texture_coords is not None else ('t2f/static', (0, 0, 1, 0, 1, 1, 0, 1))
         for i in range(len(p.vertices)):
             p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
 

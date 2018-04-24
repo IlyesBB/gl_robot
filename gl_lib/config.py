@@ -2,10 +2,10 @@ from math import sqrt
 RES_M = 2
 PAS_IR=(1/RES_M)*sqrt(2)
 DT_SCREENSHOT = 0.5
-PAS_TEMPS=1
+PAS_TEMPS=0.2
 PIX_PAR_M=5
 
-RATIO_SEARCH_SCREENSHOT = 100
+RATIO_SEARCH_SCREENSHOT = 50
 FORMAT_SCREENSHOT = ".png"
 FILENAME_SCREENSHOT = "screenshot"
 # A précéder du nom du répertoire du projet

@@ -29,22 +29,10 @@ class TestTrouver_balise(TestCase):
         self.strat.arene.add(self.target)
 
     def test_trouver_balise(self):
-        os.chdir("/home/ilyes/2I013/Projet/gl_lib/sim/robot/sensor/camera/d3/")
-        im = Image.open("balise.png")
-        td = Thread(target=self.strat.start_3D)
-        sim = Simulation(self.strat)
+        os.chdir("/home/ilyes/2I013/Projet/gl_lib/sim/robot/sensor/camera/pictures")
+        im = Image.open("screenshot0.png")
         p=trouver_balise(self.l, image=im)
         print(p)
 
-        td.start()
-        sim.start()
-        t_interval = int(2/PAS_TEMPS)
-        t_max = int(20/PAS_TEMPS)
-        cpt_interval = 0
 
-        while not sim.stop:
-            if sim.cpt > t_max:
-                sim.stop = True
-
-        self.strat.stop_3D()
 
