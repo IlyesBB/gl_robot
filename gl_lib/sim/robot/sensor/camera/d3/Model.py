@@ -49,7 +49,6 @@ class Model:
     def draw(self):
         for i in range(len(self.updatable_g_objs)):
             quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
-            print(self.updatable_g_objs[i][1].centre/PIX_PAR_M)
             for j in range(6):
                 self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
 
@@ -90,14 +89,14 @@ class Model:
         p = p_target.get_pave().clone()
         tex_coords = ('t2f/static', (1, 1, 0, 1, 0, 0, 1, 0))
         self.side = self.l_textures[0]
-
+        self.rear = self.l_textures[5]
         for i in range(len(p.vertices)):
             p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
 
         l_objs = list()
         for l in range(len(l_ln)):
             if l == face:
-                obj=self.batch.add(4, GL_QUADS, self.l_textures[5],
+                obj=self.batch.add(4, GL_QUADS, self.rear,
                                ('v3f/dynamic', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
                                         p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,

@@ -21,7 +21,7 @@ class Camera(Capteur):
     ANGLE_VY = 180
 
     def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0),get_pic:bool=False,
-                 is_running:bool=False, is_set:bool=False,cpt:int=0):
+                 is_running:bool=False, is_set:bool=False,cpt:int=1):
         """
         :param centre: Centre de la caméra, peut être attaché à une tête
         :param direction: Direction de la caméra, même remarque
@@ -100,15 +100,11 @@ class Camera(Capteur):
         return Camera(self.centre.clone(), self.direction.clone(), self.get_pic, self.is_running, self.is_set, self.cpt)
 
     def stop(self):
-<<<<<<< HEAD
         try:
             pyglet.app.exit()
             self.window.close()
         except:
             pass
-=======
-        pyglet.app.exit()
->>>>>>> parent of 2cc9880... ajout d'un set_trace pour trouver le bug dans deplacement droit
         self.is_set = False
 
     def __dict__(self):

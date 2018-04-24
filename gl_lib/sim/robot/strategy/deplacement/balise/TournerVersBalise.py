@@ -24,7 +24,7 @@ class TournerVersBalise(Tourner, StrategieVision):
     Pour cela, on utilise les images capturée pour la caméra du robot
 
     """
-    PRECISION = 10
+    PRECISION = 5
 
     def __init__(self, robot: RobotMotorise, arene :Arene = None, balise: Balise = None, time_before_picture=DT_SCREENSHOT,
                  cpt_t:int=0, cpt:int=0, cpt_not_found:int=0, prev_res:tuple=(None, None)):
@@ -54,12 +54,6 @@ class TournerVersBalise(Tourner, StrategieVision):
         Si aucune balise trouvée retourne None
         :return: int
         """
-        if self.cpt > self.robot.tete.sensors["cam"].cpt:
-            if self.sens is not None and self.angle_max is not None:
-                return self.angle_max*self.sens, self.sens
-            else:
-                return self.angle_max, self.sens
-
         #print("\nAnalysing image ", self.cpt,"...")
         p=trouver_balise(self.balise.colors, image=self.robot.tete.sensors["cam"].get_image())
         if p is None:
@@ -69,7 +63,6 @@ class TournerVersBalise(Tourner, StrategieVision):
             return None, None
         angle = -(p[0]-0.5)*Camera.ANGLE_VY/4
         sens = signe(angle)
-        pdb.set_trace()
         if abs(angle) < TournerVersBalise.PRECISION:
             #print("Target ahead (", angle, " degres from vertical)")
             sens = 0
@@ -80,21 +73,10 @@ class TournerVersBalise(Tourner, StrategieVision):
         return (angle, sens)
 
     def update(self):
+        res = self.get_angle()
+        self.action(res[1], res[0])
         Tourner.update(self)
-<<<<<<< HEAD
-        if self.cpt <= self.robot.tete.sensors["cam"].cpt:
-=======
-        StrategieVision.update(self)
-        if self.cpt < self.robot.tete.sensors["cam"].cpt:
->>>>>>> parent of 2cc9880... ajout d'un set_trace pour trouver le bug dans deplacement droit
-            res = self.get_angle()
-            self.action(res[1], res[0])
-            self.last_res = res
-
-        if self.cpt_t >= self.cpt_before_picture:
-            self.robot.tete.sensors["cam"].take_picture()
-            self.cpt_t = 0
-        self.cpt_t += 1
+        self.robot.tete.sensors["cam"].take_picture()
 
     def action(self, sens, angle):
         res = (angle, sens)
@@ -111,6 +93,9 @@ class TournerVersBalise(Tourner, StrategieVision):
             #print("Target ahead")
             return True
         return False
+
+    def show_last_pic(self):
+        self.robot.tete.sensors["cam"].raw_im.show()
 
     def __dict__(self):
         dct = OrderedDict()

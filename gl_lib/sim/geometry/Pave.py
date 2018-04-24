@@ -51,16 +51,18 @@ class Pave(Polygone3D, ApproximableAPave):
         for i in range(0, len(self.vertices)):
             self.vertices[i] = point + (self.vertices[i] - point).to_vect().rotate(teta=teta, axis=axis)
 
+        return self.clone()
+
     def rotate(self, teta: float, axis=None):
         """
         Tourne le pavé selon z autour du centre
         """
-        self.rotate_all_around(self.centre, teta, axis=axis)
-        return self.clone()
+        return self.rotate_all_around(self.centre, teta, axis=axis)
+
 
     def clone(self):
         return Pave(self.width, self.length, self.height, self.centre.clone(),
-                    [self.vertices[i] for i in range(len(self.vertices))])
+                    [self.vertices[i].clone() for i in range(len(self.vertices))])
 
     def move(self, vecteur: Vecteur):
         Polygone3D.move(self, vecteur)

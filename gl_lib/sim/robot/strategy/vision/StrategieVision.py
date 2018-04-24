@@ -25,6 +25,8 @@ class StrategieVision(Strategie):
         self.robot.tete.sensors["cam"].picture()
         self.robot.tete.sensors["cam"].print_picture(filename)
 
+
+
     def update(self):
         pass
 

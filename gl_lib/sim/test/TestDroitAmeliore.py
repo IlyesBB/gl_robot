@@ -15,30 +15,31 @@ class TestDroitAmeliore(TestCase):
         dist = 3.0
         self.arene = Arene()
         self.v = v*dist
-        self.strat = DeplacementDroitAmeliore(robot=RobotMotorise(pave=Pave(1,1,1, c.clone()), direction=v.clone()),distance_max=dist, arene=self.arene)
+        self.strat = DeplacementDroitAmeliore(robot=RobotMotorise(pave=Pave(1,1,1, c.clone()), direction=v.clone()),arene=self.arene)
         self.p=Pave(0.5,0.5,0.5,c+self.v)
-        self.p.rotate(pi)
+        #self.p.rotate(-pi/4)
         self.arene.add(self.p)
         self.arene.add(self.strat.robot)
 
 
     def test_detection_2D(self):
         print("Evaluating direct detection with infrared ray simulation...")
-        sim = Simulation(self.strat)
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)
+        sim = Simulation([self.strat], final_actions=[app.stop])
 
         self.strat.init_movement(3,60)
 
         sim.start()
         #self.strat.start()
         app.start()
+
         while not sim.stop:
             pass
-        #self.strat.stop()
-        app.stop()
-        self.strat.robot.tete.sensors["cam"].stop()
+        #self.strat.robot.tete.sensors["cam"].stop()
+
+
         # On s'assure que le pavé est bien entré dans le champ d'alerte
         dist = (self.p.centre-self.strat.robot.centre).to_vect().get_mag()-self.p.length/2
         self.assertLess(dist, self.strat.proximite_max)

@@ -1,5 +1,6 @@
 import json
 import os
+import pdb
 from collections import OrderedDict
 
 from gl_lib.sim.robot.sensor import Capteur
@@ -164,12 +165,11 @@ class VueMatriceArene(object):
             # on commence par recuperer les infos importantes sur le pave
             ls = pave.vertices
             inclinaison_m = (ls[0] - ls[1]).to_vect().diff_angle(ox)
-            inclinaison_m_abs = (ls[0] - ls[1]).to_vect().diff_angle(Vecteur(1,0,0))
             if self.ajuste:
                 inclinaison_ajuste = inclinaison_m-pi/4
             else:
                 inclinaison_ajuste = inclinaison_m
-            ls = pave.rotate(inclinaison_m).vertices
+            ls = pave.clone().rotate(inclinaison_m).vertices
             centre=obj.centre.clone()
 
             # ls correspond ici aux sommets d'un pavé droit, on récupère dont ses coordonnées limites
@@ -188,7 +188,9 @@ class VueMatriceArene(object):
 
                     if s_xmin <= p.x <= s_xmax and s_ymin <= p.y <= s_ymax:
                         matrice2d[x][y] = 1
+
         self.matrice = matrice2d
+
         return matrice2d
 
     def __repr__(self):

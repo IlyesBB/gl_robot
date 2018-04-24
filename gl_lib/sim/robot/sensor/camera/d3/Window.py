@@ -52,7 +52,7 @@ class Window(pyglet.window.Window):
         self.camera = camera
         if arene is None:
             self.model = Model(self.camera.arene)
-        pyglet.clock.schedule_interval(update, PAS_TEMPS/5)
+        pyglet.clock.schedule_interval(self.update, PAS_TEMPS/2)
 
     def on_draw(self):
         self.clear()
@@ -61,7 +61,7 @@ class Window(pyglet.window.Window):
         push(self.camera.centre, self.camera.direction)
         self.model.draw()
         glPopMatrix()
+
+    def update(self,dt):
         self.camera.picture()
 
-def update(dt):
-    pass

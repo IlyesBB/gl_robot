@@ -1,8 +1,10 @@
 from gl_lib.sim.geometry import Arene, AreneFermee, Pave, Polygone3D
-from gl_lib.sim.geometry.point import Point, Vecteur
+
+from gl_lib.sim.geometry import Point, Vecteur
 from math import pi
 from gl_lib.sim.robot import Robot
 from gl_lib.config import RES_M
+
 
 
 class VueMatriceArene(object):
@@ -55,7 +57,6 @@ class VueMatriceArene(object):
                 # ls: [Point]
                 ls = obj.clone().vertices
                 inclinaison_m = (ls[0] - ls[1]).to_vect().diff_angle(ox)
-
                 ls= obj.clone().rotate(inclinaison_m).vertices
 
             elif issubclass(type(obj), Robot):
