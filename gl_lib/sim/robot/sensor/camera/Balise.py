@@ -20,5 +20,5 @@ class Balise(Objet3D):
         self.height=height
         self.length=length
 
-
-
+    def clone(self):
+        return Balise(self.width, self.length, self. height, colors=list(self.colors))

@@ -17,7 +17,7 @@ class TournerVersBalise(Tourner, StrategieVision):
     """
     # Précision en degrés avec laquelle n considère que la balise est devant
     PRECISION = 5
-    INIT = {"prev_res": None, "balise": Balise().clone(), "cpt": 0, "cpt_before_picture": DT_SCREENSHOT,
+    INIT = {"prev_res": None, "balise": Balise(), "cpt": 0, "cpt_before_picture": DT_SCREENSHOT,
             "cpt_not_found": 0}
     KEYS = set(Tourner.KEYS + ["prev_res", "balise", "cpt", "cpt_before_picture", "cpt_not_found"] + StrategieVision.KEYS)
 

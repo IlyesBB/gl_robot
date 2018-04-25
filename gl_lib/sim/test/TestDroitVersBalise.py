@@ -25,12 +25,12 @@ class TestDroitVersBalise(unittest.TestCase):
         obs = RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=(self.target.centre-p0).to_vect())
         strat_obs = StrategieVision(robot=obs, arene=self.strat.arene)
 
-        #td = Thread(target=self.strat.start_3D)
-        td2 = Thread(target=strat_obs.start_3D)
-        sim = Simulation([self.strat2, strat_obs], tmax=35, final_actions=[self.strat.stop_3D])
+        td = Thread(target=self.strat.start_3D)
+        td_obs = Thread(target=strat_obs.start_3D)
+        sim = Simulation(strategies=[self.strat2, self.strat], tmax=35, final_actions=[self.strat.stop_3D])
 
-        #td.start()
-        td2.start()
+        td.start()
+        #td_obs.start()
         while not self.strat.robot.tete.sensors["cam"].is_set and not strat_obs.robot.tete.sensors["cam"].is_set:
             pass
         sim.start()
