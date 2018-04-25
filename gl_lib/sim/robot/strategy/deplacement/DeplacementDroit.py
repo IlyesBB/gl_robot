@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 
@@ -95,6 +96,12 @@ class DeplacementDroit(StrategieDeplacement):
     def stop(self):
         return not self.advancing
 
+    def __str__(self):
+        d_str = StrategieDeplacement.__str__(self)
+        s = d_str[:len(d_str)-1]+"\n"
+        s += "-advancing: {}; distance: {}".format(self.advancing, self.distance)
+        return s
+
 
 class DeplacementDroitAmeliore(DeplacementDroit):
     INIT = {'proximite_max': 1.0, 'last_detected': None}
@@ -150,6 +157,9 @@ class DeplacementDroitAmeliore(DeplacementDroit):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=DeplacementDroitAmeliore.hook)
 
+    def __str__(self):
+        return DeplacementDroit.__str__(self)+"; last_detected: {}".format(self.last_detected)
+
 
 class DDroitAmelioreVision(DeplacementDroitAmeliore, StrategieVision):
     def __init__(self, robot, distance, arene):
@@ -174,14 +184,14 @@ if __name__ == '__main__':
     # a.add(r)
 
     strat = DeplacementDroit(robot=r, distance_max=3)
-    s = Simulation(strat)
+    s = Simulation([strat])
     # s.start()
     while not s.stop:
         pass
 
-    dda = DeplacementDroitAmeliore(robot=RobotMotorise(), arene=Arene())
+    dda = DeplacementDroit(robot=RobotMotorise())
     d = dda.__dict__()
     dda.save("deplacement_droit.json")
 
-    dda2 = DeplacementDroitAmeliore.load("deplacement_droit.json")
+    dda2 = DeplacementDroit.load("deplacement_droit.json")
     print(dda2)

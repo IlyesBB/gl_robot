@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from gl_lib.sim.geometry import Objet3D
 from gl_lib.sim.geometry import *

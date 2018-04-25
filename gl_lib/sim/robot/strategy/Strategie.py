@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import os
 from collections import OrderedDict
@@ -13,7 +14,9 @@ class Strategie(Serializable):
     definit une strategy de robot de facon abstraite
     """
     robot = ...  # type: RobotMotorise
-
+    ARGS = ["robot"]
+    KEYS = ["robot"]
+    INIT = {"robot":None}
     def __init__(self, robot: RobotMotorise):
         """
         robot : Robot
@@ -58,11 +61,13 @@ class Strategie(Serializable):
             if isinstance(d[k], list) and len(d[k]) > 0:
                 s += k + " :\n"
                 for i in range(len(d[k])):
-                    s += "\t" + str(d[k][i]) + "\n"
+                    s += "\t" + repr(d[k][i]) + "\n"
             else:
-                s += k + " : " + str(d[k]) + "\n"
+                s += k + " : " + repr(d[k]) + "\n"
         return s
 
+    def __str__(self):
+        return "{};\n-robot: {}".format(self.__class__.__name__, self.robot)
 
 if __name__=='__main__':
     s = Strategie(RobotMotorise())

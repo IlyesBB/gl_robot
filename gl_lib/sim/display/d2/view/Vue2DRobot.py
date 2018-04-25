@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.display.d2.view import Vue2DPave, Vue2DVecteur
 from gl_lib.sim.display.d2.view.Vue2D import Vue2D
 from gl_lib.sim.geometry import *

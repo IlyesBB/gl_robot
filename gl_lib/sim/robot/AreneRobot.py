@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
-
 from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
 

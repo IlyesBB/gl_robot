@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Vue2D(object):
     """
     Classe abstraite defisissant les methodes des vues 2D

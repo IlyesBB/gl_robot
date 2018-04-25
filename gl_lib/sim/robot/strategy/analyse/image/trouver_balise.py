@@ -1,10 +1,8 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 from PIL import Image
 
 from gl_lib.sim.geometry import *
-import imageio as imo
-import os
-from math import pi, sqrt
 from gl_lib.config import RATIO_SEARCH_SCREENSHOT
 
 

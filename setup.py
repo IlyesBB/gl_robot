@@ -10,9 +10,9 @@ setup(
  
     packages=find_packages(),
  
-    author="Gurren Lagann Team",
+    author="2I013_GLteam_2I018",
  
-    #author_email="lesametlemax@gmail.com",
+    #author_email="adresse@gmail.com"
  
     # Une description courte
     description="bibliothèque permettant la mise en mouvement d'un robot",

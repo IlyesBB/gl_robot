@@ -1,5 +1,7 @@
-import json
+# -*- coding: utf-8 -*-
 
+
+import json
 class Clonable(object):
     def clone(self):
         return None

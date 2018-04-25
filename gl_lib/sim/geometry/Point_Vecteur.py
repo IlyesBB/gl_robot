@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from math import *
 from gl_lib.config import PIX_PAR_M
@@ -78,7 +79,7 @@ class Point(object):
         return "Point(x={}, y={}, z={})".format(self.x, self.y, self.z)
 
     def __str__(self):
-        return "({:6.6}, {:6.6}, {:6.6})".format(self.x, self.y, self.z)
+        return "p({:6.6},{:6.6},{:6.6})".format(self.x, self.y, self.z)
 
     def __getattr__(self, nom):
         """
@@ -386,7 +387,7 @@ class Vecteur(object):
         return "Vecteur(x={}, y={}, z={})".format(self.x, self.y, self.z)
 
     def __str__(self):
-        return "->({:6.6}, {:6.6}, {:6.6})".format(self.x, self.y, self.z)
+        return "v({:6.6},{:6.6},{:6.6})".format(self.x, self.y, self.z)
 
     def __getattr__(self, nom):
         """

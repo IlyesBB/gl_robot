@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .Camera import Camera
 from .Balise import Balise
 from . import d3

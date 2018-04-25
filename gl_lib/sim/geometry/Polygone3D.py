@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 
@@ -56,7 +57,6 @@ class Polygone3D(Objet3D):
         if self.vertices is not None and n>0:
             dct["vertices"] = [0]*n
             for i in range(n):
-                dv = self.vertices[i].__dict__()
                 dct["vertices"][i] = self.vertices[i].__dict__()
 
         else:

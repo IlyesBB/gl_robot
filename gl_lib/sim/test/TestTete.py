@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from unittest import TestCase
 from gl_lib.sim.robot import Tete
 from gl_lib.sim.geometry import Vecteur, fonctions

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.sensor import VueMatriceArene
 import unittest
 import random

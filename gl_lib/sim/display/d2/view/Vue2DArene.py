@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.display.d2.view import Vue2DRobot, Vue2DRobotPhysique, Vue2DPave, Vue2D
 from gl_lib.sim.geometry import Arene, Pave
 from gl_lib.sim.robot import *

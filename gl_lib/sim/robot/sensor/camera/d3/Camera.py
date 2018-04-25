@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from pyglet.gl import *
 from pyglet.window import key
 import math

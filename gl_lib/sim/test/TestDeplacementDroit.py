@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit
 from gl_lib.sim.robot import RobotMotorise, Tete

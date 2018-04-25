@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 from PIL import Image
 
 from pyglet.gl import *
 from pyglet.window import key
 from math import pi
 from gl_lib.sim.robot.sensor.camera.d3 import Model
-from gl_lib.config import PIX_PAR_M, PAS_TEMPS
+from gl_lib.config import PIX_PAR_M_3D, PAS_TEMPS
 from gl_lib.sim.geometry import *
 
 def projection():
@@ -24,7 +25,7 @@ def push(pos, rot):
     glRotatef(-90, 1, 0, 0)
     glRotatef(angle, 0, 0, 1)
     pos=pos.to_tuple()
-    glTranslatef(int(-pos[0]*PIX_PAR_M), int(-pos[1]*PIX_PAR_M), int(-pos[2]*PIX_PAR_M), )
+    glTranslatef(int(-pos[0]*PIX_PAR_M_3D), int(-pos[1]*PIX_PAR_M_3D), int(-pos[2]*PIX_PAR_M_3D), )
 
 
 class Window(pyglet.window.Window):

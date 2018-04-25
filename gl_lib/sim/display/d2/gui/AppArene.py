@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 from gl_lib.sim import Simulation
 from gl_lib.sim.geometry import *

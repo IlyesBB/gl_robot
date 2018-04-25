@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .ApproximableAPave import ApproximableAPave
 from .PaveTarget import PaveTarget
 from .fonctions import atan2, signe, positive_angle

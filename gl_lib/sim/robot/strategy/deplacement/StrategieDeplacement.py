@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.strategy.Strategie import Strategie
 from gl_lib.sim.robot import Tete, Robot
 from threading import RLock

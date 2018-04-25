@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.strategy import Strategie
 from gl_lib.sim.robot import RobotMotorise, Tete
 from gl_lib.sim.robot.sensor import *

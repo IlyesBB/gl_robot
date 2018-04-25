@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .Model import Model
 from .Window import Window
 

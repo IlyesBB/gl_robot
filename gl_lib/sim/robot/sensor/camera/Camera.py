@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 
@@ -136,6 +137,9 @@ class Camera(Capteur):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Camera.hook)
 
+    def __str__(self):
+        s = "({}; is_running: {}; cpt: {})".format(self.__class__.__name__, self.is_running, self.cpt)
+        return s
 
 if __name__ == '__main__':
 

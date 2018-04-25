@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.sensor.camera.d3 import Window
 from gl_lib.sim.robot.sensor.camera import Camera
 import unittest

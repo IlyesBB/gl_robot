@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.geometry import *
 
 
@@ -10,6 +11,7 @@ class Balise(Objet3D):
         Initialise une balise avec 4 couleurs
         :param couleurs: [tuple[4]] (r, g, v, o)
         """
+        Objet3D.__init__(self, centre=Point(0,0,0))
         if colors is None:
             colors = [(255, 0, 0, 255), (0, 255, 0, 255), (255, 255, 0, 255), (0, 0, 255, 255)]
         self.colors=colors

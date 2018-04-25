@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .Vue2D import Vue2D
 from .Vue2DVecteur import Vue2DVecteur
 from .Vue2DPave import Vue2DPave

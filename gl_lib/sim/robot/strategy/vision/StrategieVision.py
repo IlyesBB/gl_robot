@@ -1,11 +1,15 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 
 from gl_lib.sim.robot.strategy import Strategie
-from gl_lib.sim.robot import Tete, AreneRobot, RobotMotorise
+from gl_lib.sim.robot import AreneRobot, RobotMotorise
 from threading import RLock
 
 class StrategieVision(Strategie):
+    ARGS = ["arene"]
+    KEYS = Strategie.KEYS + ["arene"]
+    INIT = {"arene":None}
     def __init__(self, robot:RobotMotorise, arene):
         Strategie.__init__(self, robot)
         self.arene=arene
@@ -13,7 +17,6 @@ class StrategieVision(Strategie):
 
     def start_3D(self):
         self.robot.tete.sensors["cam"].run()
-
 
     def stop_3D(self):
         self.robot.tete.sensors["cam"].stop()
@@ -24,8 +27,6 @@ class StrategieVision(Strategie):
             pass
         self.robot.tete.sensors["cam"].picture()
         self.robot.tete.sensors["cam"].print_picture(filename)
-
-
 
     def update(self):
         pass

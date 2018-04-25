@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import random
 from gl_lib.sim.geometry import *
 from gl_lib.sim.robot.sensor import CapteurIR

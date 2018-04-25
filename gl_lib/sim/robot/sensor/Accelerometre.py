@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 
@@ -96,6 +97,11 @@ class Accelerometre(Capteur):
     def clone(self):
         p=self.prev_pos.clone() if self.prev_pos is not None else None
         return Accelerometre(self.centre.clone(), self.direction.clone(), p, self.speed.clone(), self.acc.clone())
+
+    def __str__(self):
+        s = "({}; sp: {} ; acc: {})".format(self.__class__.__name__, self.speed, self.acc)
+        return s
+
 
 if __name__ == '__main__':
     a=Accelerometre()

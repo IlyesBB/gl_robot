@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.display.d2.view.Vue2D import Vue2D
 from gl_lib.sim.geometry import Pave
-from gl_lib.config import PIX_PAR_M
+from gl_lib.config import PIX_PAR_M_2D
 
 class Vue2DPave(Vue2D):
     """Constructeur de la view
@@ -14,7 +15,7 @@ class Vue2DPave(Vue2D):
         il est suppose que les sommets du pave sont ranges dans le bon ordre (anti-horaire)
         et que les 4 premiers sont les plus hauts
         """
-        self.pave=Pave(width=pave.width * PIX_PAR_M, length=pave.length * PIX_PAR_M, height=pave.height * PIX_PAR_M, centre=pave.centre * PIX_PAR_M)
+        self.pave=Pave(width=pave.width * PIX_PAR_M_2D, length=pave.length * PIX_PAR_M_2D, height=pave.height * PIX_PAR_M_2D, centre=pave.centre * PIX_PAR_M_2D)
         self.pave.rotate((pave.vertices[1] - pave.vertices[0]).to_vect().get_angle())
         self.cotes=list()
         for i in range(0,3):

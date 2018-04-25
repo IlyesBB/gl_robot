@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from math import atan, pi, acos, sqrt, cos, sin
 import os
 import subprocess

@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import unittest
 from gl_lib.sim.robot import RobotMotorise, RobotTarget
-from gl_lib.sim.robot.strategy.deplacement import DeplacementCarre, DeplacementCercle
+from gl_lib.sim.robot.strategy.deplacement import DeplacementCarre, DeplacementCercle, Tourner
 from gl_lib.sim.robot.strategy.deplacement.balise import DroitVersBaliseVision
 from gl_lib.sim.robot.strategy.vision import StrategieVision
 from gl_lib.sim.robot.sensor.camera import Balise
@@ -16,15 +17,21 @@ class TestDroitVersBalise(unittest.TestCase):
         p0 = Point(0.5,0.5,0.6)
         self.strat = DroitVersBaliseVision(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v2.clone()), AreneFermee(3,3,3))
         self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
-        self.strat2 = DeplacementCercle(self.target, 360, 1, 120)
+        self.strat2 = Tourner(robot=self.target, angle_max= 360, diametre= 1,vitesse= 120)
         self.strat.arene.add(self.target)
 
     def test_vis(self):
-        td = Thread(target=self.strat.start_3D)
-        sim = Simulation([self.strat, self.strat2], tmax=10, final_actions=[self.strat.stop_3D])
+        p0=Point(0.5, 2.5, 0.5)
+        obs = RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=(self.target.centre-p0).to_vect())
+        strat_obs = StrategieVision(robot=obs, arene=self.strat.arene)
 
-        td.start()
-        while not self.strat.robot.tete.sensors["cam"].is_set:
+        #td = Thread(target=self.strat.start_3D)
+        td2 = Thread(target=strat_obs.start_3D)
+        sim = Simulation([self.strat2, strat_obs], tmax=35, final_actions=[self.strat.stop_3D])
+
+        #td.start()
+        td2.start()
+        while not self.strat.robot.tete.sensors["cam"].is_set and not strat_obs.robot.tete.sensors["cam"].is_set:
             pass
         sim.start()
 

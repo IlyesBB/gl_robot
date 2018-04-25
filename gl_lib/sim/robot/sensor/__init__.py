@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .Capteur import Capteur
 from .Accelerometre import Accelerometre
 from .CapteurIR import VueMatriceArene, CapteurIR

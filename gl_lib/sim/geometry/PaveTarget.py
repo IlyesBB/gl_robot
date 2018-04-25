@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.geometry import ApproximableAPave
 
 class PaveTarget(ApproximableAPave):

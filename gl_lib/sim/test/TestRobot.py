@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 import random
 from gl_lib.sim.robot import Robot

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from tkinter import *
 from gl_lib.sim.geometry import Arene, Pave, Objet3D
 from gl_lib.sim.display.d2.view import *

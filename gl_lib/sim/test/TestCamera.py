@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 
 from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot.sensor.camera import Camera

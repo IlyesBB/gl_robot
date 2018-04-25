@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from threading import Thread
 from unittest import TestCase
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, DDroitAmelioreVision

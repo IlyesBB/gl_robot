@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit, Tourner
 from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot import Tete
@@ -15,8 +16,8 @@ class DeplacementCarre(DeplacementDroit, Tourner):
 
         :param robot:
         """
-        Tourner.__init__(self, robot, 90)
-        DeplacementDroit.__init__(self, robot, cote)
+        Tourner.__init__(self, robot=robot, angle=90)
+        DeplacementDroit.__init__(self, robot=robot, distance_max=cote)
 
         self.cpt_turn = 1
         self.turning = False

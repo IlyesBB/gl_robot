@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from collections import OrderedDict
 from time import sleep
@@ -84,11 +85,16 @@ class Pave(Polygone3D, ApproximableAPave):
         return True
 
 
-    def str(self):
-        s= "Pave ({:6.6}, {:6.6}, {:6.6})," \
-           " at ({}), rotated {} degres\n".format(self.width, self.length, self.height, str(self.centre),
-                                         int(self.get_inclinaisont()*180/pi))
-        return s
+    def __str__(self):
+        """
+        Renvoi une version plus lisible que repr du pavé sous forme de chaine de caractères
+        :return:
+        """
+        s = "("+self.__class__.__name__
+        s += "({:6.6},{:6.6},{:6.6});  vertices: ".format(self.width, self.length, self.height)
+        for i in range(int(len(self.vertices)/2)):
+            s += "n{}({:6.6},{:6.6}) ".format(i, self.vertices[i].x, self.vertices[i].y)
+        return s+")"
 
     def get_inclinaisont(self):
         return (self.vertices[1]-self.vertices[0]).to_vect().diff_angle(Vecteur(1,0,0))
@@ -131,10 +137,10 @@ class Pave(Polygone3D, ApproximableAPave):
 
 
 if __name__ == '__main__':
-    p = Pave(1, 1, 0)
+    p = Pave(150, 200, 0)
     p.save("pave.json")
     sleep(3)
     dct = p.__dict__()
 
     p3 = Pave.load("pave.json")
-    print(p3)
+    print(str(p3))

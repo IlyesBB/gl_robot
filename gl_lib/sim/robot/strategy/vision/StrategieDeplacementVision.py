@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.robot.strategy.deplacement import StrategieDeplacement
 from gl_lib.sim.robot.strategy.vision import StrategieVision
 

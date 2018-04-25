@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.geometry import Pave, Point, Vecteur
 from math import pi
 import unittest

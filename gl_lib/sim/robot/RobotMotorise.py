@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 from _thread import RLock
 from collections import OrderedDict
@@ -30,7 +31,8 @@ class RobotMotorise(Robot):
         self.set_wheels_rotation(3, 0)
 
     def __str__(self):
-        s = str(RobotMotorise.__name__)+", at "+str(self.centre)+", directed to "+str(self.direction)+"\n"
+        r_str = Robot.__str__(self)
+        s = r_str[:len(r_str)-1]+"\n-tete:"+str(self.tete)
         return s
 
     # ports: 1 pour roue gauche, 2 pour roue droite
@@ -159,6 +161,7 @@ class RobotMotorise(Robot):
 
     def clone(self):
         return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(), self.tete.clone())
+
 
 if __name__ == '__main__':
     def test_mecanism():

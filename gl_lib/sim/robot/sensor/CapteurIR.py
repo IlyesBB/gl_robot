@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import json
 import os
 import pdb
@@ -96,6 +97,10 @@ class CapteurIR(Capteur):
             return False
         return True
 
+    def __str__(self):
+        s = "{}; portee: {}".format(self.__class__.__name__, self.portee)
+        return s
+
 class VueMatriceArene(object):
     """Classe destinée à contenir les informations de la portion de l'arène à afficher, et les méthode pour
         produire la matrice correcpondante
@@ -193,16 +198,19 @@ class VueMatriceArene(object):
 
         return matrice2d
 
+    def __str__(self):
+        ox = self.ox.clone()
+        if self.ajuste:
+            ox.rotate(-pi / 4)
+        s = "{}; origine: {}; Ox:".format(self.__class__.__name__, self.origine, self.ox)
+        return s
+
     def __repr__(self):
         """
         Retourne une chaine décrivant précisemment la vue et la dernière matrice
         :return: string
         """
-        ox = self.ox.clone()
-        if self.ajuste:
-            ox.rotate(-pi/4)
-        s="ox: "+str(ox)+"\n"
-        s+="origine: "+str(self.origine)+"\n"
+        s=str(self)+"\n"
         if self.matrice is not None:
             for i in range(len(self.matrice)):
                 s += str(self.matrice[i])+"\n"
@@ -238,6 +246,8 @@ class VueMatriceArene(object):
     def load(filename):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=VueMatriceArene.hook)
+
+
 
 if __name__ == '__main__':
     from gl_lib.sim.robot import RobotMotorise, Tete

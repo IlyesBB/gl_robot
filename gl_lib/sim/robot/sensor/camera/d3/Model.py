@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 from PIL import Image
 from pyglet.gl import *
 from gl_lib.sim.robot.sensor.camera import Balise
-from gl_lib.config import PIX_PAR_M, REPNAME_TEXTURES
+from gl_lib.config import PIX_PAR_M_3D, REPNAME_TEXTURES
 from gl_lib.sim.geometry import *
 from gl_lib.sim.geometry import fonctions
 import os
@@ -27,7 +28,7 @@ class Model:
         os.chdir(cur_dir)
 
         if isinstance(arene, AreneFermee):
-            X, Y, Z = arene.width * PIX_PAR_M, arene.length * PIX_PAR_M, arene.height * PIX_PAR_M
+            X, Y, Z = arene.width * PIX_PAR_M_3D, arene.length * PIX_PAR_M_3D, arene.height * PIX_PAR_M_3D
             p = Pave(X,Y,Z)
             p.move(p.vertices[4].to_vect()*-1)
             #im = Image.open('grey.png')
@@ -68,7 +69,7 @@ class Model:
 
         tex_coords = texture_coords if texture_coords is not None else ('t2f/static', (0, 0, 1, 0, 1, 1, 0, 1))
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
 
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         l_objs = list()
@@ -91,7 +92,7 @@ class Model:
         self.side = self.l_textures[0]
         self.rear = self.l_textures[5]
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
 
         l_objs = list()
         for l in range(len(l_ln)):
@@ -119,7 +120,7 @@ class Model:
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M).clone()
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
@@ -127,6 +128,30 @@ class Model:
                                         p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)
             lvertices.append(vertices)
         return lvertices
+
+
+class DynamicPave(Pave):
+    def __init__(self, **kwargs):
+        Pave.__init__(**kwargs)
+        self.quads ={"haut":[0, 1, 2, 3], "arriere":[0, 3, 7, 4], "face":[1, 5, 6, 2], "bas":[4, 5, 6, 7], "droite":[0, 4, 5, 1], "gauche":[3, 2, 6, 7]}
+        for key in self.quads.keys():
+            self.quads[key] = [self.quads[key], ]
+        self.vertices = pyglet.graphics.vertex_list(())
+
+    def get_vertices(self, pave):
+        l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
+        lvertices = list()
+        p=pave.clone()
+        for i in range(len(p.vertices)):
+            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+        for l in range(len(l_ln)):
+            vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
+                                        p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
+                                        p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
+                                        p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)
+            lvertices.append(vertices)
+        return lvertices
+
 
 if __name__ == '__main__':
     from gl_lib.sim import Simulation

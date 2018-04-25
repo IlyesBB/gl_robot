@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gl_lib.sim.geometry import Point, Vecteur
 import unittest
 import random as rm

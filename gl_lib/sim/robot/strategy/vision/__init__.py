@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .StrategieVision import StrategieVision
 from .StrategieDeplacementVision import StrategieDeplacementVision
 
