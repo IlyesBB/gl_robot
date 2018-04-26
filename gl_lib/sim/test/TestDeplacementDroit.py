@@ -12,13 +12,13 @@ from math import pi
 class TestDeplacementDroit(unittest.TestCase):
     def setUp(self):
         self.distance = 1
-        self.strat=DeplacementDroit(RobotMotorise(Pave(1,1,1,Point(3,3,0))), self.distance)
+        self.strat=DeplacementDroit(robot=RobotMotorise(pave=Pave(1,1,1,Point(3,3,0))), distance_max=self.distance)
         self.arene = Arene()
         self.arene.add(self.strat.robot)
 
     def test_sim_2D(self):
         p=self.strat.robot.centre.clone()
-        sim=Simulation(self.strat)
+        sim=Simulation(strategies=[self.strat])
         app=AppAreneThread(self.arene)
         sim.start()
         app.start()
@@ -30,7 +30,5 @@ class TestDeplacementDroit(unittest.TestCase):
         dist = (self.strat.robot.centre-p).to_vect().get_mag()
         self.assertLess(abs(dist-self.distance), abs(dps_wheels[0])*(pi/180)*PAS_TEMPS*self.strat.robot.rd.diametre/2)
 
-
-
-
-
+if __name__ == '__main__':
+    unittest.main()

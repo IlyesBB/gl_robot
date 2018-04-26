@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stratégies de déplacement &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gl_lib.sim.robot.strategy.deplacement">
+<span id="strategies-de-deplacement"></span><h1>Stratégies de déplacement<a class="headerlink" href="#module-gl_lib.sim.robot.strategy.deplacement" title="Lien permanent vers ce titre">¶</a></h1>
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">DeplacementCercle</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Dirige le robot pour dessiner un cercle, approximé par un polygone dont tous les points sont sur ce cercle</p>
+<p>Le robot commence à dessiner le cercle dans le sens de sa direction</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement">
+<code class="descname">init_movement</code><span class="sig-paren">(</span><em>angle_max</em>, <em>diametre_cercle=1</em>, <em>dps_moy=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.init_movement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Initilise la trajectoire circulaire</p>
+<p>On Initialise les vitesses en résolvant un système à deux équations, du fait qu&#8217;on connaît le diamètre,
+et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses
+:param angle_max: float (°)
+:param diametre_cercle: float (m)
+:param dps_moy: (°/s)
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.Tourner">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">Tourner</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/Tourner.html#Tourner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.Tourner" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Fais décrire au robot un carré de coté 70 cm</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">StrategieDeplacement</code><span class="sig-paren">(</span><em>robot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/StrategieDeplacement.html#StrategieDeplacement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>definit une strategy de deplacement de facon abstraite</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">DeplacementDroit</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Fais avancer un robot en argument sur une certaine distance</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Met à jour la robot, et mesure la distance parcourue
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Cette page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/deplacement.txt"
+            rel="nofollow">Montrer le code source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/deplacement.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

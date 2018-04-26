@@ -23,3 +23,6 @@ class TestObjet3D(unittest.TestCase):
 
         obj.centre=None
         self.assertNotEqual(obj.centre, self.obj.centre)
+
+if __name__ == '__main__':
+    unittest.main()

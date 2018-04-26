@@ -7,21 +7,18 @@ from gl_lib.sim.geometry import *
 
 class RobotTarget(RobotMotorise, PaveTarget):
     """
-    Robot destiné à avoir une balise sur le dos
+        Robot destiné à avoir une balise accorchée sur lui
     """
     def __init__(self, pave=Pave(1,1,1),rg=Roue(0.25),rd=Roue(0.25), direction=Vecteur(1,1,0).norm(), tete:Tete=Tete(), balise=None):
         """
 
-        :param balise:
+        :param balise: Contient les couleurs à afficher
         """
         RobotMotorise.__init__(self, pave, rg, rd, direction, tete)
         self.balise=balise
 
     def get_face(self):
         return 1
-
-    def get_target(self):
-        return self.balise
 
     def __dict__(self):
         dct = OrderedDict()
@@ -34,6 +31,9 @@ class RobotTarget(RobotMotorise, PaveTarget):
         dct["rg"] = self.rg.__dict__()
         dct["rd"] = self.rd.__dict__()
         return dct
+
+    def get_target(self):
+        return self.balise
 
     @staticmethod
     def hook(dct):

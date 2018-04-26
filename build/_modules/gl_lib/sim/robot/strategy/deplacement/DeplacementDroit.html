@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>gl_lib.sim.robot.strategy.deplacement.DeplacementDroit &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="../../../../../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../../../_static/translations.js"></script>
+    <link rel="index" title="Index" href="../../../../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../../../../search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="../../../../../../index.html" />
+    <link rel="up" title="Code du module" href="../../../../../index.html" />
+   
+  <link rel="stylesheet" href="../../../../../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Code source de gl_lib.sim.robot.strategy.deplacement.DeplacementDroit</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+
+<span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy</span> <span class="k">import</span> <span class="n">Strategie</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy.deplacement</span> <span class="k">import</span> <span class="n">StrategieDeplacement</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy.vision</span> <span class="k">import</span> <span class="n">StrategieVision</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.robot</span> <span class="k">import</span> <span class="n">RobotMotorise</span><span class="p">,</span> <span class="n">Tete</span><span class="p">,</span> <span class="n">RobotTarget</span>
+<span class="kn">from</span> <span class="nn">gl_lib.config</span> <span class="k">import</span> <span class="n">PAS_TEMPS</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Point</span><span class="p">,</span> <span class="n">Arene</span>
+<span class="kn">from</span> <span class="nn">gl_lib.config</span> <span class="k">import</span> <span class="n">PIX_PAR_M</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sin</span><span class="p">,</span> <span class="n">pi</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">sqrt</span>
+
+
+<span class="k">def</span> <span class="nf">my_print</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+
+
+<div class="viewcode-block" id="DeplacementDroit"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit">[docs]</a><span class="k">class</span> <span class="nc">DeplacementDroit</span><span class="p">(</span><span class="n">StrategieDeplacement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fais avancer un robot en argument sur une certaine distance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">advancing</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># type: bool</span>
+    <span class="n">posDepart</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># type: Point</span>
+    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;advancing&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;distance&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;distance_max&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;vitesse&#39;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="s1">&#39;posDepart&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="n">KEYS</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="n">KEYS</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;advancing&quot;</span><span class="p">,</span> <span class="s2">&quot;distance&quot;</span><span class="p">,</span> <span class="s2">&quot;distance_max&quot;</span><span class="p">,</span> <span class="s2">&quot;posDepart&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Prend en argument obligatoire un robot. Par défaut, la classe commande le robot pour avancer sur un mètre</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">INIT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">INIT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;robot&quot;</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;advancing&quot;</span><span class="p">]</span>  <span class="c1"># Booléen indiquant si le robot est en marche</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;distance&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_max</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;distance_max&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posDepart</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;posDepart&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">KEYS</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dct</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DeplacementDroit</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">distance_max</span><span class="p">,</span> <span class="n">vitesse</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Booléen indiquant si le robot est en marche</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_max</span> <span class="o">=</span> <span class="n">distance_max</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">posDepart</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">forme</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">vitesse</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">reset_wheels_angles</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DeplacementDroit.update"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Met à jour la robot, et mesure la distance parcourue</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_wheels_rotations</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_wheels_rotations</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span> <span class="o">*</span> \
+                <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">diametre</span><span class="p">)</span> <span class="o">*</span> <span class="n">PAS_TEMPS</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">+=</span> <span class="n">d</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_max</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="c1"># print(&quot;Done advancing &quot;, self.distance, &quot; meters&quot;)</span>
+                <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance_max</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">distance</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">reset_wheels_angles</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">d_str</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">d_str</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">d_str</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;-advancing: </span><span class="si">{}</span><span class="s2">; distance: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+<span class="k">class</span> <span class="nc">DeplacementDroitAmeliore</span><span class="p">(</span><span class="n">DeplacementDroit</span><span class="p">):</span>
+    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;proximite_max&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s1">&#39;last_detected&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
+    <span class="n">ARGS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;robot&quot;</span><span class="p">,</span> <span class="s2">&quot;arene&quot;</span><span class="p">]</span>
+    <span class="n">KEYS</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">KEYS</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;last_detected&quot;</span><span class="p">,</span><span class="s2">&quot;proximite_max&quot;</span><span class="p">,</span> <span class="s2">&quot;arene&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">ARGS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2"> not defined&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">INIT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">INIT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+        <span class="c1"># robot, distance_max, arene, proximite_max=None, advancing=True, distance=0, posDepart:Point=None, last_detected = None</span>
+        <span class="n">DeplacementDroit</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span> <span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;arene&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;proximite_max&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;last_detected&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;ir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_mesure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arene</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span><span class="p">:</span>
+                    <span class="c1"># print(&quot;Obstacle ahead detected ( &quot;, res, &quot; meters )&quot;)</span>
+                    <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">KEYS</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dct</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">RobotTarget</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span>
+        <span class="k">elif</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DeplacementDroitAmeliore</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;; last_detected: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">DDroitAmelioreVision</span><span class="p">(</span><span class="n">DeplacementDroitAmeliore</span><span class="p">,</span> <span class="n">StrategieVision</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">,</span> <span class="n">distance</span><span class="p">,</span> <span class="n">arene</span><span class="p">):</span>
+        <span class="n">StrategieVision</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">,</span> <span class="n">arene</span><span class="p">)</span>
+        <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="o">=</span><span class="n">robot</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="n">distance</span><span class="p">,</span> <span class="n">arene</span><span class="o">=</span><span class="n">arene</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim.robot</span> <span class="k">import</span> <span class="n">RobotMotorise</span><span class="p">,</span> <span class="n">Tete</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="o">*</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy.deplacement</span> <span class="k">import</span> <span class="n">DeplacementDroitAmeliore</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim</span> <span class="k">import</span> <span class="n">Simulation</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">v</span> <span class="o">*</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="o">-</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Arene</span><span class="p">()</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="c1"># a.add(r)</span>
+
+    <span class="n">strat</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">distance_max</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">([</span><span class="n">strat</span><span class="p">])</span>
+    <span class="c1"># s.start()</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="n">dda</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">RobotMotorise</span><span class="p">())</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">dda</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+    <span class="n">dda</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;deplacement_droit.json&quot;</span><span class="p">)</span>
+
+    <span class="n">dda2</span> <span class="o">=</span> <span class="n">DeplacementDroit</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;deplacement_droit.json&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">dda2</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../../../../../index.html">Documentation overview</a><ul>
+  <li><a href="../../../../../index.html">Code du module</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="../../../../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

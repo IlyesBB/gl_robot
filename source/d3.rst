@@ -1,0 +1,4 @@
+3D
+****
+.. automodule:: gl_lib.sim.robot.sensor.camera.d3
+	:members:

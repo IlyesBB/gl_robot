@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Déplacement vers une balise (cible) &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="next" title="Stratégies de déplacement" href="deplacement.html" />
+    <link rel="prev" title="3D" href="d3.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gl_lib.sim.robot.strategy.deplacement.balise">
+<span id="deplacement-vers-une-balise-cible"></span><h1>Déplacement vers une balise (cible)<a class="headerlink" href="#module-gl_lib.sim.robot.strategy.deplacement.balise" title="Lien permanent vers ce titre">¶</a></h1>
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.balise.</code><code class="descname">TournerVersBalise</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Stratégie qui permet de tourner le robot robot vers une balise devant lui, si elle est visible
+Pour cela, on utilise les images capturée pour la caméra du robot</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.get_angle">
+<code class="descname">get_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.get_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.get_angle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Retourne 1 si la balise est à droite, -1 si elle est à gauche</p>
+<p>Si l&#8217;angle formé par le vecteur formé par le milieu bas de l&#8217;écran et le centre de la balise
+avec la verticale est supérieur à 5 degrés, la balis est considérée devant le robot
+on retourne alors 0</p>
+<p>Si aucune balise trouvée retourne None
+:return: int</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.balise.</code><code class="descname">DroitVersBalise</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Cherche une balise visible
+S&#8217;il y en à une, tourne le robot dans sa direction, puis avancejusqu&#8217;à atteindre un obstacle</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="d3.html" title="Chapitre précédent">3D</a></li>
+      <li>Next: <a href="deplacement.html" title="Chapitre suivant">Stratégies de déplacement</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Cette page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/balise.txt"
+            rel="nofollow">Montrer le code source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/balise.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

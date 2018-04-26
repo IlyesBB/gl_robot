@@ -50,3 +50,5 @@ class TestCamera(unittest.TestCase):
 
         self.obj.stop()
 
+if __name__ == '__main__':
+    unittest.main()

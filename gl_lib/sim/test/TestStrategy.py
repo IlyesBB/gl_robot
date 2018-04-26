@@ -16,3 +16,5 @@ class StrategyTest(unittest.TestCase):
         self.assertIsInstance(s.robot.tete.lcapteurs[Tete.CAM], camera.Camera, None)
         self.assertIsInstance(s.robot.tete.lcapteurs[Tete.IR], CapteurIR, None)
 
+if __name__ == '__main__':
+    unittest.main()

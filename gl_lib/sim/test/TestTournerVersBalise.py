@@ -17,7 +17,7 @@ class TestStrategieVision(unittest.TestCase):
     def setUp(self):
         v=Vecteur(1,1,0).norm()
         p0 = Point(1,1,1)
-        self.strat = TournerVersBalise(RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v.clone()), AreneFermee(3,3,3))
+        self.strat = TournerVersBalise(robot=RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=v.clone()), arene=AreneFermee(3,3,3))
         self.target = RobotTarget(pave=Pave(1,1,1, (p0.clone()+v*3+v*4)), direction=v.clone())
         self.target.rotate_all_around(self.target.centre, (20*pi/180))
         self.strat.arene.add(self.target)
@@ -27,7 +27,7 @@ class TestStrategieVision(unittest.TestCase):
     def test_vis(self):
 
         import threading
-        sim = Simulation([self.strat], tic=3, tic_display=[self.strat.robot.centre], tmax=8, final_actions=[self.strat.stop_3D])
+        sim = Simulation(strategies=[self.strat], tic=3, tic_display=[self.strat.robot.centre], tmax=8, final_actions=[self.strat.stop_3D])
 
         thd = Thread(target=self.strat.start_3D)
         thd.start()
@@ -38,4 +38,7 @@ class TestStrategieVision(unittest.TestCase):
 
 
 
+
+if __name__ == '__main__':
+    unittest.main()
 

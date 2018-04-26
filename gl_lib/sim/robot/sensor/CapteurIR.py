@@ -85,8 +85,7 @@ class CapteurIR(Capteur):
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=CapteurIR.hook)
 
-    def clone(self):
-        return CapteurIR(self.centre.clone(), self.direction.clone(), self.portee, self.arena_v.clone(), self.l_ignore)
+
 
     def __eq__(self, other):
         if self.centre != other.centre:

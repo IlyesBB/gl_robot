@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Vue 2D &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="next" title="Stratégies de visualisation 3D" href="vision.html" />
+    <link rel="prev" title="Strategie" href="strategy.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-gl_lib.sim.display.d2.view">
+<span id="vue-2d"></span><h1>Vue 2D<a class="headerlink" href="#module-gl_lib.sim.display.d2.view" title="Lien permanent vers ce titre">¶</a></h1>
+<dl class="class">
+<dt id="gl_lib.sim.display.d2.view.Vue2D">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.display.d2.view.</code><code class="descname">Vue2D</code><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2D.html#Vue2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2D" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe abstraite defisissant les methodes des vues 2D</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.display.d2.view.Vue2DVecteur">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.display.d2.view.</code><code class="descname">Vue2DVecteur</code><span class="sig-paren">(</span><em>vecteur</em>, <em>canevas</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DVecteur.html#Vue2DVecteur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DVecteur" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe contenant un vecteur et sa representation2D</p>
+<dl class="method">
+<dt id="gl_lib.sim.display.d2.view.Vue2DVecteur.afficher">
+<code class="descname">afficher</code><span class="sig-paren">(</span><em>canevas</em>, <em>position</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DVecteur.html#Vue2DVecteur.afficher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DVecteur.afficher" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>actualise la position de ligne</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.display.d2.view.Vue2DPave">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.display.d2.view.</code><code class="descname">Vue2DPave</code><span class="sig-paren">(</span><em>pave: gl_lib.sim.geometry.Pave.Pave</em>, <em>canevas</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DPave.html#Vue2DPave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DPave" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Constructeur de la view
+pave: Pave
+canevas: Canevas</p>
+<p>Cree le pave dans canevas</p>
+<dl class="method">
+<dt id="gl_lib.sim.display.d2.view.Vue2DPave.afficher">
+<code class="descname">afficher</code><span class="sig-paren">(</span><em>canevas</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DPave.html#Vue2DPave.afficher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DPave.afficher" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>met a jour les coordonnee des points</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.display.d2.view.Vue2DArene">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.display.d2.view.</code><code class="descname">Vue2DArene</code><span class="sig-paren">(</span><em>arene: gl_lib.sim.geometry.Arene.Arene</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DArene.html#Vue2DArene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DArene" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>contient tout les objets de l&#8217;arene et les affiche</p>
+<dl class="method">
+<dt id="gl_lib.sim.display.d2.view.Vue2DArene.afficher">
+<code class="descname">afficher</code><span class="sig-paren">(</span><em>canevas</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/display/d2/view/Vue2DArene.html#Vue2DArene.afficher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.display.d2.view.Vue2DArene.afficher" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>affiche les objets de l&#8217;arene sur le canevas, s&#8217;ils sont reconnus</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="strategy.html" title="Chapitre précédent">Strategie</a></li>
+      <li>Next: <a href="vision.html" title="Chapitre suivant">Stratégies de visualisation 3D</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Cette page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/view.txt"
+            rel="nofollow">Montrer le code source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/view.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

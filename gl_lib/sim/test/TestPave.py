@@ -60,3 +60,5 @@ class TestPave(unittest.TestCase):
         angle = v2.get_angle() - (self.p.vertices[1] - self.p.vertices[0]).to_vect().get_angle()
         # On veut une précision au millième
         self.assertLess(abs(abs(angle) % pi - abs(teta) % pi), 0.001, None)
+if __name__ == '__main__':
+    unittest.main()

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import unittest
 from threading import Thread
 from unittest import TestCase
 from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, DDroitAmelioreVision
@@ -28,7 +29,7 @@ class TestDroitAmeliore(TestCase):
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)
-        sim = Simulation([self.strat], final_actions=[app.stop])
+        sim = Simulation(strategies=[self.strat], final_actions=[app.stop])
 
         self.strat.init_movement(3,60)
 
@@ -55,10 +56,5 @@ class TestDroitAmeliore(TestCase):
         print("Error: ", diff, " meters")
         print("Maximum error expected: ", err_max, " meters")
 
-
-
-
-
-
-
-
+if __name__ == '__main__':
+    unittest.main()

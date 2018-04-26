@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import random
+import unittest
+
 from gl_lib.sim.geometry import *
 from gl_lib.sim.robot.sensor import CapteurIR
 from .TestCapteur import TestCapteur
@@ -74,9 +76,5 @@ class TestCapteurIR(TestCapteur):
         obj.portee = None
         self.assertNotEqual(obj, self.obj)
 
-
-
-
-
-
-
+if __name__ == '__main__':
+    unittest.main()

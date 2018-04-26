@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from PIL import Image
 
 from pyglet.gl import *
-from pyglet.window import key
 from math import pi
 from gl_lib.sim.robot.sensor.camera.d3 import Model
 from gl_lib.config import PIX_PAR_M_3D, PAS_TEMPS
 from gl_lib.sim.geometry import *
+import pyglet
 
 def projection():
     glMatrixMode(GL_PROJECTION)

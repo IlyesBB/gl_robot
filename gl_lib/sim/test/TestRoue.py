@@ -22,3 +22,5 @@ class TestRoue(unittest.TestCase):
         self.r.turn(1)
         self.assertEqual(self.r.angle, a+self.r.vitesseRot*s)
 
+if __name__ == '__main__':
+    unittest.main()

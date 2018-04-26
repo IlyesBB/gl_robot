@@ -20,7 +20,7 @@ class TestStrategieVision(unittest.TestCase):
 
     def test_vis(self):
         td = Thread(target=self.strat.start_3D)
-        sim = Simulation(self.strat)
+        sim = Simulation(strategies=[self.strat])
 
         td.start()
         sim.start()
@@ -28,3 +28,7 @@ class TestStrategieVision(unittest.TestCase):
         sleep(15)
 
         self.strat.stop_3D()
+
+    if __name__ == '__main__':
+        unittest.main()
+

@@ -129,3 +129,5 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.r.rd, rd)
         self.assertEqual(self.r.rg, rg)
 
+if __name__ == '__main__':
+    unittest.main()

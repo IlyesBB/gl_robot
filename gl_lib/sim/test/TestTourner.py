@@ -22,7 +22,7 @@ class TestTourner(unittest.TestCase):
     def test_sim(self):
         print("Initialising rotation of ", self.angle*180/pi, "degres")
         app = AppAreneThread(self.arene)
-        s = Simulation([self.strat])
+        s = Simulation(strategies=[self.strat])
         v = self.strat.robot.direction.clone()
         s.start()
         app.start()
@@ -44,4 +44,7 @@ class TestTourner(unittest.TestCase):
         print("Error: ", abs(abs(self.angle) - angle)*(180/pi), " degres")
         print("Maximal error expected: ", precision*180/pi, "degres")
         self.assertLess(abs(abs(self.angle) - angle), precision)
+
+if __name__ == '__main__':
+    unittest.main()
 

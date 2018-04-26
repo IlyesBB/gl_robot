@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Capteur &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="capteur">
+<h1>Capteur<a class="headerlink" href="#capteur" title="Lien permanent vers ce titre">¶</a></h1>
+<span class="target" id="module-gl_lib.sim.robot.sensor"></span><dl class="class">
+<dt id="gl_lib.sim.robot.sensor.Capteur">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">Capteur</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe abstraite</p>
+<p>La positione et la direction du capteur sont liées a celles de la tête s&#8217;il y en a une</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.sensor.Camera">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">Camera</code><span class="sig-paren">(</span><em>centre=Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction=Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>get_pic: bool = False</em>, <em>is_running: bool = False</em>, <em>is_set: bool = False</em>, <em>cpt: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.Camera.hook">
+<em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.hook" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.picture">
+<code class="descname">picture</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.picture" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Cette méthode est appelée à la fin de on_draw de la window</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.print_image">
+<code class="descname">print_image</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.print_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.print_image" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Enregistre la dernière image enregistrée dans le fichier de nom fname
+:param fname:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.run" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Lance l&#8217;application pyglet
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.take_picture">
+<code class="descname">take_picture</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.take_picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.take_picture" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Si aucune application n&#8217;a été lancée avant l&#8217;appel de cette fontion, une application est lancée
+:return:</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.sensor.VueMatriceArene">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">VueMatriceArene</code><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe destinée à contenir les informations de la portion de l&#8217;arène à afficher, et les méthode pour
+produire la matrice correcpondante</p>
+<p>On peut configurer l&#8217;axe Ox du repère, ainsi que l&#8217;origine, pour afficher des portions de l&#8217;arène sous forme de
+matrice</p>
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.VueMatriceArene.hook">
+<em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.hook" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>On ne copie pas la liste d&#8217;objets à ingorer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.VueMatriceArene.vueDessus">
+<code class="descname">vueDessus</code><span class="sig-paren">(</span><em>dx: int</em>, <em>ignore: gl_lib.sim.geometry.Objet3D.Objet3D = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.vueDessus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.vueDessus" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Crée une matrice d&#8217;entiers avec 1 si le point est à l&#8217;intérieur d&#8217;une forme et 0 sinon</p>
+<p>Cette méthode ne détecte que les pavés, et les robots ayant comme forme un pavé</p>
+<p>Procédure globale
+- Pour chaque objet, si on trouve un pavé:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Pour chaque point de la matrice, on vérifie s&#8217;il est dedans</li>
+</ul>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first simple">
+<li><strong>dx</strong> &#8211; Taille de la matrice</li>
+<li><strong>ignore</strong> &#8211; Liste ou simple objet à dans la matrice</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body"><p class="first last">[[int]]</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.sensor.CapteurIR">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">CapteurIR</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>portee: int = 3</em>, <em>arena_v=None</em>, <em>l_ignore=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Capteur qui renvoi la distance du prochain pavé dans la trajectoire de sa direction en mètres</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.CapteurIR.get_mesure">
+<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>arene: gl_lib.sim.geometry.Arene.Arene</em>, <em>d_ingnore=0.0</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Retourne la distance entre le sensor et le premier objet dans la matrice cf dessous
+Retourne -1 si pas d&#8217;obstacle detecte</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>arene</strong> &#8211; arène dans laquelle effectuer la mesure</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">float ou int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.CapteurIR.hook">
+<em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.hook" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.sensor.Accelerometre">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">Accelerometre</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>prev_pos: gl_lib.sim.geometry.Point_Vecteur.Point = None</em>, <em>speed: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>acc: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet de mesurer la vitesse et l&#8217;accélération du robot à un instant donné</p>
+<p>Les données sont mises à jour tous les PAS_TEMPS
+sauf si PAS_TEMPS &lt; DT_MESURE, la durée de la mesure</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Accelerometre.get_mesure">
+<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>value: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Retourne la vitesse actuelle, et actualise le dernier point de mesure de la position
+Si value vaut 1 : retourne la dernière vitesse mesurée
+Si value vaut 2: retourne la dernière accélération mesurée
+Sommer pour obtenir les deux</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retourne:</th><td class="field-body">float ou tuple selon value</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.Accelerometre.hook">
+<em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.hook" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Accelerometre.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Fonction destinée à être appelée tous les PAS_TEMPS
+Ne met à jour les mesures que si l&#8217;accéléromètre est prêt à répondre
+Sinon avance d&#8217;une unitée de temps</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Cette page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/sensor.txt"
+            rel="nofollow">Montrer le code source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/sensor.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

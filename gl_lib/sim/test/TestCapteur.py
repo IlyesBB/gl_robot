@@ -48,3 +48,6 @@ class TestCapteur(TestObjet3D):
         v=self.obj2.direction.clone()
         self.tete.rotate(teta)
         self.assertEqual(self.tete.direction, self.obj2.direction)
+
+if __name__ == '__main__':
+    unittest.main()

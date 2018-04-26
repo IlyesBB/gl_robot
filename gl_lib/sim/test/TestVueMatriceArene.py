@@ -58,3 +58,6 @@ class TestVueMatriceArene(unittest.TestCase):
 
         self.assertEqual(len(m), len(m[0]))
 
+if __name__ == '__main__':
+    unittest.main()
+

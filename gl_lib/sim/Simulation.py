@@ -27,10 +27,12 @@ class Simulation(Thread, Serializable):
 
     def __init__(self, **kwargs):
         """
-        :param strategie: liste de stratégies à exécuter
-        :param acceleration_factor: le temps s'écoule acceleration_factor fois plus vite
+        :param strategies: Liste de stratégies à exécuter
+        :param strategie: Stratégie principale (fais partie  de strategies)
+        :param acceleration_factor: Le temps s'écoule acceleration_factor fois plus vite
         :param tic: Affiche un petit message tous les tic secondes
-        :param tic_display: variables/objets affichés à chaque tic
+        :param tic_display: Variables/objets affichés à chaque tic
+        :param tmax: Temps de fin de la simulation en s
         """
         keys = kwargs.keys()
         for key in Simulation.INIT.keys():
@@ -45,14 +47,16 @@ class Simulation(Thread, Serializable):
         self.strategies = kwargs["strategies"]
         self.strategie = kwargs["strategie"] if kwargs["strategie"] is not None else self.strategies[0]
         self.acceleration_factor = float(kwargs["acceleration_factor"])
-        self.cpt = kwargs["cpt"]
-        self.stop = kwargs["stop"]
+
+        self.cpt = kwargs["cpt"] # Compte de temps en PAS_TEMPS sencondes
+        self.stop = kwargs["stop"] # Indique si la simulation est à l'arrêt
         self.tic = int(kwargs["tic"] / PAS_TEMPS) if kwargs["tic"] is not None else None
         self.tmax = int(kwargs["tmax"] / PAS_TEMPS) if kwargs["tmax"] is not None else None
-        self.close = Event()
-        self.close.clear()
 
     def __dict__(self):
+        """
+            Discrétise la simulation
+        """
         dct = OrderedDict()
         dct["__class__"] = Simulation.__name__
         keys = list(Simulation.KEYS)
@@ -79,7 +83,7 @@ class Simulation(Thread, Serializable):
 
     def __repr__(self):
         """
-        Quand on entre un objet3D dans l'interpreteur
+            Affiche les attributs dans des dictionnaires
         """
         s = ""
         d = self.__dict__()
@@ -93,6 +97,9 @@ class Simulation(Thread, Serializable):
         return s
 
     def __str__(self):
+        """
+            Affiche les caractéristiques essentielles de la simulation
+        """
         s = "{}; cpt: {}; stop: {}\n".format(self.__class__.__name__, self.cpt, self.stop)
         return s + str(self.strategie)
 
@@ -142,6 +149,7 @@ class Simulation(Thread, Serializable):
                     break
             sleep(dt)
 
+        # On sort de la simulation
         self.time_end = self.cpt * PAS_TEMPS
         print("End simalution ({} s)".format(self.time_end))
         if self.final_actions is not None and len(self.final_actions) > 0:

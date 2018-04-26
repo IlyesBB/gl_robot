@@ -5,6 +5,9 @@ from gl_lib.sim.robot import *
 from gl_lib.sim.geometry import *
 
 class AreneRobot(Arene):
+    """
+        Permet de discrétiser une arène contenant des robots et des pavés
+    """
 
     @staticmethod
     def hook(dct):

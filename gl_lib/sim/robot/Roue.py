@@ -7,41 +7,22 @@ from gl_lib.sim.geometry import Objet3D, Point
 
 class Roue(Objet3D):
     """
-    Definie les informations de base pour une roue
+        Définie les informations de base pour une roue
     """
 
-    def __init__(self,diametre:float or int=0.3, centre:Point=Point(0,0,0), vitesseRot:float=0, angle:float=0):
+    def __init__(self, diametre: float or int = 0.3, centre: Point = Point(0, 0, 0), vitesseRot: float = 0,
+                 angle: float = 0):
         """
 
-        :param diametre:
+        :param diametre: Diamètre en mètres
+        :param centre: Centre de la roue
+        :param vitesseRot: Vitesse de rotation en degrés par seconde
+        :param angle: Angle total tourné en degrés
         """
         Objet3D.__init__(self, centre)
         self.diametre = diametre
         self.vitesseRot = vitesseRot
         self.angle = angle
-
-    def turn(self, sens):
-        """
-        :param sens:
-        :return:
-        """
-        if sens < 0:
-            self.angle += self.vitesseRot
-        elif sens > 0:
-            self.angle -= self.vitesseRot
-
-    def get_angle(self):
-        return self.angle
-
-    def clone(self):
-        return Roue(self.diametre, self.centre.clone(), self.vitesseRot, self.angle)
-
-    def __eq__(self, other):
-        if Objet3D.__eq__(self, other) is False:
-            return False
-        if self.diametre != other.diametre:
-            return False
-        return True
 
     def __dict__(self):
         dct = OrderedDict()
@@ -52,6 +33,25 @@ class Roue(Objet3D):
         dct["angle"] = self.angle
 
         return dct
+
+    def __eq__(self, other):
+        if Objet3D.__eq__(self, other) is False:
+            return False
+        if self.diametre != other.diametre:
+            return False
+        return True
+
+    def turn(self, sens: int or float):
+        """
+            Permet d'exécuter une rotation en avant ou en arrière
+        """
+        if sens < 0:
+            self.angle += self.vitesseRot
+        elif sens > 0:
+            self.angle -= self.vitesseRot
+
+    def clone(self):
+        return Roue(self.diametre, self.centre.clone(), self.vitesseRot, self.angle)
 
     @staticmethod
     def hook(dct):

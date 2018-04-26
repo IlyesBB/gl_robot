@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="fr">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Géométrie &#8212; documentation gl_lib 0.0.1</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Recherche" href="search.html" />
+    <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="geometrie">
+<h1>Géométrie<a class="headerlink" href="#geometrie" title="Lien permanent vers ce titre">¶</a></h1>
+<span class="target" id="module-gl_lib.sim.geometry"></span><dl class="class">
+<dt id="gl_lib.sim.geometry.Point">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Point</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>z</em>, <em>type_coords: object = &lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe definissant un point dans un espace 3D (x,y,z)
+x : coordonnee en x
+y : coordonnee en y
+z : coordonnee en z</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.clone">
+<code class="descname">clone</code><span class="sig-paren">(</span><em>type_coords=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.clone"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.clone" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>clone le point
+:return: Point</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.move" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Deplace le point d&#8217;un vecteur (dx, dy, dz)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.rotate_around">
+<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point</em>, <em>teta: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Tourne le point courant autour du point en argument de teta</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.set_position">
+<code class="descname">set_position</code><span class="sig-paren">(</span><em>point</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.set_position"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.set_position" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Modifie les coordonnees du point</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.to_tuple">
+<code class="descname">to_tuple</code><span class="sig-paren">(</span><em>type_coords=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.to_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.to_tuple" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Conversion en tuple
+:return: Tuple</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Point.to_vect">
+<code class="descname">to_vect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Point.to_vect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Point.to_vect" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Converti le point en vecteur et</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.Vecteur">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Vecteur</code><span class="sig-paren">(</span><em>x: int</em>, <em>y: int</em>, <em>z: int</em>, <em>echelle=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Defini des methodes de calcul sur les vecteurs</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.diff_angle">
+<code class="descname">diff_angle</code><span class="sig-paren">(</span><em>vecteur</em>, <em>signe=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.diff_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.diff_angle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>retourne la difference d&#8217;angle entre 2 vecteurs dans le repere (x, y)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.get_angle">
+<code class="descname">get_angle</code><span class="sig-paren">(</span><em>axe='z'</em>, <em>signe=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.get_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.get_angle" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Retourne l&#8217;angle du vecteur 
+par rapport a la verticale,
+dans le sens trigo, entre pi et -pi</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.get_mag">
+<code class="descname">get_mag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.get_mag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.get_mag" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Retourne la norme du vecteur</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.norm" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Norme le vecteur
+:return: Vecteur</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>teta: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.rotate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Tourne le vecteur d&#8217;un angle teta, selon z,  par défaut</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.to_point">
+<code class="descname">to_point</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.to_point"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.to_point" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Conversion en point
+:return: Point</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Vecteur.to_tuple">
+<code class="descname">to_tuple</code><span class="sig-paren">(</span><em>type_coords=&lt;class 'float'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Point_Vecteur.html#Vecteur.to_tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Vecteur.to_tuple" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Conversion en tuple
+:return: Tuple</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="gl_lib.sim.geometry.atan2">
+<code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">atan2</code><span class="sig-paren">(</span><em>y</em>, <em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/fonctions.html#atan2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.atan2" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>retourne atan y/x</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.Arene">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Arene</code><span class="sig-paren">(</span><em>objets3D: [&lt;class 'gl_lib.sim.geometry.Objet3D.Objet3D'&gt;] = []</em>, <em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Arene.html#Arene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Arene" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Definit une structure de base pour une arene contenant des Objet3D</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Arene.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>objet3D</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Arene.html#Arene.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Arene.add" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Ajoute un objet3D a la liste si c&#8217;est une sous classe de Objet3D</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Arene.add_list">
+<code class="descname">add_list</code><span class="sig-paren">(</span><em>l_objets: [&lt;class 'gl_lib.sim.geometry.Objet3D.Objet3D'&gt;]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Arene.html#Arene.add_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Arene.add_list" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>l_objets</strong> &#8211; </td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Arene.empty">
+<code class="descname">empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Arene.html#Arene.empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Arene.empty" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Reinitialise la liste d&#8217;objets 3D</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.Objet3D">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Objet3D</code><span class="sig-paren">(</span><em>centre=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Objet3D.html#Objet3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Objet3D" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe definissant un objet 3D de facon abstraite</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Objet3D.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Objet3D.html#Objet3D.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Objet3D.move" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>deplace les Point dans sommets et centre de l&#8217;objet</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Objet3D.rotate_around">
+<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point</em>, <em>teta</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Objet3D.html#Objet3D.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Objet3D.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>tourne l&#8217;objet d&#8217;un angle teta auout d&#8217;un point
+:param point: Point
+:param teta: float en rad</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.Pave">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Pave</code><a class="reference internal" href="_modules/gl_lib/sim/geometry/Pave.html#Pave"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Pave" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe definissant un pave dans un repere en 3D</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Pave.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>teta: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Pave.html#Pave.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Pave.rotate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Tourne le pavé selon z autour du centre</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Pave.rotate_all_around">
+<code class="descname">rotate_all_around</code><span class="sig-paren">(</span><em>point: gl_lib.sim.geometry.Point_Vecteur.Point</em>, <em>teta: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Pave.html#Pave.rotate_all_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Pave.rotate_all_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Tourne le pave autour de point selon z d&#8217;un angle teta</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Pave.rotate_around">
+<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point: gl_lib.sim.geometry.Point_Vecteur.Point</em>, <em>teta: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Pave.html#Pave.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Pave.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Tourne le pave autour de point selon z d&#8217;un angle teta</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.Polygone3D">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">Polygone3D</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>vertices: [&lt;class 'gl_lib.sim.geometry.Point_Vecteur.Point'&gt;] = []</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Polygone3D.html#Polygone3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Polygone3D" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe definissant un polygone de facon abstraite</p>
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Polygone3D.add_vertex">
+<code class="descname">add_vertex</code><span class="sig-paren">(</span><em>sommet</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Polygone3D.html#Polygone3D.add_vertex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Polygone3D.add_vertex" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>ajoute sommet a la liste sommets du polygone</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Polygone3D.add_vertices">
+<code class="descname">add_vertices</code><span class="sig-paren">(</span><em>sommets</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Polygone3D.html#Polygone3D.add_vertices"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Polygone3D.add_vertices" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Ajoute les points les uns après les autres
+:param sommets:
+:return:</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.geometry.Polygone3D.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>vecteur: gl_lib.sim.geometry.Point_Vecteur.Vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/Polygone3D.html#Polygone3D.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.Polygone3D.move" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>deplace les sommets et le centre</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.geometry.AreneFermee">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.geometry.</code><code class="descname">AreneFermee</code><span class="sig-paren">(</span><em>height: int = 10</em>, <em>width: int = 10</em>, <em>length: int = 10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/geometry/AreneFermee.html#AreneFermee"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.geometry.AreneFermee" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>definit une arene avec des limites</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>Cette page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/geometry.txt"
+            rel="nofollow">Montrer le code source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Recherche rapide</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Ilyes Boussama.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.9</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/geometry.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

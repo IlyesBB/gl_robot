@@ -19,15 +19,16 @@ class TestDroitVersBalise(unittest.TestCase):
         self.target = RobotTarget(pave=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
         self.strat2 = Tourner(robot=self.target, angle_max= 360, diametre= 1,vitesse= 120)
         self.strat.arene.add(self.target)
+        
+        def test_vis(self):
+            p0=Point(0.5, 2.5, 0.5)
+            obs = RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=(self.target.centre-p0).to_vect())
+            strat_obs = StrategieVision(robot=obs, arene=self.strat.arene)
 
-    def test_vis(self):
-        p0=Point(0.5, 2.5, 0.5)
-        obs = RobotMotorise(pave=Pave(1,1,1,p0.clone()), direction=(self.target.centre-p0).to_vect())
-        strat_obs = StrategieVision(robot=obs, arene=self.strat.arene)
+            td = Thread(target=self.strat.start_3D)
+            td_obs = Thread(target=strat_obs.start_3D)
+            sim = Simulation(strategies=[self.strat2, self.strat], tmax=35, final_actions=[self.strat.stop_3D])
 
-        td = Thread(target=self.strat.start_3D)
-        td_obs = Thread(target=strat_obs.start_3D)
-        sim = Simulation(strategies=[self.strat2, self.strat], tmax=35, final_actions=[self.strat.stop_3D])
 
         td.start()
         #td_obs.start()
@@ -35,3 +36,6 @@ class TestDroitVersBalise(unittest.TestCase):
             pass
         sim.start()
 
+if __name__ == '__main__':
+    unittest.main()
+    print(1+2)

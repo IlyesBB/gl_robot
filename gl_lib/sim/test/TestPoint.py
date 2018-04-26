@@ -51,3 +51,6 @@ class TestPoint(unittest.TestCase):
         print(v, copy, v.diff_angle(copy), teta)
         print(n,n2)
 
+if __name__ == '__main__':
+    unittest.main()
+

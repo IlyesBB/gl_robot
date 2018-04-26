@@ -11,13 +11,14 @@ from math import pi
 
 class RobotMotorise(Robot):
     """
-    Robot dont on commande les moteurs des roues
+        Robot dont on commande les moteurs des roues, auquel on attache une tête
     """
     PAS_MAX = 0.01
 
     def __init__(self, pave=Pave(1, 1, 1, centre=Point(0, 0, 0)), rg=Roue(), rd=Roue(),
-                 direction: Vecteur = Vecteur(1, 0, 0), tete:Tete=Tete()):
+                 direction: Vecteur = Vecteur(1, 0, 0), tete: Tete = Tete()):
         """
+            Initialise les attributs, attache la tête au robot, et calcule la distance entre les roues
         :param pave: forme du robot, a priori Pave
         :param rg: roue droite
         :param rd: roue gauche
@@ -30,19 +31,30 @@ class RobotMotorise(Robot):
 
         self.set_wheels_rotation(3, 0)
 
-    def __str__(self):
-        r_str = Robot.__str__(self)
-        s = r_str[:len(r_str)-1]+"\n-tete:"+str(self.tete)
-        return s
+    def __dict__(self):
+        dct = OrderedDict()
+        dct["__class__"] = RobotMotorise.__name__
+        dct["direction"] = self.direction.__dict__()
+        dct["tete"] = self.tete.__dict__() if self.tete is not None else None
+        dct["forme"] = self.forme.__dict__()
+        dct["dist_wheels"] = self.dist_wheels
+        dct["rg"] = self.rg.__dict__()
+        dct["rd"] = self.rd.__dict__()
+        return dct
 
-    # ports: 1 pour roue gauche, 2 pour roue droite
-    # sommer pour modifier les deux
+    def __str__(self):
+        """
+            Affiche les caractéristiques essentielles du robot et de sa tête
+        """
+        r_str = Robot.__str__(self)
+        s = r_str + "\n-tete:" + str(self.tete)
+        return s
 
     def set_wheels_rotation(self, port, dps):
         """
-        :param port:
-        :param dps:
-        :return:
+            Change la vitesse des roues
+        :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
+        :param dps: vitesse de rotation en degrés par seconde
         """
         if port == 1:
             self.rd.vitesseRot = dps
@@ -52,10 +64,11 @@ class RobotMotorise(Robot):
             self.rd.vitesseRot = dps
             self.rg.vitesseRot = dps
 
-    def get_wheels_rotations(self, port:int):
+    def get_wheels_rotations(self, port: int):
         """
-        :param port: 1,2 ou 3
-        :return: int or tuple
+            Renvoie les vitesses des roues
+        :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
+        :return: Peut renvoyer un tuple ou un flottant, selon le port choisi
         """
         if port == 1:
             return self.rd.vitesseRot
@@ -65,6 +78,11 @@ class RobotMotorise(Robot):
             return self.rd.vitesseRot, self.rg.vitesseRot
 
     def get_wheels_angles(self, port):
+        """
+            Renvoie l'angle des roues
+        :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
+        :return: Peut renvoyer un tuple ou un flottant, selon le port choisi
+        """
         if port == 1:
             return self.rg.angle
         elif port == 2:
@@ -72,26 +90,38 @@ class RobotMotorise(Robot):
         elif port == 3:
             return self.rd.angle, self.rg.angle
 
-    def get_wheels_speed(self, port):
-        if port == 1:
-            return self.rg.vitesseRot
-        elif port == 2:
-            return self.rd.vitesseRot
-        elif port == 3:
-            return self.rd.vitesseRot, self.rg.vitesseRot
-
     def reset_wheels_angles(self):
+        """
+            Réinitialise l'angle des roues
+        """
         self.rg.angle = 0
         self.rd.angle = 0
 
     def update(self):
+        """
+            Met à jour la tête et la position du robot
+        """
         self.update_pos()
         self.tete.update()
 
     def update_pos(self):
         """
-        Met à jour la position du robot en fonction de la vitesse de rotation des roues
-        :return:
+            Met à jour la position du robot en fonction de la vitesse de rotation des roues
+
+            On approxime le mouvement du robot par une succession de rotation et de mouvement rectilignes
+
+            Pour les mouvement rectilignes:
+            On considère que la rotation effective des roues dans la direction du robot est égale au maximum des
+            rotations des roues.
+
+            Pour les rotations:
+            On considère que le robot tourne de la différence des rotation des roues
+
+            Conséquences sur la trajectoire
+            Le robot tourne autour d'un cercle (approximé) tangent à sa direction, dont le rayon dépend de la
+            différence de rotation des roues
+
+            TODO: Vérifier que la méthode fonctionne pour des vitesse de rotation négatives
         """
         # pas: float (représente la pas de temps)
         # angle_d, angle_g: float (angle de rotation de chaque roue pour cette mise à jour)
@@ -99,7 +129,7 @@ class RobotMotorise(Robot):
         angle_g = self.rg.vitesseRot * pas
         angle_d = self.rd.vitesseRot * pas
         # d_rot: float (la différence)
-        d_rot = (self.rg.vitesseRot-self.rd.vitesseRot)*pas
+        d_rot = (self.rg.vitesseRot - self.rd.vitesseRot) * pas
 
         if d_rot == 0.0:
             # Dans ce cas, c'est un déplacement simple
@@ -114,14 +144,14 @@ class RobotMotorise(Robot):
             # négatif pour la roue droite, positif pour la roue gauche
             # v: Vecteur (celui dont le robot va avancer)
             if angle_d >= 0.0 and angle_g >= 0.0:
-                v = self.direction * ((abs(angle_g-angle_d) + min(abs(angle_g), abs(angle_d))) *
-                                      min(self.rd.diametre, self.rg.diametre) * (1/2.0) * (pi / 180))
+                v = self.direction * ((abs(angle_g - angle_d) + min(abs(angle_g), abs(angle_d))) *
+                                      min(self.rd.diametre, self.rg.diametre) * (1 / 2.0) * (pi / 180))
             elif angle_d <= 0.0 and angle_g <= 0.0:
                 v = self.direction * (-(abs(angle_g - angle_d) + min(abs(angle_g), abs(angle_d))) *
-                                      min(self.rd.diametre, self.rg.diametre) * (1/2.0) * (pi / 180))
+                                      min(self.rd.diametre, self.rg.diametre) * (1 / 2.0) * (pi / 180))
             else:
                 # Cas non gérés
-                v=Vecteur(0,0,0)
+                v = Vecteur(0, 0, 0)
 
             self.move(v)
             self.direction.rotate(-diffs[0] + diffs[1])
@@ -129,17 +159,6 @@ class RobotMotorise(Robot):
 
         self.rg.angle += angle_g
         self.rd.angle += angle_d
-
-    def __dict__(self):
-        dct = OrderedDict()
-        dct["__class__"] = RobotMotorise.__name__
-        dct["direction"] = self.direction.__dict__()
-        dct["tete"] = self.tete.__dict__() if self.tete is not None else None
-        dct["forme"] = self.forme.__dict__()
-        dct["dist_wheels"] = self.dist_wheels
-        dct["rg"] = self.rg.__dict__()
-        dct["rd"] = self.rd.__dict__()
-        return dct
 
     @staticmethod
     def hook(dct):
@@ -151,8 +170,7 @@ class RobotMotorise(Robot):
         elif dct["__class__"] == Pave.__name__:
             return Pave.hook(dct)
         elif dct["__class__"] == RobotMotorise.__name__:
-            return RobotMotorise(dct["forme"], dct["rg"], dct["rd"] ,dct["direction"], dct["tete"])
-
+            return RobotMotorise(dct["forme"], dct["rg"], dct["rd"], dct["direction"], dct["tete"])
 
     @staticmethod
     def load(filename):
@@ -160,7 +178,8 @@ class RobotMotorise(Robot):
             return json.load(f, object_hook=RobotMotorise.hook)
 
     def clone(self):
-        return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(), self.tete.clone())
+        return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(),
+                             self.tete.clone())
 
 
 if __name__ == '__main__':
@@ -184,8 +203,7 @@ if __name__ == '__main__':
         print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
 
 
-    r=RobotMotorise()
+    r = RobotMotorise()
     r.save("robotmotorise.json")
     r2 = RobotMotorise.load("robotmotorise.json")
     print(r2)
-
