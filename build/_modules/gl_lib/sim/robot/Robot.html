@@ -58,15 +58,15 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Classe definissant les elements essentiels d&#39;un robot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;pave&quot;</span><span class="p">,</span> <span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;rd&quot;</span><span class="p">]</span>
-    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;direction&quot;</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;pave&quot;</span><span class="p">:</span><span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="s2">&quot;rg&quot;</span><span class="p">:</span><span class="n">Objet3D</span><span class="p">(),</span> <span class="s2">&quot;rd&quot;</span><span class="p">:</span><span class="n">Objet3D</span><span class="p">()}</span>
+    <span class="n">KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;forme&quot;</span><span class="p">,</span> <span class="s2">&quot;rg&quot;</span><span class="p">,</span> <span class="s2">&quot;rd&quot;</span><span class="p">]</span>
+    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;direction&quot;</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;forme&quot;</span><span class="p">:</span><span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)),</span> <span class="s2">&quot;rg&quot;</span><span class="p">:</span><span class="n">Objet3D</span><span class="p">(),</span> <span class="s2">&quot;rd&quot;</span><span class="p">:</span><span class="n">Objet3D</span><span class="p">()}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Initialise les attributs, et place les roues par rapport à la direction</span>
 <span class="sd">            On place les roues de part et d&#39;autre de la direction, à 45°</span>
-<span class="sd">        :param pave: Forme du robot</span>
-<span class="sd">        :type pave: Pave</span>
+<span class="sd">        :param forme: Forme du robot</span>
+<span class="sd">        :type forme: Pave</span>
 <span class="sd">        :param rg: Roue droite, représentée comme un point</span>
 <span class="sd">        :type rg: Objet3D</span>
 <span class="sd">        :param rd: Roue gauche, représentée comme un point</span>
@@ -81,7 +81,7 @@
                 <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Robot</span><span class="o">.</span><span class="n">INIT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">forme</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;pave&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">forme</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;forme&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rd</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rd&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rg&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">forme</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span>
@@ -182,6 +182,10 @@
             <span class="k">return</span> <span class="n">Pave</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Robot</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Robot</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">Robot</span><span class="p">(</span><span class="n">forme</span><span class="o">=</span><span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">Point</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">0</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">forme</span><span class="p">)</span>
 </pre></div>
 
           </div>

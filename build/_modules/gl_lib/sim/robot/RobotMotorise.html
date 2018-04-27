@@ -74,7 +74,7 @@
 <span class="sd">        :param rd: Roue droite</span>
 <span class="sd">        :type rd: Roue</span>
 <span class="sd">        :param dist_wheels: Distance entre les centres des roues. Si non initialisé, est calculé</span>
-<span class="sd">        :param dist_wheels: float</span>
+<span class="sd">        :type dist_wheels: float</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -83,7 +83,8 @@
                 <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="o">.</span><span class="n">INIT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="n">Robot</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Robot</span><span class="o">.</span><span class="n">KEYS</span><span class="p">})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tete</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;tete&quot;</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">dir_robot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dist_wheels</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">centre</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">rg</span><span class="o">.</span><span class="n">centre</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">get_mag</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -106,6 +107,15 @@
         <span class="n">r_str</span> <span class="o">=</span> <span class="n">Robot</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">s</span> <span class="o">=</span> <span class="n">r_str</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-tete:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tete</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">Robot</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tete</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">tete</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dist_wheels</span> <span class="o">!=</span> <span class="n">other</span><span class="o">.</span><span class="n">dist_wheels</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="RobotMotorise.set_wheels_rotation"><a class="viewcode-back" href="../../../../robot.html#gl_lib.sim.robot.RobotMotorise.set_wheels_rotation">[docs]</a>    <span class="k">def</span> <span class="nf">set_wheels_rotation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">,</span> <span class="n">dps</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -239,7 +249,6 @@
 <div class="viewcode-block" id="RobotMotorise.load"><a class="viewcode-back" href="../../../../robot.html#gl_lib.sim.robot.RobotMotorise.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Permet de charger un objet RobotMotorise au format json</span>
-
 <span class="sd">        :param filename: Nom du fichier</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -249,30 +258,13 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">test_mecanism</span><span class="p">():</span>
-        <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">(</span><span class="n">pave</span><span class="o">=</span><span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">)),</span> <span class="n">direction</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="n">r</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">r</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
-        <span class="n">p0</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">PAS_TEMPS</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span>
-
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-            <span class="n">r</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-
-        <span class="n">t_tot</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">PAS_TEMPS</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;temps de la simulation: &quot;</span><span class="p">,</span> <span class="n">t_tot</span><span class="p">,</span> <span class="s2">&quot; s&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;vitesse mesurée :&quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="n">Tete</span><span class="o">.</span><span class="n">ACC</span><span class="p">]</span><span class="o">.</span><span class="n">get_mesure</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-
-        <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">get_wheels_angles</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="s2">&quot; rads&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">((</span><span class="n">r</span><span class="o">.</span><span class="n">get_wheels_angles</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">t_tot</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">get_wheels_angles</span><span class="p">(</span><span class="mi">3</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">t_tot</span><span class="p">),</span> <span class="s2">&quot; rads.s^-1&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;distance parcourue théorique: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">p0</span> <span class="o">-</span> <span class="n">r</span><span class="o">.</span><span class="n">centre</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">get_mag</span><span class="p">())</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;distance parcourue calculée: &quot;</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">get_wheels_angles</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">r</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">))</span>
-
-
-    <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">()</span>
-    <span class="n">r</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;robotmotorise.json&quot;</span><span class="p">)</span>
-    <span class="n">r2</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;robotmotorise.json&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">r2</span><span class="p">))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">(</span><span class="n">forme</span><span class="o">=</span><span class="n">Pave</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">Point</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">10</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">forme</span><span class="p">),</span> <span class="nb">repr</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="p">))</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">60</span><span class="p">)</span>
+    <span class="n">n</span><span class="o">=</span><span class="mi">20</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">centre</span><span class="p">)</span>
 </pre></div>
 
           </div>

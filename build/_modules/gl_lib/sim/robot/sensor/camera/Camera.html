@@ -76,8 +76,8 @@
 <span class="sd">        :param direction: Direction de la caméra, même remarque</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Capteur</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">)</span>
-        <span class="c1"># arene doit être initialisé en dehors de la classe</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># arene doit être réinitialisé en dehors de la classe</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="n">AreneFermee</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Window (gl_lib.sim.robot.sensor.camera.d3.Window)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Image</span>
 
@@ -100,7 +100,7 @@
         <span class="k">return</span> <span class="n">dct</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">; is_running: </span><span class="si">{}</span><span class="s2">; cpt: </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">; is_running: </span><span class="si">{}</span><span class="s2">; cpt: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
 <div class="viewcode-block" id="Camera.run"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -155,8 +155,8 @@
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">getdata</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">getdata</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="c1"># Au cas où aucune image n&#39;a été enregistrée</span>
             <span class="k">pass</span></div>
 

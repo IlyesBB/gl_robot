@@ -100,15 +100,18 @@
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Objet3D</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+            <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span>
         <span class="k">return</span> <span class="n">dct</span>
 
 <div class="viewcode-block" id="Objet3D.move"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Objet3D.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            déplace les Point dans sommets et centre de l&#39;objet</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vecteur</span><span class="p">)</span></div>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vecteur</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
 <div class="viewcode-block" id="Objet3D.rotate_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Objet3D.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Tourne l&#39;objet d&#39;un angle teta auout d&#39;un point</span>
@@ -122,8 +125,6 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Objet3D</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>

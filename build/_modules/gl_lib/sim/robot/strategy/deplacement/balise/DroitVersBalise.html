@@ -70,7 +70,8 @@
         <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                           <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
         <span class="n">TournerVersBalise</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
-        <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">attach</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -92,32 +93,45 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Si une balise est en vue, enclenche les actions pour s&#39;en rapprocher et actualise la stratégie</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
         <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">:</span>
                 <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
             <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">centre</span><span class="p">)</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">Tourner</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">pass</span>
+                <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt_not_found</span><span class="o">&gt;</span><span class="mi">10</span><span class="p">:</span>
+                <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">:</span>
+                <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">lcapteurs</span><span class="p">[</span><span class="s2">&quot;ir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_mesure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arene</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="p">)</span>
             <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">res</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span><span class="p">:</span>
-                <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">=</span> <span class="n">res</span></div>
 
 <div class="viewcode-block" id="DroitVersBalise.abort"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.abort">[docs]</a>    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Réinitialise les variables de déplacement, désactive la mise à jour</span>
+<span class="sd">            Désactive la mise à jour</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="DroitVersBalise.reset"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.reset">[docs]</a>    <span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Désactive la mise à jour, réinitialise les variables du mouvement</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="DroitVersBalise.stop"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            Ne renvoie True que si un obstacle est à procimité du robot</span>
+<span class="sd">            Ne renvoie True que si un obstacle est à proximité du robot</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span><span class="p">:</span>
@@ -155,7 +169,6 @@
 
     <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">StrategieVision</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

@@ -195,13 +195,8 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">Pave</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">p</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;pave.json&quot;</span><span class="p">)</span>
-    <span class="n">sleep</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">dct</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
-
-    <span class="n">p3</span> <span class="o">=</span> <span class="n">Pave</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;pave.json&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">p3</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">Pave</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Point</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
 </pre></div>
 
           </div>
