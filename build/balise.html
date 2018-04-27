@@ -48,17 +48,82 @@
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.balise.</code><code class="descname">TournerVersBalise</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Stratégie qui permet de tourner le robot robot vers une balise devant lui, si elle est visible
-Pour cela, on utilise les images capturée pour la caméra du robot</p>
+<dd><p>Stratégie qui permet de tourner le robot robot vers une balise devant lui, si elle est visible</p>
+<p>Nécessite le lancement de l&#8217;application pyglet de la caméra du robot (de gl_lib.sim.robot.sensor.camera.Camera)</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>sens</em>, <em>angle</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.action" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Définit et exécute les actions à réaliser en fonction des résultats de la recherche de la balise</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sens</strong> &#8211; Son signe donne la rotation à effectuer (prise dans le sens trigonométrique)</li>
+<li><strong>angle</strong> &#8211; Angle duquel tourner en radians</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.get_angle">
 <code class="descname">get_angle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.get_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.get_angle" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Retourne 1 si la balise est à droite, -1 si elle est à gauche</p>
-<p>Si l&#8217;angle formé par le vecteur formé par le milieu bas de l&#8217;écran et le centre de la balise
-avec la verticale est supérieur à 5 degrés, la balis est considérée devant le robot
-on retourne alors 0</p>
-<p>Si aucune balise trouvée retourne None
-:return: int</p>
+<dd><blockquote>
+<div><p>Retourne un tuple (angle, sens), indiquant la position de la balise sur la dernière image
+Si aucune balise trouvée retourne None</p>
+<p>Angle:</p>
+<p>Retourne l&#8217;angle formé par le vecteur formé par le milieu bas de l&#8217;écran et le centre de la balise avec la
+verticale. Si cet angle est inférieur à TournerVersBalise.PRECISION, la balise est considérée devant le
+robot. On retourne alors 0</p>
+<p>Signe:
+Correspond au signe de l&#8217;angle</p>
+<p>Si aucune balise trouvée retourne None</p>
+</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retourne:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet TournerVersBalise depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.show_last_pic">
+<code class="descname">show_last_pic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.show_last_pic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.show_last_pic" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet d&#8217;afficher la dernière image analysée par la stratégie</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Si on a trouvé une balise devant, on renvoie True</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/TournerVersBalise.html#TournerVersBalise.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Met à jour la stratégie et demande la prise d&#8217;une photo à la caméra</p>
 </dd></dl>
 
 </dd></dl>
@@ -66,8 +131,41 @@ on retourne alors 0</p>
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.balise.</code><code class="descname">DroitVersBalise</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Cherche une balise visible
-S&#8217;il y en à une, tourne le robot dans sa direction, puis avancejusqu&#8217;à atteindre un obstacle</p>
+<dd><p>Permet au robot de foncer droit vers une balise dès qu&#8217;il l&#8217;a détecté et qu&#8217;il s&#8217;est mis dans la bonne direction
+Il s&#8217;arrête si il y à un obstacle sur sa route</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.abort">
+<code class="descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.abort" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Réinitialise les variables de déplacement, désactive la mise à jour</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet DroitVersbalise depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Ne renvoie True que si un obstacle est à procimité du robot</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/balise/DroitVersBalise.html#DroitVersBalise.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Si une balise est en vue, enclenche les actions pour s&#8217;en rapprocher et actualise la stratégie</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>

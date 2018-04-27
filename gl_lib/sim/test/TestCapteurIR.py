@@ -4,14 +4,13 @@ import unittest
 
 from gl_lib.sim.geometry import *
 from gl_lib.sim.robot.sensor import CapteurIR
-from .TestCapteur import TestCapteur
 from gl_lib.sim.geometry import Arene
 from gl_lib.sim.robot import Tete
 from gl_lib.sim.robot.sensor import VueMatriceArene
 from gl_lib.config import PAS_IR, RES_M
 from math import pi
 
-class TestCapteurIR(TestCapteur):
+class TestCapteurIR(unittest.TestCase):
 
     def setUp(self):
         self.obj = CapteurIR(Point(0,0,0), Vecteur(1,1,0).norm())
@@ -20,7 +19,6 @@ class TestCapteurIR(TestCapteur):
         self.arene = Arene()
 
     def test_init(self):
-        TestCapteur.test_init(self)
         bool_type = type(self.obj.portee) is float or type(self.obj.portee) is int
         bool_type2 = type(self.obj2.portee) is float or type(self.obj2.portee) is int
         self.assertEqual(bool_type, True)
@@ -44,13 +42,15 @@ class TestCapteurIR(TestCapteur):
         p.rotate(pi)
         self.arene.add(p)
         res = self.obj.get_mesure(self.arene)
+
         # Résultat du bon type
         bool_type = type(res) is float or type(res) is int
         self.assertEqual(bool_type, True)
+
         # Distance caluclée avec bonne précision
         self.assertLess(abs((v2.get_mag()-p.length/2)-res), max(PAS_IR, 1/RES_M))
         diff=abs(v2.get_mag()-p.length/2-res)
-        self.obj.print_last_view()
+        print(repr(self.obj.arena_v))
         print("Evaluated distance: ", res, " meters")
         print("Error: ", diff, " meters")
         print("Maximum error expected: ", max(PAS_IR, 1/RES_M), " meters")

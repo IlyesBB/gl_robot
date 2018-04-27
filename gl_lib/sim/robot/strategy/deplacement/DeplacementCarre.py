@@ -15,6 +15,7 @@ class DeplacementCarre(DeplacementDroit, Tourner):
         """
 
         :param robot:
+        :type robot:
         """
         Tourner.__init__(self, robot=robot, angle=90)
         DeplacementDroit.__init__(self, robot=robot, distance_max=cote)

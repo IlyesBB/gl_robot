@@ -94,13 +94,17 @@
         <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">; sp: </span><span class="si">{}</span><span class="s2"> ; acc: </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">acc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
-<div class="viewcode-block" id="Accelerometre.get_mesure"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Accelerometre.get_mesure">[docs]</a>    <span class="k">def</span> <span class="nf">get_mesure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+<div class="viewcode-block" id="Accelerometre.get_mesure"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Accelerometre.get_mesure">[docs]</a>    <span class="k">def</span> <span class="nf">get_mesure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">            Retourne la vitesse actuelle, et actualise le dernier point de mesure de la position</span>
 <span class="sd">            Si value vaut 1 : retourne la dernière vitesse mesurée</span>
 <span class="sd">            Si value vaut 2: retourne la dernière accélération mesurée</span>
 <span class="sd">            Sommer pour obtenir les deux</span>
+
+<span class="sd">        :param value: Numéro de la mesure que l&#39;on veut</span>
+<span class="sd">        :type value: int</span>
 <span class="sd">        :return: float ou tuple selon value</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span>
@@ -141,13 +145,15 @@
             <span class="k">return</span> <span class="n">Accelerometre</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;prev_pos&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;speed&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;acc&quot;</span><span class="p">])</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Accelerometre</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+<div class="viewcode-block" id="Accelerometre.load"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Accelerometre.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet Accelerometre depuis un fichier au format json adapté</span>
 
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_pos</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev_pos</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
-        <span class="k">return</span> <span class="n">Accelerometre</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">speed</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">acc</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
+<span class="sd">        :param filename:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Accelerometre</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>

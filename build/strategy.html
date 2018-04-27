@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Strategie &#8212; documentation gl_lib 0.0.1</title>
+    <title>Stratégie &#8212; documentation gl_lib 0.0.1</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -44,7 +44,7 @@
           <div class="body" role="main">
             
   <div class="section" id="module-gl_lib.sim.robot.strategy">
-<span id="strategie"></span><h1>Strategie<a class="headerlink" href="#module-gl_lib.sim.robot.strategy" title="Lien permanent vers ce titre">¶</a></h1>
+<span id="strategie"></span><h1>Stratégie<a class="headerlink" href="#module-gl_lib.sim.robot.strategy" title="Lien permanent vers ce titre">¶</a></h1>
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.Balise">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.</code><code class="descname">Balise</code><span class="sig-paren">(</span><em>width=1</em>, <em>length=1</em>, <em>height=1</em>, <em>colors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Balise.html#Balise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Balise" title="Lien permanent vers cette définition">¶</a></dt>
@@ -53,8 +53,31 @@
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.Strategie">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.</code><code class="descname">Strategie</code><span class="sig-paren">(</span><em>robot: gl_lib.sim.robot.RobotMotorise.RobotMotorise</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/Strategie.html#Strategie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Strategie" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>definit une strategy de robot de facon abstraite</p>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.</code><code class="descname">Strategie</code><span class="sig-paren">(</span><em>robot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/Strategie.html#Strategie"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Strategie" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>définit une strategie de robot de facon abstraite</p>
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.Strategie.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/Strategie.html#Strategie.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Strategie.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet de charger une Strategie à partir d&#8217;un fichier json</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.Strategie.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/Strategie.html#Strategie.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Strategie.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Toutes les stratégies sont supposées avoir une telle méthode, indiquant si elle ont besoin d&#8217;être mises
+à jour ou non</p>
+<p>Cette information est à destination de toute boucle qui ferait avancer la stratégie dans le temps
+Ici, elle ne s&#8217;arrête jamais</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.Strategie.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/Strategie.html#Strategie.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.Strategie.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Méthode à redéfinir dans les classes filles</p>
+<p>Réalise les actions sur le robot pour un intervalle de temps</p>
+<p>Cet intervalle est une constante, PAS_TEMPS, définie dans gl_lib.config</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>

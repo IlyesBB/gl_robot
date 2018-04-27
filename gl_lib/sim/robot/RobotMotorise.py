@@ -14,19 +14,32 @@ class RobotMotorise(Robot):
         Robot dont on commande les moteurs des roues, auquel on attache une tête
     """
     PAS_MAX = 0.01
+    KEYS = Robot.KEYS + ["tete", "dist_wheels"]
+    INIT = {"rg":Roue(), "rd":Roue(), "tete":Tete()}
 
-    def __init__(self, pave=Pave(1, 1, 1, centre=Point(0, 0, 0)), rg=Roue(), rd=Roue(),
-                 direction: Vecteur = Vecteur(1, 0, 0), tete: Tete = Tete()):
+    def __init__(self, **kwargs):
         """
-            Initialise les attributs, attache la tête au robot, et calcule la distance entre les roues
-        :param pave: forme du robot, a priori Pave
-        :param rg: roue droite
-        :param rd: roue gauche
-        :param direction: direction du robot
+            Initialise un robot dont les roues sont "motorisées" et la tête est intialisée pour suivre les
+            mouvement du robot
+
+        :param tete: Objet contenant les capteurs du robot
+        :type tete: Tete
+        :param rg: Roue gauche
+        :type rg: Roue
+        :param rd: Roue droite
+        :type rd: Roue
+        :param dist_wheels: Distance entre les centres des roues. Si non initialisé, est calculé
+        :type dist_wheels: float
+
         """
-        Robot.__init__(self, pave, rg, rd, direction)
-        self.tete = tete
-        self.tete.attach(self.centre, self.direction)
+        keys = kwargs.keys()
+        for key in RobotMotorise.INIT.keys():
+            if not key in keys:
+                kwargs[key] = RobotMotorise.INIT[key]
+        Robot.__init__(self,**{key:kwargs[key] for key in keys if key in Robot.KEYS})
+        self.tete = kwargs["tete"]
+        self.tete.dir_robot = self.direction
+        self.tete.centre = self.centre
         self.dist_wheels = (self.rd.centre - self.rg.centre).to_vect().get_mag()
 
         self.set_wheels_rotation(3, 0)
@@ -50,11 +63,22 @@ class RobotMotorise(Robot):
         s = r_str + "\n-tete:" + str(self.tete)
         return s
 
+    def __eq__(self, other):
+        if not Robot.__eq__(self, other):
+            return False
+        if self.tete != other.tete:
+            return False
+        if self.dist_wheels != other.dist_wheels:
+            return False
+        return True
+
     def set_wheels_rotation(self, port, dps):
         """
             Change la vitesse des roues
+
         :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
         :param dps: vitesse de rotation en degrés par seconde
+
         """
         if port == 1:
             self.rd.vitesseRot = dps
@@ -64,11 +88,13 @@ class RobotMotorise(Robot):
             self.rd.vitesseRot = dps
             self.rg.vitesseRot = dps
 
-    def get_wheels_rotations(self, port: int):
+    def get_wheels_rotations(self, port):
         """
             Renvoie les vitesses des roues
+
         :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
         :return: Peut renvoyer un tuple ou un flottant, selon le port choisi
+
         """
         if port == 1:
             return self.rd.vitesseRot
@@ -80,8 +106,10 @@ class RobotMotorise(Robot):
     def get_wheels_angles(self, port):
         """
             Renvoie l'angle des roues
+
         :param port: 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux
         :return: Peut renvoyer un tuple ou un flottant, selon le port choisi
+
         """
         if port == 1:
             return self.rg.angle
@@ -170,40 +198,25 @@ class RobotMotorise(Robot):
         elif dct["__class__"] == Pave.__name__:
             return Pave.hook(dct)
         elif dct["__class__"] == RobotMotorise.__name__:
-            return RobotMotorise(dct["forme"], dct["rg"], dct["rd"], dct["direction"], dct["tete"])
+            return RobotMotorise(**dct)
 
     @staticmethod
     def load(filename):
+        """
+            Permet de charger un objet RobotMotorise au format json
+        :param filename: Nom du fichier
+
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=RobotMotorise.hook)
 
-    def clone(self):
-        return RobotMotorise(self.forme.clone(), self.rg.clone(), self.rd.clone(), self.direction.clone(),
-                             self.tete.clone())
 
 
 if __name__ == '__main__':
-    def test_mecanism():
-        r = RobotMotorise(pave=Pave(1, 1, 0, centre=Point(5, 5, 0)), direction=Vecteur(1, 0, 0))
-        r.set_wheels_rotation(1, 30)
-        r.set_wheels_rotation(2, 30)
-        p0 = r.centre.clone()
-        n = int(1 / PAS_TEMPS) * 2
-
-        for i in range(1, n):
-            r.update()
-
-        t_tot = n * PAS_TEMPS
-        print("temps de la simulation: ", t_tot, " s")
-        print("vitesse mesurée :", r.tete.sensors[Tete.ACC].get_mesure(1))
-
-        print(r.get_wheels_angles(3), " rads")
-        print((r.get_wheels_angles(3)[0] / t_tot, r.get_wheels_angles(3)[1] / t_tot), " rads.s^-1")
-        print("distance parcourue théorique: ", (p0 - r.centre).to_vect().get_mag())
-        print("distance parcourue calculée: ", r.get_wheels_angles(1) * r.rd.diametre * (pi / 180))
-
-
-    r = RobotMotorise()
-    r.save("robotmotorise.json")
-    r2 = RobotMotorise.load("robotmotorise.json")
-    print(r2)
+    r = RobotMotorise(forme=Pave(1,1,1, Point(50,50,10)))
+    print(repr(r.forme), repr(r.tete))
+    r.set_wheels_rotation(3,60)
+    n=20
+    for i in range(n):
+        r.update()
+    print(r.centre, r.tete.centre)

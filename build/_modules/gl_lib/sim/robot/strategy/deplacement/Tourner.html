@@ -58,14 +58,13 @@
 
 <div class="viewcode-block" id="Tourner"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.Tourner">[docs]</a><span class="k">class</span> <span class="nc">Tourner</span><span class="p">(</span><span class="n">DeplacementCercle</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fais décrire au robot un carré de coté 70 cm</span>
+<span class="sd">        Fais décrire au robot un rotation autour du centre de ses roues</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYS</span> <span class="o">=</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">KEYS</span>
     <span class="n">INIT</span> <span class="o">=</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">INIT</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        :param robot:</span>
+<span class="sd">            Initialisation similaire à DeplacementCercle</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">DeplacementCercle</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">dist_wheels</span>
@@ -80,6 +79,7 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">st</span> <span class="o">=</span> <span class="n">Tourner</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">RobotMotorise</span><span class="p">())</span>
     <span class="n">st</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;tourner.json&quot;</span><span class="p">)</span>
 
     <span class="n">st2</span> <span class="o">=</span> <span class="n">Tourner</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;tourner.json&quot;</span><span class="p">)</span>

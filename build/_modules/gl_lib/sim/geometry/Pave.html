@@ -54,13 +54,13 @@
 
 <div class="viewcode-block" id="Pave"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave">[docs]</a><span class="k">class</span> <span class="nc">Pave</span><span class="p">(</span><span class="n">Polygone3D</span><span class="p">,</span> <span class="n">ApproximableAPave</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe definissant un pave dans un repere en 3D</span>
+<span class="sd">        Classe définissant un pavé dans un repère en 3D</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
                  <span class="n">vertices</span><span class="p">:</span> <span class="p">[</span><span class="n">Point</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructeur ajoutant les 8 sommets autour du centre par defaut: (0,0,0)</span>
+<span class="sd">            Constructeur ajoutant les 8 sommets autour du centre par défaut: (0,0,0)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Polygone3D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">,</span> <span class="n">vertices</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
@@ -78,72 +78,6 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">length</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Pave.rotate_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tourne le pave autour de point selon z d&#39;un angle teta</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">n_centre</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="n">n_centre</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Pave.rotate_all_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate_all_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tourne le pave autour de point selon z d&#39;un angle teta</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">point</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">:</span>
-            <span class="n">n_centre</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="n">n_centre</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
-
-<div class="viewcode-block" id="Pave.rotate"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tourne le pavé selon z autour du centre</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
-
-
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Pave</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
-                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">))])</span>
-
-    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">:</span> <span class="n">Vecteur</span><span class="p">):</span>
-        <span class="n">Polygone3D</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span>
-
-    <span class="k">def</span> <span class="nf">get_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pave</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pave</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">centre</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">length</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">return</span> <span class="kc">True</span>
-
-
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renvoi une version plus lisible que repr du pavé sous forme de chaine de caractères</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;(</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">);  vertices: &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
-            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;n</span><span class="si">{}</span><span class="s2">(</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">) &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
-
-    <span class="k">def</span> <span class="nf">get_inclinaisont</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
-
     <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pave</span><span class="p">):</span>
         <span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">pave</span><span class="p">)</span>
 
@@ -159,9 +93,88 @@
         <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dct2</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">dct</span>
 
-    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">Pave</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+<div class="viewcode-block" id="Pave.rotate_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le centre du pavé autour de point selon z d&#39;un angle teta</span>
+
+<span class="sd">        :param point: Point autour duquel tourner</span>
+<span class="sd">        :type point: Point</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">n_centre</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">n_centre</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">v</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Pave.rotate_all_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate_all_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le pavé autour de point selon z d&#39;un angle teta, et tourne ses sommets autour de son centre</span>
+
+<span class="sd">        :param point: Point autour duquel tourner</span>
+<span class="sd">        :type point: Point</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">point</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">:</span>
+            <span class="n">n_centre</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="n">n_centre</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">point</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="o">=</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Pave.rotate"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le pavé selon autour de son centre</span>
+
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Pave</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">))])</span>
+
+<div class="viewcode-block" id="Pave.get_length"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.get_length">[docs]</a>    <span class="k">def</span> <span class="nf">get_length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Retourne la longueur caractéristique du pavé, selon l&#39;axe z</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pave</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pave</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">centre</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">length</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">width</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">pave</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(&quot;</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;(</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">);  vertices: &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">length</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)):</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;n</span><span class="si">{}</span><span class="s2">(</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">) &quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+
+<div class="viewcode-block" id="Pave.get_inclinaisont"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Pave.get_inclinaisont">[docs]</a>    <span class="k">def</span> <span class="nf">get_inclinaisont</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Retourne la différence d&#39;angle entre un des côtés du pavé sur le plan Oxy, et le vecteur (1,0,0)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>

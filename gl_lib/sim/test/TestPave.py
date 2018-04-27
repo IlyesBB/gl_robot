@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import os
+
 from gl_lib.sim.geometry import Pave, Point, Vecteur
 from math import pi
 import unittest
@@ -60,5 +62,15 @@ class TestPave(unittest.TestCase):
         angle = v2.get_angle() - (self.p.vertices[1] - self.p.vertices[0]).to_vect().get_angle()
         # On veut une précision au millième
         self.assertLess(abs(abs(angle) % pi - abs(teta) % pi), 0.001, None)
+
+    def test_json(self):
+        p = Pave(150, 200, 0)
+        p.save("pave.json")
+        dct = p.__dict__()
+
+        p3 = Pave.load("pave.json")
+        os.system('rm pave.json')
+
+
 if __name__ == '__main__':
     unittest.main()

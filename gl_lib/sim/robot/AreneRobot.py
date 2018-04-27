@@ -19,6 +19,12 @@ class AreneRobot(Arene):
 
     @staticmethod
     def load(filename):
+        """
+            Permet de charger un objet AreneRobot et ses composants à partir d'un fichier json
+
+        :param filename: Nom du fichier
+
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=AreneRobot.hook)
 

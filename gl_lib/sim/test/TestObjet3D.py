@@ -15,13 +15,14 @@ class TestObjet3D(unittest.TestCase):
         obj=self.obj.clone()
         self.assertEqual(obj, self.obj)
 
-
-
     def test_eq(self):
         obj=self.obj.clone()
         self.assertEqual(obj.centre, self.obj.centre)
 
-        obj.centre=None
+        try:
+            obj.centre=self.obj.centre.move(Vecteur(1,0,0))
+        except AttributeError:
+            obj.centre=Point(0,0,0)
         self.assertNotEqual(obj.centre, self.obj.centre)
 
 if __name__ == '__main__':

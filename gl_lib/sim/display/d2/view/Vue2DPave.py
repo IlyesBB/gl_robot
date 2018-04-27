@@ -2,19 +2,24 @@
 from gl_lib.sim.display.d2.view.Vue2D import Vue2D
 from gl_lib.sim.geometry import Pave
 from gl_lib.config import PIX_PAR_M_2D
+from tkinter import Canvas
 
 class Vue2DPave(Vue2D):
-    """Constructeur de la view
-    pave: Pave
-    canevas: Canevas
-
-    Cree le pave dans canevas
     """
-    def __init__(self, pave:Pave, canevas):
+        Représentation en 2 dimensions d'un pavé pour tkinter
+    """
+    def __init__(self, pave, canevas):
         """
-        il est suppose que les sommets du pave sont ranges dans le bon ordre (anti-horaire)
-        et que les 4 premiers sont les plus hauts
+            Crée une copie du pavé en argument à la bonne échelle pour l'affichage 2D, puis le convertis en lignes tkinter
+
+            Il est supposé que les sommets du pave sont rangés dans le bon ordre (anti-horaire) et que les 4 premiers sont
+            les plus hauts
+        :param pave: Pavé à représenter
+        :type pave: Pave
+        :param canevas: Canevas sur lequel dessiner
+        :type canevas: Canvas
         """
+        Vue2D.__init__(self)
         self.pave=Pave(width=pave.width * PIX_PAR_M_2D, length=pave.length * PIX_PAR_M_2D, height=pave.height * PIX_PAR_M_2D, centre=pave.centre * PIX_PAR_M_2D)
         self.pave.rotate((pave.vertices[1] - pave.vertices[0]).to_vect().get_angle())
         self.cotes=list()
@@ -24,7 +29,7 @@ class Vue2DPave(Vue2D):
 
     def afficher(self, canevas):
         """ 
-        met a jour les coordonnee des points
+            Met à jour les coordonnées des points
         """
         if self.pave and canevas:
             #sommets: [Point]

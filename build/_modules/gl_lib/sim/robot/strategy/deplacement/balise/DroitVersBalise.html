@@ -55,11 +55,17 @@
 
 
 <div class="viewcode-block" id="DroitVersBalise"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise">[docs]</a><span class="k">class</span> <span class="nc">DroitVersBalise</span><span class="p">(</span><span class="n">TournerVersBalise</span><span class="p">,</span> <span class="n">DeplacementDroitAmeliore</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Cherche une balise visible</span>
-<span class="sd">    S&#39;il y en à une, tourne le robot dans sa direction, puis avancejusqu&#39;à atteindre un obstacle</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Permet au robot de foncer droit vers une balise dès qu&#39;il l&#39;a détecté et qu&#39;il s&#39;est mis dans la bonne direction</span>
+<span class="sd">        Il s&#39;arrête si il y à un obstacle sur sa route</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initialise la stratégie</span>
+
+<span class="sd">            L&#39;initialisation est semblable aux classes dont hérite DroitVersBalise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                           <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
@@ -77,22 +83,15 @@
                 <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dct</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span> <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">res</span>
-        <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">res</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">l</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-        <span class="k">elif</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DroitVersBalise</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">DroitVersBalise</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DroitVersBalise.update"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Si une balise est en vue, enclenche les actions pour s&#39;en rapprocher et actualise la stratégie</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">advancing</span><span class="p">:</span>
@@ -107,24 +106,47 @@
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">lcapteurs</span><span class="p">[</span><span class="s2">&quot;ir&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_mesure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arene</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="p">)</span>
             <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">res</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span><span class="p">:</span>
                 <span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">=</span> <span class="n">res</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">=</span> <span class="n">res</span></div>
 
-    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DroitVersBalise.abort"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.abort">[docs]</a>    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Réinitialise les variables de déplacement, désactive la mise à jour</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DroitVersBalise.stop"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Ne renvoie True que si un obstacle est à procimité du robot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">last_detected</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">proximite_max</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
         <span class="k">except</span><span class="p">:</span>
             <span class="k">pass</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s1</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">s1</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">+</span><span class="n">l</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">DeplacementDroitAmeliore</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span> <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">res</span>
+        <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">res</span>
+
+        <span class="k">elif</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">DroitVersBalise</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">DroitVersBalise</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="DroitVersBalise.load"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.DroitVersBalise.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet DroitVersbalise depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DroitVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
+
 
 <span class="k">class</span> <span class="nc">DroitVersBaliseVision</span><span class="p">(</span><span class="n">DroitVersBalise</span><span class="p">,</span> <span class="n">StrategieVision</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">,</span> <span class="n">arene</span><span class="p">):</span>

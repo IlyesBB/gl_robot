@@ -4,33 +4,20 @@ from collections import OrderedDict
 from gl_lib.utils import Serializable
 from gl_lib.sim.geometry import Point
 
+
 class Objet3D(Serializable):
     """
-    Classe definissant un objet 3D de facon abstraite
+        Classe définissant un objet 3D de facon abstraite
     """
+    KEYS = ["centre"]
 
     def __init__(self, centre=None):
         """
-        centre : Point definissant le centre de l'objet. initialise a (0, 0, 0)
+            Initialisation du centre
+        :param centre: Centre de l'objet 3D
+        :type centre: Point
         """
         self.centre = centre
-
-    def move(self, vecteur):
-        """
-        deplace les Point dans sommets et centre de l'objet
-        """
-        self.centre.move(vecteur)
-
-    def rotate_around(self, point, teta, axis=None):
-        """
-        tourne l'objet d'un angle teta auout d'un point
-        :param point: Point
-        :param teta: float en rad
-        """
-        self.centre.rotate_around(point, teta, axis)
-
-    def clone(self):
-        return Objet3D(self.centre.clone())
 
     def __eq__(self, other):
         if not isinstance(other, type(self)):
@@ -49,12 +36,12 @@ class Objet3D(Serializable):
         s = ""
         d = self.__dict__()
         for k in d.keys():
-            if isinstance(d[k], list) and len(d[k])>0:
+            if isinstance(d[k], list) and len(d[k]) > 0:
                 s += k + " :\n"
                 for i in range(len(d[k])):
                     s += "\t" + repr(d[k][i]) + "\n"
             else:
-                s += k+" : "+repr(d[k])+"\n"
+                s += k + " : " + repr(d[k]) + "\n"
         return s
 
     def __getattr__(self, nom):
@@ -67,22 +54,39 @@ class Objet3D(Serializable):
 
     def __dict__(self):
         dct = OrderedDict()
-        dct["__class__"]=Objet3D.__name__
-        dct["centre"]=self.centre.__dict__()
+        dct["__class__"] = Objet3D.__name__
+        try:
+            dct["centre"] = self.centre.__dict__()
+        except AttributeError:
+            dct["centre"] = self.centre
         return dct
 
-    def dict(self):
-        o = Objet3D.clone(self)
-        return o.__dict__()
-    cpt = 0
+    def move(self, vecteur):
+        """
+            déplace les Point dans sommets et centre de l'objet
+        """
+        self.centre.move(vecteur)
+        return self
+    def rotate_around(self, point, teta, axis=None):
+        """
+            Tourne l'objet d'un angle teta auout d'un point
+
+        :param point: Point autour duquel tourner
+        :type point: Point
+        :param teta: Angle en radians
+        :type teta: float
+        :param axis: 'z', 'x' ou 'y'
+
+        """
+        self.centre.rotate_around(point, teta, axis)
+
 
     @staticmethod
     def hook(dct):
-        if dct["__class__"]==Objet3D.__name__:
+        if dct["__class__"] == Objet3D.__name__:
             return Objet3D(dct["centre"])
-        elif dct["__class__"]==Point.__name__:
+        elif dct["__class__"] == Point.__name__:
             return Point.hook(dct)
-
 
     @staticmethod
     def load(filename):
@@ -90,10 +94,8 @@ class Objet3D(Serializable):
             return json.load(f, object_hook=Objet3D.hook)
 
 
-
-
 if __name__ == '__main__':
-    o = Objet3D(Point(0,0,0))
+    o = Objet3D(Point(0, 0, 0))
 
     o.save("objet3D.json")
 

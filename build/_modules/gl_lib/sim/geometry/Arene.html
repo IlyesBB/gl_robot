@@ -54,46 +54,58 @@
 
 <div class="viewcode-block" id="Arene"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene">[docs]</a><span class="k">class</span> <span class="nc">Arene</span><span class="p">(</span><span class="n">Objet3D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Definit une structure de base pour une arene contenant des Objet3D</span>
+<span class="sd">        Définit une structure de base pour une arène contenant des Objet3D</span>
+
+<span class="sd">        TODO: Faire hériter Arene de list, pour pouvoir implémenter __len__ ...</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objets3D</span><span class="p">:[</span><span class="n">Objet3D</span><span class="p">]</span><span class="o">=</span><span class="nb">list</span><span class="p">(),</span> <span class="n">centre</span><span class="p">:</span><span class="n">Point</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objets3D</span><span class="o">=</span><span class="nb">list</span><span class="p">(),</span> <span class="n">centre</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        objets3D: [Objet3D]</span>
+<span class="sd">            Initialise la liste d&#39;objets 3D</span>
+<span class="sd">        :param objets3D: Liste d&#39;objets de l&#39;arène</span>
+<span class="sd">        :type objets3D: [Objet3D]</span>
+<span class="sd">        :param centre: Centre de l&#39;arène</span>
+<span class="sd">        :type centre: Point</span>
+
+<span class="sd">        TODO: Prendre en compte l&#39;initialisation du centre</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Objet3D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span> <span class="o">=</span> <span class="n">objets3D</span>
 
 <div class="viewcode-block" id="Arene.add"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">objet3D</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ajoute un objet3D a la liste si c&#39;est une sous classe de Objet3D</span>
+<span class="sd">            Ajoute un objet 3D à la liste si c&#39;est son type est une sous classe de Objet3D</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">objet3D</span><span class="p">),</span> <span class="n">Objet3D</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">objet3D</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Arene.add_list"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene.add_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l_objets</span><span class="p">:</span> <span class="p">[</span><span class="n">Objet3D</span><span class="p">]):</span>
+<div class="viewcode-block" id="Arene.add_list"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene.add_list">[docs]</a>    <span class="k">def</span> <span class="nf">add_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l_objets</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Ajoute une liste d&#39;objets 3D dans l&#39;arène</span>
 
-<span class="sd">        :param l_objets:</span>
-<span class="sd">        :return:</span>
+<span class="sd">        :param l_objets: Liste d&#39;objets à ajouter</span>
+<span class="sd">        :type l_objets: [Objet3D]</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">l_objets</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">o</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Arene.empty"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene.empty">[docs]</a>    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Reinitialise la liste d&#39;objets 3D</span>
+<span class="sd">            Réinitialise la liste d&#39;objets 3D</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">:</span><span class="n">Objet3D</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+<div class="viewcode-block" id="Arene.remove"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Arene.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">obj</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Supprime l&#39;objet de l&#39;arène</span>
+
+<span class="sd">        :param obj:</span>
+<span class="sd">        :return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nom</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Permet d&#39;acceder a un attribut</span>
-
-<span class="sd">        si ce n&#39;est pas possible:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L&#39;attribut </span><span class="si">{}</span><span class="s2"> n&#39;est pas accessible dans Arene !&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nom</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -116,10 +128,6 @@
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
             <span class="n">l</span><span class="o">=</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objets3D</span><span class="p">))]</span>
         <span class="k">return</span> <span class="n">Arene</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
-
-    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">Arene</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">a</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>

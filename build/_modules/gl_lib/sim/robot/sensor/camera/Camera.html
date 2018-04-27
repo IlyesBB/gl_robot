@@ -62,96 +62,29 @@
 
 <div class="viewcode-block" id="Camera"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera">[docs]</a><span class="k">class</span> <span class="nc">Camera</span><span class="p">(</span><span class="n">Capteur</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Permet de visualiser une arène en 3D dans une application pyglet, de récupérer des images sous forme de bytes</span>
+<span class="sd">        ou de capture d&#39;écran</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Angle de vue de la caméra en y, en degrés</span>
     <span class="n">ANGLE_VY</span> <span class="o">=</span> <span class="mi">180</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span><span class="n">get_pic</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                 <span class="n">is_running</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_set</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">cpt</span><span class="p">:</span><span class="nb">int</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">direction</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">get_pic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">is_running</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">is_set</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">cpt</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initialise les attributs de la caméra, et le répetoire de sauvegarde des captures d&#39;écran</span>
 <span class="sd">        :param centre: Centre de la caméra, peut être attaché à une tête</span>
 <span class="sd">        :param direction: Direction de la caméra, même remarque</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Capteur</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">)</span>
         <span class="c1"># arene doit être initialisé en dehors de la classe</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Window (gl_lib.sim.robot.sensor.camera.d3.Window)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># Image</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Window (gl_lib.sim.robot.sensor.camera.d3.Window)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Image</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="n">is_set</span><span class="p">,</span> <span class="n">is_running</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span> <span class="o">=</span> <span class="n">get_pic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span> <span class="o">=</span> <span class="n">cpt</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rep_name</span> <span class="o">=</span> <span class="n">fonctions</span><span class="o">.</span><span class="n">get_project_repository</span><span class="p">()</span><span class="o">+</span><span class="n">REPNAME_SCREENSHOTS</span>
-
-<div class="viewcode-block" id="Camera.run"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Lance l&#39;application pyglet</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">Window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arene</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
-        <span class="n">glClearColor</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">)</span>
-        <span class="n">pyglet</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
-
-    <span class="k">def</span> <span class="nf">set_environnement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arene</span><span class="p">:</span><span class="n">Arene</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="n">arene</span>
-
-<div class="viewcode-block" id="Camera.picture"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.picture">[docs]</a>    <span class="k">def</span> <span class="nf">picture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Cette méthode est appelée à la fin de on_draw de la window</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span><span class="p">:</span>
-            <span class="c1">#print(&quot;Acquiring image...&quot;)</span>
-            <span class="n">image</span> <span class="o">=</span> <span class="n">pyglet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_buffer_manager</span><span class="p">()</span><span class="o">.</span><span class="n">get_color_buffer</span><span class="p">()</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">frombytes</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-            <span class="c1"># L&#39;image récupérée est alternée...</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">)</span>
-            <span class="c1">#self.print_image(&quot;screenshot&quot;+str(self.cpt)+&quot;.png&quot;)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="c1">#print(&quot;Picture &quot;, self.cpt, &quot; taken&quot;)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-
-
-<div class="viewcode-block" id="Camera.print_image"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.print_image">[docs]</a>    <span class="k">def</span> <span class="nf">print_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Enregistre la dernière image enregistrée dans le fichier de nom fname</span>
-<span class="sd">        :param fname:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-        <span class="c1">#print(&quot;Printing image...&quot;)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">rep_name</span><span class="o">+</span><span class="n">fname</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">getdata</span><span class="p">()</span>
-
-<div class="viewcode-block" id="Camera.take_picture"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.take_picture">[docs]</a>    <span class="k">def</span> <span class="nf">take_picture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Si aucune application n&#39;a été lancée avant l&#39;appel de cette fontion, une application est lancée</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
-            <span class="n">td</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
-            <span class="n">td</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
-
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Camera</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">pyglet</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">pass</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rep_name</span> <span class="o">=</span> <span class="n">fonctions</span><span class="o">.</span><span class="n">get_project_repository</span><span class="p">()</span> <span class="o">+</span> <span class="n">REPNAME_SCREENSHOTS</span>
 
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -166,30 +99,112 @@
 
         <span class="k">return</span> <span class="n">dct</span>
 
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">; is_running: </span><span class="si">{}</span><span class="s2">; cpt: </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
+<div class="viewcode-block" id="Camera.run"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.run">[docs]</a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Lance l&#39;application pyglet</span>
+
+<span class="sd">            La couleur de fond par défaut est le gris</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="n">Window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arene</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">glClearColor</span><span class="p">(</span><span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">glEnable</span><span class="p">(</span><span class="n">GL_DEPTH_TEST</span><span class="p">)</span>
+        <span class="n">pyglet</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">run</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Camera.picture"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.picture">[docs]</a>    <span class="k">def</span> <span class="nf">picture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Récupère l&#39;image actuelle de l&#39;application, si l&#39;appareil a été &quot;enclenché&quot; avec take_picture()</span>
+
+<span class="sd">            Cette méthode est appelée à la fin de la mathode on_draw de la fenêtre</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span><span class="p">:</span>
+            <span class="c1"># print(&quot;Acquiring image...&quot;)</span>
+            <span class="n">image</span> <span class="o">=</span> <span class="n">pyglet</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_buffer_manager</span><span class="p">()</span><span class="o">.</span><span class="n">get_color_buffer</span><span class="p">()</span><span class="o">.</span><span class="n">get_image_data</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">frombytes</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">format</span><span class="p">,</span> <span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">image</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+            <span class="c1"># L&#39;image récupérée est alternée...</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="mi">180</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">FLIP_LEFT_RIGHT</span><span class="p">)</span>
+            <span class="c1"># self.print_image(&quot;screenshot&quot;+str(self.cpt)+&quot;.png&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># print(&quot;Picture &quot;, self.cpt, &quot; taken&quot;)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="Camera.print_image"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.print_image">[docs]</a>    <span class="k">def</span> <span class="nf">print_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Sauvegarde la dernière image enregistrée dans le fichier de nom fname</span>
+
+<span class="sd">        :param fname: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+        <span class="c1"># print(&quot;Printing image...&quot;)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rep_name</span> <span class="o">+</span> <span class="n">fname</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Camera.get_image"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.get_image">[docs]</a>    <span class="k">def</span> <span class="nf">get_image</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Récuprère la dernière image enregistrée</span>
+
+<span class="sd">        :return: PIL.Image</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">getdata</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># Au cas où aucune image n&#39;a été enregistrée</span>
+            <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Camera.take_picture"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.take_picture">[docs]</a>    <span class="k">def</span> <span class="nf">take_picture</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Si aucune application n&#39;a été lancée avant l&#39;appel de cette fontion, une application est lancée</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_pic</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span><span class="p">:</span>
+            <span class="n">td</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+            <span class="n">td</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Camera.stop"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Ferme la fenêtre</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pyglet</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">exit</span><span class="p">()</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">window</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># Au cas où self.window = None</span>
+            <span class="k">pass</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">is_set</span> <span class="o">=</span> <span class="kc">False</span></div>
+
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Camera.hook"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.hook">[docs]</a>    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; On ne récupère pas la liste d&#39;objest à ignorer&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Vecteur</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Point</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Point</span><span class="o">.</span><span class="n">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Camera</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">Camera</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;direction&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;get_pic&quot;</span><span class="p">],</span>
-                          <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;is_running&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;is_set&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;cpt&quot;</span><span class="p">])</span></div>
+                          <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;is_running&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;is_set&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;cpt&quot;</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Camera</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+<div class="viewcode-block" id="Camera.load"><a class="viewcode-back" href="../../../../../../sensor.html#gl_lib.sim.robot.sensor.camera.Camera.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet Camera depuis un fichier au format json adapté</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;(</span><span class="si">{}</span><span class="s2">; is_running: </span><span class="si">{}</span><span class="s2">; cpt: </span><span class="si">{}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_running</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">s</span></div>
+<span class="sd">        :param filename:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Camera</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
+
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-
-    <span class="n">c</span><span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
-
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Camera</span><span class="p">(</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 </pre></div>
 
           </div>

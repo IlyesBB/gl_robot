@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-from . import sensor
 
+from . import sensor
 from .Tete import Tete
 from .Roue import Roue
 from .Robot import Robot

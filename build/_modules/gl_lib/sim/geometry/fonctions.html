@@ -48,6 +48,7 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
+
 <div class="viewcode-block" id="atan2"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.atan2">[docs]</a><span class="k">def</span> <span class="nf">atan2</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">x</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;retourne atan y/x &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">x</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
@@ -64,23 +65,35 @@
             <span class="k">return</span> <span class="o">-</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span>
     <span class="k">return</span> <span class="mi">0</span></div>
     
-<span class="k">def</span> <span class="nf">signe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="signe"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.signe">[docs]</a><span class="k">def</span> <span class="nf">signe</span><span class="p">(</span><span class="n">x</span><span class="p">:</span><span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retourne le signe de x</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="mi">1</span>
     <span class="k">elif</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="mi">0</span></div>
 
-<span class="k">def</span> <span class="nf">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span><span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="positive_angle"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.positive_angle">[docs]</a><span class="k">def</span> <span class="nf">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">:</span><span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Retourne l&#39;équivalent de angle (en radians) en positif</span>
+
+<span class="sd">    :param angle:</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">signe</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">angle</span> <span class="o">+</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">angle</span>
+        <span class="k">return</span> <span class="n">angle</span></div>
 
 <span class="k">def</span> <span class="nf">get_project_repository</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    :return:</span>
+<span class="sd">        Cherche le répertoire du projet dans l&#39;ordinateur</span>
+
+<span class="sd">        ATTENTION: Peut ne pas fonctionner pour plusieurs raisons (plusieurs répertoires avec le nom du projet,</span>
+<span class="sd">        notamment)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;/home/&quot;</span><span class="p">)</span>
     <span class="c1">#p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)</span>

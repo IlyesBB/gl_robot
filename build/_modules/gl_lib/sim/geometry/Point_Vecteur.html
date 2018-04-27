@@ -52,17 +52,22 @@
 <span class="kn">from</span> <span class="nn">gl_lib.utils</span> <span class="k">import</span> <span class="n">Serializable</span>
 
 
-<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Point"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point">[docs]</a><span class="k">class</span> <span class="nc">Point</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe definissant un point dans un espace 3D (x,y,z)</span>
-<span class="sd">    x : coordonnee en x</span>
-<span class="sd">    y : coordonnee en y</span>
-<span class="sd">    z : coordonnee en z</span>
+<span class="sd">        Classe définissant un point dans un espace 3D par 3 coordonnées</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">type_coords</span><span class="p">:</span> <span class="nb">object</span> <span class="o">=</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Initialise les coordonnees du point </span>
+<span class="sd">        Initialise les coordonnées du point</span>
+<span class="sd">        :param x: Coordonnée en x</span>
+<span class="sd">        :type x: float</span>
+<span class="sd">        :param y: Coordonnée en y</span>
+<span class="sd">        :type y: float</span>
+<span class="sd">        :param z: Coordonnée en z</span>
+<span class="sd">        :type z: float</span>
+<span class="sd">        :param type_coords: Permet de passer de flottant à entier</span>
+<span class="sd">        :type type_coords: type</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -72,50 +77,13 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Point.set_position"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Modifie les coordonnees du point</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">point</span><span class="p">),</span> <span class="n">Point</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">x</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">z</span></div>
-
-<div class="viewcode-block" id="Point.move"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Deplace le point d&#39;un vecteur (dx, dy, dz)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vecteur</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vecteur</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="bp">self</span> <span class="o">+</span> <span class="n">vecteur</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Point.rotate_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tourne le point courant autour du point en argument de teta</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># v: Vecteur</span>
-
-        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span>
-        <span class="n">v</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
-        <span class="c1"># dans ce sens, l&#39;addition renvoi un Vecteur</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">point</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Point.to_vect"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.to_vect">[docs]</a>    <span class="k">def</span> <span class="nf">to_vect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Converti le point en vecteur et </span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Point.to_tuple"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Conversion en tuple</span>
-<span class="sd">        :return: Tuple</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="k">elif</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Point</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">dct</span>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -127,28 +95,25 @@
         <span class="k">return</span> <span class="s2">&quot;p(</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">,</span><span class="si">{:6.6}</span><span class="s2">)&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nom</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Permet d&#39;acceder a un attribut. si ce n&#39;est pas possible:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;L&#39;attribut </span><span class="si">{}</span><span class="s2"> n&#39;est pas accessible dans </span><span class="si">{}</span><span class="s2"> !&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">nom</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Addition. Dans ce sens, renvoi un Point que vp soit un vecteur ou un point</span>
+<span class="sd">        A   ddition. Dans ce sens, renvoi un Point que vp soit un vecteur ou un point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Soustraction. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Soustraction. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">vp</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">vp</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__radd__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Addition inverse. Dans ce sens, peut renvoyer un Vecteur, si vp en est un</span>
+<span class="sd">            Addition inverse. Dans ce sens, peut renvoyer un Vecteur, si vp en est un</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
@@ -156,8 +121,8 @@
             <span class="k">return</span> <span class="bp">self</span> <span class="o">+</span> <span class="n">vp</span>
 
     <span class="k">def</span> <span class="nf">__rsub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Soustraction inverse. Dans ce sens, peut renvoyer un Point, si vp en est un </span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Soustraction inverse. Dans ce sens, peut renvoyer un Point, si vp en est un</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="n">vp</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">vp</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
@@ -165,36 +130,17 @@
             <span class="k">return</span> <span class="bp">self</span> <span class="o">-</span> <span class="n">vp</span>
 
     <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        division des coordonnees par un reel</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Division des coordonnees par un reel</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Point</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="k">return</span> <span class="n">dct</span>
-
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Point</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">])</span>
-
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
+            <span class="c1"># En cas de division par zéros</span>
+            <span class="k">return</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -223,26 +169,102 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">vi</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">vi</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">vi</span><span class="p">),</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">vi</span><span class="p">))</span>
 
+<div class="viewcode-block" id="Point.set_position"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.set_position">[docs]</a>    <span class="k">def</span> <span class="nf">set_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">           Modifie les coordonnées du point</span>
+
+<span class="sd">        :param point: Point dont on va copier les coordonnées</span>
+<span class="sd">        :param point: Point</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">point</span><span class="p">),</span> <span class="n">Point</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">x</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">point</span><span class="o">.</span><span class="n">z</span></div>
+
+<div class="viewcode-block" id="Point.move"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Déplace le point d&#39;un vecteur (dx, dy, dz)</span>
+
+<span class="sd">        :param vecteur: Vecteur déplacement</span>
+<span class="sd">        :type vecteur: Vecteur</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vecteur</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vecteur</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="bp">self</span> <span class="o">+</span> <span class="n">vecteur</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Point.rotate_around"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tourne le point courant autour du point en argument de teta</span>
+<span class="sd">        :param point: Point autour duquel tourner</span>
+<span class="sd">        :type point: Point</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># v: Vecteur</span>
+
+        <span class="n">v</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">-</span> <span class="n">point</span><span class="p">)</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span>
+        <span class="n">v</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="c1"># dans ce sens, l&#39;addition renvoi un Vecteur</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_position</span><span class="p">(</span><span class="n">point</span> <span class="o">+</span> <span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Point.to_vect"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.to_vect">[docs]</a>    <span class="k">def</span> <span class="nf">to_vect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Convertit self en vecteur et le renvoi</span>
+
+<span class="sd">        :return: Vecteur</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Point.to_tuple"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Conversion en tuple</span>
+
+<span class="sd">        :return: Tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">elif</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Point.clone"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.clone">[docs]</a>    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        clone le point</span>
 <span class="sd">        :return: Point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">type_coords</span><span class="p">)</span></div>
 
-        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="n">type_coords</span><span class="p">)</span></div></div>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">Point</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">])</span>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="Point.load"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Point.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet Point depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Point</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
 
 
-<span class="sd">&quot;&quot;&quot;_______________________________________________________________________________________________________________&quot;&quot;&quot;</span>
+<span class="c1"># ______________________________________________________________________________________________________________________#</span>
 
-
-<div class="viewcode-block" id="Vecteur"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur">[docs]</a><span class="k">class</span> <span class="nc">Vecteur</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Vecteur"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur">[docs]</a><span class="k">class</span> <span class="nc">Vecteur</span><span class="p">(</span><span class="n">Serializable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Defini des methodes de calcul sur les vecteurs</span>
+<span class="sd">        Définit tdes methodes de calcul sur les vecteurs</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="nb">int</span> <span class="ow">or</span> <span class="nb">float</span><span class="p">,</span> <span class="n">echelle</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Intialise les coordonnees</span>
+<span class="sd">            Intialise les coordonnées</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
@@ -252,130 +274,17 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">PIX_PAR_M</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">*</span> <span class="n">PIX_PAR_M</span>
 
-<div class="viewcode-block" id="Vecteur.get_angle"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.get_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">signe</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retourne l&#39;angle du vecteur </span>
-<span class="sd">        par rapport a la verticale,</span>
-<span class="sd">        dans le sens trigo, entre pi et -pi</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">axe</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
-            <span class="n">a1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="n">axe</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
-            <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">x</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">y</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">aux</span>
-
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">z</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">y</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">aux</span>
-            <span class="n">a1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">z</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">x</span>
-            <span class="n">v1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">aux</span>
-            <span class="n">a1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">signe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">signe</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">positive_angle</span><span class="p">(</span><span class="o">-</span><span class="n">a1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">positive_angle</span><span class="p">(</span><span class="o">-</span><span class="n">a1</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="o">-</span><span class="n">a1</span></div>
-
-<div class="viewcode-block" id="Vecteur.diff_angle"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.diff_angle">[docs]</a>    <span class="k">def</span> <span class="nf">diff_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">,</span> <span class="n">signe</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        retourne la difference d&#39;angle entre 2 vecteurs dans le repere (x, y)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># v: Vecteur</span>
-        <span class="n">angle</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">**</span> <span class="n">vecteur</span>
-        <span class="k">if</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vecteur</span> <span class="o">!=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
-            <span class="c1"># utilise les proprietes du produit vectoriel pour determiner si l&#39;angle est positif ou negatif</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="n">vecteur</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_mag</span><span class="p">()</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">get_mag</span><span class="p">())</span>
-            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># si v est a gauche</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="c1"># si v est a droite</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">acos</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">except</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">-</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">vecteur</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="n">pi</span>
-            <span class="k">if</span> <span class="n">signe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">signe</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="n">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
-                <span class="k">elif</span> <span class="n">signe</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                    <span class="n">angle</span> <span class="o">=</span> <span class="n">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>
-            <span class="k">return</span> <span class="n">angle</span></div>
-
-<div class="viewcode-block" id="Vecteur.get_mag"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.get_mag">[docs]</a>    <span class="k">def</span> <span class="nf">get_mag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retourne la norme du vecteur</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
-
-<div class="viewcode-block" id="Vecteur.rotate"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Tourne le vecteur d&#39;un angle teta, selon z,  par défaut</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="c1"># x: Copie de self.y</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
-            <span class="c1"># y: Copie de self.y</span>
-            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-
-        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
-            <span class="c1"># z: Copie de self.z</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-
-            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="bp">self</span></div>
-
-<div class="viewcode-block" id="Vecteur.to_point"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.to_point">[docs]</a>    <span class="k">def</span> <span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Conversion en point</span>
-<span class="sd">        :return: Point</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Vecteur.to_tuple"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Conversion en tuple</span>
-<span class="sd">        :return: Tuple</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="k">elif</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
-            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
-
-    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vecteur</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">return</span> <span class="n">dct</span>
 
     <span class="k">def</span> <span class="nf">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vi</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        produit scalaire ou multiplication par une constate reelle</span>
+<span class="sd">            Produit scalaire ou multiplication par une constate réelle</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vi</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">vi</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">vi</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">vi</span><span class="o">.</span><span class="n">z</span>
@@ -386,13 +295,13 @@
 
     <span class="k">def</span> <span class="nf">__rmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vi</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        produit scalaire ou multiplication par une constate reelle</span>
+<span class="sd">            Produit scalaire ou multiplication par une constate réelle inverse</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">*</span> <span class="n">vi</span>
 
     <span class="k">def</span> <span class="nf">__pow__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        produit vectoriel </span>
+<span class="sd">            Produit vectoriel</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vecteur</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">z</span><span class="p">,</span>
@@ -400,28 +309,28 @@
 
     <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vp</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Addition. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
+<span class="sd">         Addition. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">+</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__sub__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span> <span class="n">Point</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        Soustraction. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Soustraction. Dans ce sens, renvoi un vecteur que vp soit un vecteur ou un point</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">point</span><span class="p">),</span> <span class="n">Point</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">issubclass</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">point</span><span class="p">),</span> <span class="n">Vecteur</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">point</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">point</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">point</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__truediv__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        division des coordonnees par un reel</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Division des coordonnées par un réel</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
                 <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">/</span> <span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span>
-        <span class="k">except</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">ArithmeticError</span><span class="p">:</span>
             <span class="c1"># float division by zero</span>
             <span class="k">pass</span>
 
@@ -458,25 +367,155 @@
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">return</span> <span class="kc">True</span>
 
+<div class="viewcode-block" id="Vecteur.get_angle"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.get_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axe</span><span class="o">=</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="n">signe</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Retourne l&#39;angle du vecteur par rapport a la verticale, dans le sens trigo, entre pi et -pi</span>
+
+<span class="sd">            Peut être spécifié autrement, en donnant un nombre positif en argument avec signe</span>
+
+<span class="sd">        :param axe: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+<span class="sd">        :param signe: Positif ou négatif</span>
+<span class="sd">        :type signe: float</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">axe</span> <span class="o">==</span> <span class="s1">&#39;z&#39;</span><span class="p">:</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">axe</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">y</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">aux</span>
+
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">z</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">y</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">aux</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">z</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">x</span>
+            <span class="n">v1</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">aux</span>
+            <span class="n">a1</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">diff_angle</span><span class="p">(</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="n">signe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">signe</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">positive_angle</span><span class="p">(</span><span class="o">-</span><span class="n">a1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">positive_angle</span><span class="p">(</span><span class="o">-</span><span class="n">a1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="o">-</span><span class="n">a1</span></div>
+
+<div class="viewcode-block" id="Vecteur.diff_angle"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.diff_angle">[docs]</a>    <span class="k">def</span> <span class="nf">diff_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">,</span> <span class="n">signe</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Retourne la différence d&#39;angle entre 2 vecteurs par rapport à Oz</span>
+
+<span class="sd">        :param vecteur: Vecteur à comparer avec self</span>
+<span class="sd">        :type vecteur: Vecteur</span>
+<span class="sd">        :param signe: Signe de l&#39;angle à retourner</span>
+<span class="sd">        :type signe: float</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># v: Vecteur</span>
+        <span class="n">angle</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span> <span class="o">**</span> <span class="n">vecteur</span>
+        <span class="k">if</span> <span class="bp">self</span> <span class="o">!=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="ow">and</span> <span class="n">vecteur</span> <span class="o">!=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">):</span>
+            <span class="c1"># utilise les proprietes du produit vectoriel pour determiner si l&#39;angle est positif ou negatif</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span> <span class="o">*</span> <span class="n">vecteur</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_mag</span><span class="p">()</span> <span class="o">*</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">get_mag</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># si v est a gauche</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">v</span><span class="o">.</span><span class="n">z</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># si v est a droite</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="n">acos</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">-</span> <span class="n">acos</span><span class="p">(</span><span class="n">res</span> <span class="o">%</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span> <span class="o">==</span> <span class="n">vecteur</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">pi</span>
+            <span class="k">if</span> <span class="n">signe</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">signe</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">signe</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">angle</span> <span class="o">=</span> <span class="n">positive_angle</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>
+            <span class="k">return</span> <span class="n">angle</span></div>
+
+<div class="viewcode-block" id="Vecteur.get_mag"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.get_mag">[docs]</a>    <span class="k">def</span> <span class="nf">get_mag</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Retourne la norme du vecteur</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sqrt</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Vecteur.rotate"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le vecteur d&#39;un angle teta, selon z  par défaut</span>
+
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;z&#39;, &#39;x&#39; ou &#39;y&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">axis</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># x: Copie de self.y</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span>
+            <span class="c1"># y: Copie de self.y</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">axis</span> <span class="o">==</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span>
+            <span class="c1"># z: Copie de self.z</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">z</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">teta</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="Vecteur.to_point"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.to_point">[docs]</a>    <span class="k">def</span> <span class="nf">to_point</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Conversion en point</span>
+
+<span class="sd">        :return: Point</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">Point</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vecteur.to_tuple"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.to_tuple">[docs]</a>    <span class="k">def</span> <span class="nf">to_tuple</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">type_coords</span><span class="o">=</span><span class="nb">float</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Conversion en tuple</span>
+
+<span class="sd">        :return: tuple</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">float</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
+        <span class="k">elif</span> <span class="n">type_coords</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Vecteur.norm"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.norm">[docs]</a>    <span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Norme le vecteur</span>
+<span class="sd">            Norme le vecteur</span>
+
 <span class="sd">        :return: Vecteur</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_mag</span><span class="p">()</span></div>
-
-    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Vecteur</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">z</span>
-        <span class="k">return</span> <span class="n">dct</span>
-
-    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
@@ -484,14 +523,21 @@
             <span class="k">return</span> <span class="n">Vecteur</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">],</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;z&quot;</span><span class="p">])</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Vecteur.load"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Vecteur.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet Vecteur depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Vecteur</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Vecteur</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">v</span> <span class="o">=</span> <span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="kn">import</span> <span class="nn">os</span>
+
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;/home/ilyes/&quot;</span><span class="p">)</span>
 
     <span class="n">d</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>

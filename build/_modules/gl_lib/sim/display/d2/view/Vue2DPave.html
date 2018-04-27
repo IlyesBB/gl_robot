@@ -47,19 +47,24 @@
 <span class="kn">from</span> <span class="nn">gl_lib.sim.display.d2.view.Vue2D</span> <span class="k">import</span> <span class="n">Vue2D</span>
 <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Pave</span>
 <span class="kn">from</span> <span class="nn">gl_lib.config</span> <span class="k">import</span> <span class="n">PIX_PAR_M_2D</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">Canvas</span>
 
 <div class="viewcode-block" id="Vue2DPave"><a class="viewcode-back" href="../../../../../../view.html#gl_lib.sim.display.d2.view.Vue2DPave">[docs]</a><span class="k">class</span> <span class="nc">Vue2DPave</span><span class="p">(</span><span class="n">Vue2D</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Constructeur de la view</span>
-<span class="sd">    pave: Pave</span>
-<span class="sd">    canevas: Canevas</span>
-
-<span class="sd">    Cree le pave dans canevas</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Représentation en 2 dimensions d&#39;un pavé pour tkinter</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pave</span><span class="p">:</span><span class="n">Pave</span><span class="p">,</span> <span class="n">canevas</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pave</span><span class="p">,</span> <span class="n">canevas</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        il est suppose que les sommets du pave sont ranges dans le bon ordre (anti-horaire)</span>
-<span class="sd">        et que les 4 premiers sont les plus hauts</span>
+<span class="sd">            Crée une copie du pavé en argument à la bonne échelle pour l&#39;affichage 2D, puis le convertis en lignes tkinter</span>
+
+<span class="sd">            Il est supposé que les sommets du pave sont rangés dans le bon ordre (anti-horaire) et que les 4 premiers sont</span>
+<span class="sd">            les plus hauts</span>
+<span class="sd">        :param pave: Pavé à représenter</span>
+<span class="sd">        :type pave: Pave</span>
+<span class="sd">        :param canevas: Canevas sur lequel dessiner</span>
+<span class="sd">        :type canevas: Canvas</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Vue2D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pave</span><span class="o">=</span><span class="n">Pave</span><span class="p">(</span><span class="n">width</span><span class="o">=</span><span class="n">pave</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">pave</span><span class="o">.</span><span class="n">length</span> <span class="o">*</span> <span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">pave</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">pave</span><span class="o">.</span><span class="n">centre</span> <span class="o">*</span> <span class="n">PIX_PAR_M_2D</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">pave</span><span class="o">.</span><span class="n">rotate</span><span class="p">((</span><span class="n">pave</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pave</span><span class="o">.</span><span class="n">vertices</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">to_vect</span><span class="p">()</span><span class="o">.</span><span class="n">get_angle</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cotes</span><span class="o">=</span><span class="nb">list</span><span class="p">()</span>
@@ -69,7 +74,7 @@
 
 <div class="viewcode-block" id="Vue2DPave.afficher"><a class="viewcode-back" href="../../../../../../view.html#gl_lib.sim.display.d2.view.Vue2DPave.afficher">[docs]</a>    <span class="k">def</span> <span class="nf">afficher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canevas</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; </span>
-<span class="sd">        met a jour les coordonnee des points</span>
+<span class="sd">            Met à jour les coordonnées des points</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pave</span> <span class="ow">and</span> <span class="n">canevas</span><span class="p">:</span>
             <span class="c1">#sommets: [Point]</span>

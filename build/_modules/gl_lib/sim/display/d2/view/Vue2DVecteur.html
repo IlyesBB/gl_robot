@@ -45,26 +45,31 @@
   <h1>Code source de gl_lib.sim.display.d2.view.Vue2DVecteur</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">gl_lib.sim.display.d2.view</span> <span class="k">import</span> <span class="n">Vue2D</span>
-<span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Vecteur</span>
+<span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">Canvas</span>
 <span class="kn">from</span> <span class="nn">gl_lib.config</span> <span class="k">import</span> <span class="n">PIX_PAR_M_2D</span>
+
+
 <div class="viewcode-block" id="Vue2DVecteur"><a class="viewcode-back" href="../../../../../../view.html#gl_lib.sim.display.d2.view.Vue2DVecteur">[docs]</a><span class="k">class</span> <span class="nc">Vue2DVecteur</span><span class="p">(</span><span class="n">Vue2D</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Classe contenant un vecteur et sa representation2D &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Représente un vecteur en 2D pour tkinter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">,</span> <span class="n">canevas</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Constructeur de la view</span>
-<span class="sd">        vecteur: Vecteur</span>
-<span class="sd">        ligne: ligne 2D</span>
-<span class="sd">        canevas: Canevas</span>
-<span class="sd">        </span>
-<span class="sd">        Cree la ligne dans canevas</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Construit la vue du vecteur comme une ligne</span>
+<span class="sd">        :param vecteur: Vecteur à représenter</span>
+<span class="sd">        :type vecteur: Vecteur</span>
+<span class="sd">        :param canevas: Canevas sur lequel dessiner</span>
+<span class="sd">        :type canevas: Canvas</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Vue2D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vecteur</span><span class="o">=</span><span class="n">vecteur</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ligne</span><span class="o">=</span><span class="n">canevas</span><span class="o">.</span><span class="n">create_line</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="n">vecteur</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">)</span>
         
 <div class="viewcode-block" id="Vue2DVecteur.afficher"><a class="viewcode-back" href="../../../../../../view.html#gl_lib.sim.display.d2.view.Vue2DVecteur.afficher">[docs]</a>    <span class="k">def</span> <span class="nf">afficher</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">canevas</span><span class="p">,</span> <span class="n">position</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; actualise la position de ligne &quot;&quot;&quot;</span>
-
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Actualise la position de la vue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">canevas</span><span class="o">.</span><span class="n">coords</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ligne</span><span class="p">,</span> <span class="n">position</span><span class="o">.</span><span class="n">x</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="n">position</span><span class="o">.</span><span class="n">y</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">x</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">vecteur</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">,</span> <span class="p">(</span><span class="n">position</span><span class="o">.</span><span class="n">y</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">vecteur</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="o">*</span><span class="n">PIX_PAR_M_2D</span><span class="p">)</span></div></div>
 </pre></div>
 

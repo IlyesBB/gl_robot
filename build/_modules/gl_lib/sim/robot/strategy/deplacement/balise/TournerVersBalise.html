@@ -57,10 +57,11 @@
 
 <div class="viewcode-block" id="TournerVersBalise"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise">[docs]</a><span class="k">class</span> <span class="nc">TournerVersBalise</span><span class="p">(</span><span class="n">Tourner</span><span class="p">,</span> <span class="n">StrategieVision</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Stratégie qui permet de tourner le robot robot vers une balise devant lui, si elle est visible</span>
-<span class="sd">    Pour cela, on utilise les images capturée pour la caméra du robot</span>
+<span class="sd">        Stratégie qui permet de tourner le robot robot vers une balise devant lui, si elle est visible</span>
+
+<span class="sd">        Nécessite le lancement de l&#39;application pyglet de la caméra du robot (de gl_lib.sim.robot.sensor.camera.Camera)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Précision en degrés avec laquelle n considère que la balise est devant</span>
+    <span class="c1"># Précision en degrés avec laquelle on considère que la balise est devant</span>
     <span class="n">PRECISION</span> <span class="o">=</span> <span class="mi">5</span>
     <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;prev_res&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;balise&quot;</span><span class="p">:</span> <span class="n">Balise</span><span class="p">(),</span> <span class="s2">&quot;cpt&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;cpt_before_picture&quot;</span><span class="p">:</span> <span class="n">DT_SCREENSHOT</span><span class="p">,</span>
             <span class="s2">&quot;cpt_not_found&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
@@ -68,7 +69,10 @@
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param balise: contient des couleurs, si aucune n&#39;est donnée en argument, on en crée une</span>
+<span class="sd">        :param balise: Balise à chercher dans les images. Si aucune donnée en argument, on en crée une par défaut</span>
+<span class="sd">        :type balise: Balise</span>
+<span class="sd">        :param balise: Balise à chercher dans les images. Si aucune donnée en argument, on en crée une par défaut</span>
+<span class="sd">        :type balise: Balise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">INIT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -78,23 +82,49 @@
 
         <span class="n">StrategieVision</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">StrategieVision</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
         <span class="n">Tourner</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Tourner</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
+        <span class="c1"># Balise à chercher</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">balise</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;balise&quot;</span><span class="p">]</span>
+        <span class="c1"># Compteur d&#39;image analysées</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cpt</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cpt&quot;</span><span class="p">]</span>
+        <span class="c1"># Compteur d&#39;images dont l&#39;analyse n&#39;a pas été concluante</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cpt_not_found</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cpt_not_found&quot;</span><span class="p">]</span>
+        <span class="c1"># Temps de latence avant laquelle prendre analyser l&#39;image</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cpt_before_picture</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;cpt_before_picture&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">PAS_TEMPS</span><span class="p">)</span>
+        <span class="c1"># Dernier résultat obtenu lors de l&#39;anayse de l&#39;image</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prev_res</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;prev_res&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">KEYS</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">dct</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Tourner</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&quot;</span>
+
 <div class="viewcode-block" id="TournerVersBalise.get_angle"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.get_angle">[docs]</a>    <span class="k">def</span> <span class="nf">get_angle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Retourne 1 si la balise est à droite, -1 si elle est à gauche</span>
+<span class="sd">            Retourne un tuple (angle, sens), indiquant la position de la balise sur la dernière image</span>
+<span class="sd">            Si aucune balise trouvée retourne None</span>
 
-<span class="sd">        Si l&#39;angle formé par le vecteur formé par le milieu bas de l&#39;écran et le centre de la balise</span>
-<span class="sd">        avec la verticale est supérieur à 5 degrés, la balis est considérée devant le robot</span>
-<span class="sd">        on retourne alors 0</span>
+<span class="sd">            Angle:</span>
 
-<span class="sd">        Si aucune balise trouvée retourne None</span>
-<span class="sd">        :return: int</span>
+<span class="sd">            Retourne l&#39;angle formé par le vecteur formé par le milieu bas de l&#39;écran et le centre de la balise avec la</span>
+<span class="sd">            verticale. Si cet angle est inférieur à TournerVersBalise.PRECISION, la balise est considérée devant le</span>
+<span class="sd">            robot. On retourne alors 0</span>
+
+<span class="sd">            Signe:</span>
+<span class="sd">            Correspond au signe de l&#39;angle</span>
+
+<span class="sd">            Si aucune balise trouvée retourne None</span>
+
+<span class="sd">        :return: tuple</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># print(&quot;\nAnalysing image &quot;, self.cpt,&quot;...&quot;)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="n">trouver_balise</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">balise</span><span class="o">.</span><span class="n">colors</span><span class="p">,</span> <span class="n">image</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_image</span><span class="p">())</span>
@@ -115,13 +145,22 @@
 
         <span class="k">return</span> <span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">sens</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TournerVersBalise.update"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Met à jour la stratégie et demande la prise d&#39;une photo à la caméra</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_angle</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">action</span><span class="p">(</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">Tourner</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">take_picture</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">take_picture</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sens</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+<div class="viewcode-block" id="TournerVersBalise.action"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.action">[docs]</a>    <span class="k">def</span> <span class="nf">action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sens</span><span class="p">,</span> <span class="n">angle</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Définit et exécute les actions à réaliser en fonction des résultats de la recherche de la balise</span>
+
+<span class="sd">        :param sens: Son signe donne la rotation à effectuer (prise dans le sens trigonométrique)</span>
+<span class="sd">        :param angle: Angle duquel tourner en radians</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">sens</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">Tourner</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -129,26 +168,26 @@
             <span class="n">Tourner</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">Tourner</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">)</span>
+            <span class="n">Tourner</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="TournerVersBalise.stop"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Si on a trouvé une balise devant, on renvoie True</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="c1"># print(&quot;Target ahead&quot;)</span>
             <span class="k">return</span> <span class="kc">True</span>
-        <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">False</span></div>
 
-    <span class="k">def</span> <span class="nf">show_last_pic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-    <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-        <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="vm">__name__</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">KEYS</span><span class="p">:</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
-            <span class="k">except</span><span class="p">:</span>
-                <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">dct</span>
+<div class="viewcode-block" id="TournerVersBalise.show_last_pic"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.show_last_pic">[docs]</a>    <span class="k">def</span> <span class="nf">show_last_pic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet d&#39;afficher la dernière image analysée par la stratégie</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">raw_im</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># Au cas où aucune image n&#39;a été analysée</span>
+            <span class="k">pass</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
@@ -158,17 +197,22 @@
         <span class="k">elif</span> <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">TournerVersBalise</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">Tourner</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;&quot;</span>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="TournerVersBalise.load"><a class="viewcode-back" href="../../../../../../../balise.html#gl_lib.sim.robot.strategy.deplacement.balise.TournerVersBalise.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet TournerVersBalise depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">gl_lib.sim.robot</span> <span class="k">import</span> <span class="n">RobotMotorise</span>
-    <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Arene</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Arene</span><span class="p">,</span> <span class="n">signe</span>
+
     <span class="n">st</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">RobotMotorise</span><span class="p">(),</span> <span class="n">arene</span><span class="o">=</span><span class="n">Arene</span><span class="p">())</span>
     <span class="n">st</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;TournerVersBalise.json&quot;</span><span class="p">)</span>
     <span class="n">st2</span> <span class="o">=</span> <span class="n">TournerVersBalise</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;TournerVersBalise.json&quot;</span><span class="p">)</span>

@@ -4,14 +4,17 @@ from gl_lib.sim.geometry import Arene
 
 class AreneFermee(Arene):
     """
-    definit une arene avec des limites
+        définit une arène avec des limites
     """
 
-    def __init__(self, height: int or float = 10, width: int or float = 10, length: int or float = 10):
+    def __init__(self, height = 10, width = 10, length = 10):
         """
-        :param height: hauteur
-        :param width: largeur
-        :param length: longueur
+        :param height: Hauteur de l'arène
+        :type height: float
+        :param width: Largeur de l'arène
+        :type width: float
+        :param length: Longueur de l'arène
+        :type length: float
         """
         Arene.__init__(self)
         self.height = height

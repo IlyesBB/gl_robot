@@ -9,13 +9,13 @@ from math import *
 
 class Pave(Polygone3D, ApproximableAPave):
     """
-    Classe definissant un pave dans un repere en 3D
+        Classe définissant un pavé dans un repère en 3D
     """
 
     def __init__(self, width: float or int, length: float or int, height: float or int, centre=Point(0, 0, 0),
                  vertices: [Point] = None):
         """
-        Constructeur ajoutant les 8 sommets autour du centre par defaut: (0,0,0)
+            Constructeur ajoutant les 8 sommets autour du centre par défaut: (0,0,0)
         """
         Polygone3D.__init__(self, centre, vertices)
         self.width = float(width)
@@ -33,9 +33,31 @@ class Pave(Polygone3D, ApproximableAPave):
             self.add_vertex(Point(self.centre.x + width / 2, self.centre.y + length / 2, self.centre.z - height / 2))
             self.add_vertex(Point(self.centre.x - width / 2, self.centre.y + length / 2, self.centre.z - height / 2))
 
-    def rotate_around(self, point: Point, teta: float, axis=None):
+    def __ne__(self, pave):
+        return not self.__eq__(pave)
+
+    def __dict__(self):
+        dct2 = Polygone3D.dict(self)
+        dct = OrderedDict()
+        l=[self.vertices[i].__dict__() for i in range(len(self.vertices))]
+        dct["__class__"] = Pave.__name__
+        dct["centre"] = dct2["centre"]
+        dct["width"] = self.width
+        dct["length"] = self.length
+        dct["height"] = self.height
+        dct["vertices"] = dct2["vertices"]
+        return dct
+
+    def rotate_around(self, point, teta, axis=None):
         """
-        Tourne le pave autour de point selon z d'un angle teta
+            Tourne le centre du pavé autour de point selon z d'un angle teta
+
+        :param point: Point autour duquel tourner
+        :type point: Point
+        :param teta: Angle en radians
+        :type teta: float
+        :param axis: 'z', 'x' ou 'y'
+
         """
         n_centre = point + (self.centre - point).to_vect().rotate(teta=teta, axis=axis)
         v = n_centre - self.centre
@@ -43,7 +65,14 @@ class Pave(Polygone3D, ApproximableAPave):
 
     def rotate_all_around(self, point: Point, teta: float, axis=None):
         """
-        Tourne le pave autour de point selon z d'un angle teta
+            Tourne le pavé autour de point selon z d'un angle teta, et tourne ses sommets autour de son centre
+
+        :param point: Point autour duquel tourner
+        :type point: Point
+        :param teta: Angle en radians
+        :type teta: float
+        :param axis: 'z', 'x' ou 'y'
+
         """
         if point != self.centre:
             n_centre = point + (self.centre - point).to_vect().rotate(teta=teta, axis=axis)
@@ -56,7 +85,12 @@ class Pave(Polygone3D, ApproximableAPave):
 
     def rotate(self, teta: float, axis=None):
         """
-        Tourne le pavé selon z autour du centre
+            Tourne le pavé selon autour de son centre
+
+        :param teta: Angle en radians
+        :type teta: float
+        :param axis: 'z', 'x' ou 'y'
+
         """
         return self.rotate_all_around(self.centre, teta, axis=axis)
 
@@ -65,11 +99,10 @@ class Pave(Polygone3D, ApproximableAPave):
         return Pave(self.width, self.length, self.height, self.centre.clone(),
                     [self.vertices[i].clone() for i in range(len(self.vertices))])
 
-    def move(self, vecteur: Vecteur):
-        Polygone3D.move(self, vecteur)
-        return self
-
     def get_length(self):
+        """
+            Retourne la longueur caractéristique du pavé, selon l'axe z
+        """
         return max(self.width, self.length)
 
     def __eq__(self, pave):
@@ -86,10 +119,6 @@ class Pave(Polygone3D, ApproximableAPave):
 
 
     def __str__(self):
-        """
-        Renvoi une version plus lisible que repr du pavé sous forme de chaine de caractères
-        :return:
-        """
         s = "("+self.__class__.__name__
         s += "({:6.6},{:6.6},{:6.6});  vertices: ".format(self.width, self.length, self.height)
         for i in range(int(len(self.vertices)/2)):
@@ -97,26 +126,10 @@ class Pave(Polygone3D, ApproximableAPave):
         return s+")"
 
     def get_inclinaisont(self):
+        """
+            Retourne la différence d'angle entre un des côtés du pavé sur le plan Oxy, et le vecteur (1,0,0)
+        """
         return (self.vertices[1]-self.vertices[0]).to_vect().diff_angle(Vecteur(1,0,0))
-
-    def __ne__(self, pave):
-        return not self.__eq__(pave)
-
-    def __dict__(self):
-        dct2 = Polygone3D.dict(self)
-        dct = OrderedDict()
-        l=[self.vertices[i].__dict__() for i in range(len(self.vertices))]
-        dct["__class__"] = Pave.__name__
-        dct["centre"] = dct2["centre"]
-        dct["width"] = self.width
-        dct["length"] = self.length
-        dct["height"] = self.height
-        dct["vertices"] = dct2["vertices"]
-        return dct
-
-    def dict(self):
-        p = Pave.clone(self)
-        return p.__dict__()
 
     @staticmethod
     def load(filename):
@@ -137,10 +150,5 @@ class Pave(Polygone3D, ApproximableAPave):
 
 
 if __name__ == '__main__':
-    p = Pave(150, 200, 0)
-    p.save("pave.json")
-    sleep(3)
-    dct = p.__dict__()
-
-    p3 = Pave.load("pave.json")
-    print(str(p3))
+    p = Pave(150, 200, 0, Point(50,50,0))
+    print(p)

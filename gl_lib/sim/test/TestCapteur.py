@@ -3,11 +3,10 @@ import unittest
 import random
 from gl_lib.sim.geometry import *
 from gl_lib.sim.robot.sensor import Capteur
-from .TestObjet3D import TestObjet3D
 from gl_lib.sim.robot import Tete
 from math import pi
 
-class TestCapteur(TestObjet3D):
+class TestCapteur(unittest.TestCase):
 
     def setUp(self):
         self.obj=Capteur()
@@ -23,10 +22,6 @@ class TestCapteur(TestObjet3D):
         self.assertEqual(self.obj2.centre, self.tete.centre)
         self.assertEqual(self.obj2.direction, self.tete.direction)
 
-    def test_clone(self):
-        obj=self.obj.clone()
-        self.assertEqual(obj.centre, self.obj.centre)
-        self.assertEqual(obj.direction, self.obj.direction)
 
     def test_move(self):
         v = Vecteur(random.randint(1, 5) * random.choice([1, -1]),

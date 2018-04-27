@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>robot &#8212; documentation gl_lib 0.0.1</title>
+    <title>Robot module &#8212; documentation gl_lib 0.0.1</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -27,6 +27,8 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
     <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="next" title="2D display" href="display.html" />
+    <link rel="prev" title="Simulation" href="sim.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -41,35 +43,72 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="robot">
-<h1>robot<a class="headerlink" href="#robot" title="Lien permanent vers ce titre">¶</a></h1>
+  <div class="section" id="robot-module">
+<h1>Robot module<a class="headerlink" href="#robot-module" title="Lien permanent vers ce titre">¶</a></h1>
 <span class="target" id="module-gl_lib.sim.robot"></span><dl class="class">
 <dt id="gl_lib.sim.robot.Robot">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Robot</code><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Robot</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Classe definissant les elements essentiels d&#8217;un robot</p>
 <dl class="method">
 <dt id="gl_lib.sim.robot.Robot.move">
-<code class="descname">move</code><span class="sig-paren">(</span><em>vecteur: gl_lib.sim.geometry.Point_Vecteur.Vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.move" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Déplace les composants du robot</p>
+<code class="descname">move</code><span class="sig-paren">(</span><em>vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.move" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Déplace les composants du robot</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>vecteur</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Vecteur" title="gl_lib.sim.geometry.Vecteur"><em>Vecteur</em></a>) &#8211; Vecteur Déplacement</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.Robot.rotate_all_around">
-<code class="descname">rotate_all_around</code><span class="sig-paren">(</span><em>point: gl_lib.sim.geometry.Point_Vecteur.Point</em>, <em>angle: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.rotate_all_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.rotate_all_around" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Tourne le Robot et sa direction par rapport à son centre, et autour de point d&#8217;un angle en radians</p>
+<code class="descname">rotate_all_around</code><span class="sig-paren">(</span><em>point</em>, <em>angle</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.rotate_all_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.rotate_all_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Tourne le Robot et sa direction par rapport à son centre, et autour de point d&#8217;un angle en radians</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; Point autour duquel tourner</li>
+<li><strong>teta</strong> (<em>float</em>) &#8211; Angle en radians</li>
+<li><strong>axis</strong> &#8211; &#8216;x&#8217;, &#8216;y&#8217; ou &#8216;z&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.Robot.rotate_around">
-<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point: gl_lib.sim.geometry.Point_Vecteur.Point</em>, <em>angle: float</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Tourne le robot autour de point d&#8217;un angle angle en radians</p>
+<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point</em>, <em>angle</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Robot.html#Robot.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Robot.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Tourne le robot autour de point d&#8217;un angle angle en radians</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; Point autour duquel tourner</li>
+<li><strong>teta</strong> (<em>float</em>) &#8211; Angle en radians</li>
+<li><strong>axis</strong> &#8211; &#8216;x&#8217;, &#8216;y&#8217; ou &#8216;z&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.RobotMotorise">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">RobotMotorise</code><span class="sig-paren">(</span><em>pave=__class__ : 'Pave' centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) width : 1.0 length : 1.0 height : 1.0 vertices : 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>-0.5)])</em>, <em>rg=__class__ : 'Roue' diametre : 0.3 centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) vitesseRot : 0 angle : 0</em>, <em>rd=__class__ : 'Roue' diametre : 0.3 centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) vitesseRot : 0 angle : 0</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>tete: gl_lib.sim.robot.Tete.Tete = __class__ : 'Tete' centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) direction : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>1.0)</em>, <em>('z'</em>, <em>1.0)]) dir_robot : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) dir_rel : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) lcapteurs : {'ir': OrderedDict([('__class__'</em>, <em>'CapteurIR')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('portee'</em>, <em>3)</em>, <em>('l_ignore'</em>, <em>None)</em>, <em>('arena_v'</em>, <em>None)])</em>, <em>'acc': OrderedDict([('__class__'</em>, <em>'Accelerometre')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('prev_pos'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('speed'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('acc'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('cpt'</em>, <em>0)])</em>, <em>'cam': OrderedDict([('__class__'</em>, <em>'Camera')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('is_set'</em>, <em>False)</em>, <em>('is_running'</em>, <em>False)</em>, <em>('get_pic'</em>, <em>False)</em>, <em>('cpt'</em>, <em>1)])}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotMotorise.html#RobotMotorise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotMotorise" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">RobotMotorise</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotMotorise.html#RobotMotorise"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotMotorise" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Robot dont on commande les moteurs des roues, auquel on attache une tête</p>
 <dl class="method">
 <dt id="gl_lib.sim.robot.RobotMotorise.get_wheels_angles">
@@ -90,7 +129,7 @@
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.RobotMotorise.get_wheels_rotations">
-<code class="descname">get_wheels_rotations</code><span class="sig-paren">(</span><em>port: int</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotMotorise.html#RobotMotorise.get_wheels_rotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotMotorise.get_wheels_rotations" title="Lien permanent vers cette définition">¶</a></dt>
+<code class="descname">get_wheels_rotations</code><span class="sig-paren">(</span><em>port</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotMotorise.html#RobotMotorise.get_wheels_rotations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotMotorise.get_wheels_rotations" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><blockquote>
 <div>Renvoie les vitesses des roues</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
@@ -100,6 +139,21 @@
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>port</strong> &#8211; 1 pour roue gauche, 2 pour roue droite, sommer pour accéder au deux</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">Peut renvoyer un tuple ou un flottant, selon le port choisi</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.RobotMotorise.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotMotorise.html#RobotMotorise.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotMotorise.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet RobotMotorise au format json</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
 </tr>
 </tbody>
 </table>
@@ -156,26 +210,37 @@ différence de rotation des roues</p>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.RobotTarget">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">RobotTarget</code><span class="sig-paren">(</span><em>pave=__class__ : 'Pave' centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) width : 1.0 length : 1.0 height : 1.0 vertices : 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>-0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>-0.5)]) 	OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>-0.5)</em>, <em>('y'</em>, <em>0.5)</em>, <em>('z'</em>, <em>-0.5)])</em>, <em>rg=__class__ : 'Roue' diametre : 0.25 centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) vitesseRot : 0 angle : 0</em>, <em>rd=__class__ : 'Roue' diametre : 0.25 centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) vitesseRot : 0 angle : 0</em>, <em>direction=Vecteur(x=0.7071067811865475</em>, <em>y=0.7071067811865475</em>, <em>z=0.0)</em>, <em>tete: gl_lib.sim.robot.Tete.Tete = __class__ : 'Tete' centre : OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) direction : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>1.0)</em>, <em>('z'</em>, <em>1.0)]) dir_robot : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) dir_rel : OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]) lcapteurs : {'ir': OrderedDict([('__class__'</em>, <em>'CapteurIR')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('portee'</em>, <em>3)</em>, <em>('l_ignore'</em>, <em>None)</em>, <em>('arena_v'</em>, <em>None)])</em>, <em>'acc': OrderedDict([('__class__'</em>, <em>'Accelerometre')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('prev_pos'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('speed'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('acc'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('cpt'</em>, <em>0)])</em>, <em>'cam': OrderedDict([('__class__'</em>, <em>'Camera')</em>, <em>('centre'</em>, <em>OrderedDict([('__class__'</em>, <em>'Point')</em>, <em>('x'</em>, <em>0.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('direction'</em>, <em>OrderedDict([('__class__'</em>, <em>'Vecteur')</em>, <em>('x'</em>, <em>1.0)</em>, <em>('y'</em>, <em>0.0)</em>, <em>('z'</em>, <em>0.0)]))</em>, <em>('is_set'</em>, <em>False)</em>, <em>('is_running'</em>, <em>False)</em>, <em>('get_pic'</em>, <em>False)</em>, <em>('cpt'</em>, <em>1)])}</em>, <em>balise=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotTarget.html#RobotTarget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotTarget" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">RobotTarget</code><a class="reference internal" href="_modules/gl_lib/sim/robot/RobotTarget.html#RobotTarget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.RobotTarget" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Robot destiné à avoir une balise accorchée sur lui</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.Tete">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Tete</code><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Tete</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Définit une tête, ses capteurs et ses primitives de rotation</p>
 <p>Le centre et la direction de la tête peuvent être liés à un couple (centre, dir_robot) (cf __init__)
 La tête peut toujours tourner par rapport à dir_robot, à condition de mettre à jour direction avec set_dir()</p>
 <dl class="method">
 <dt id="gl_lib.sim.robot.Tete.add_sensors">
-<code class="descname">add_sensors</code><span class="sig-paren">(</span><em>dict_sensors: {}</em><span class="sig-paren">)</span> &rarr; int<a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete.add_sensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete.add_sensors" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Permet d&#8217;ajouter n&#8217;importequel type de capteur
-Il suffit de le donner, avec son nom, en argument dans un dictionnaire</p>
+<code class="descname">add_sensors</code><span class="sig-paren">(</span><em>dict_sensors</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete.add_sensors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete.add_sensors" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet d&#8217;ajouter n&#8217;importequel type de capteur
+Il suffit de le donner, avec son nom, en argument dans un dictionnaire</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>dict_sensors</strong> (<em>{Capteur}</em>) &#8211; Dictionnaire contenant les couples &#8220;nomcapteur&#8221;:capteur</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">Retourne le nombre de capteurs ajoutés</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.Tete.attach">
-<code class="descname">attach</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete.attach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete.attach" title="Lien permanent vers cette définition">¶</a></dt>
+<code class="descname">attach</code><span class="sig-paren">(</span><em>centre</em>, <em>direction</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete.attach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete.attach" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><blockquote>
 <div>Permet d&#8217;attacher la tête et ses capteurs à un point et une direction
 contrairement au centre de la tête par rapport à centre</div></blockquote>
@@ -184,10 +249,25 @@ contrairement au centre de la tête par rapport à centre</div></blockquote>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
-<li><strong>centre</strong> &#8211; On copie la référence</li>
-<li><strong>direction</strong> &#8211; On copie la référence</li>
+<li><strong>centre</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; On copie la référence</li>
+<li><strong>direction</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Vecteur" title="gl_lib.sim.geometry.Vecteur"><em>Vecteur</em></a>) &#8211; On copie la référence</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.Tete.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Tete.html#Tete.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Tete.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger une tête au format json</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom fu fichier à charger</td>
 </tr>
 </tbody>
 </table>
@@ -216,7 +296,7 @@ référence dir_robot</p>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.Roue">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Roue</code><span class="sig-paren">(</span><em>diametre: float = 0.3</em>, <em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>vitesseRot: float = 0</em>, <em>angle: float = 0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Roue.html#Roue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Roue" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">Roue</code><span class="sig-paren">(</span><em>diametre=0.3</em>, <em>vitesseRot=0</em>, <em>angle=0</em>, <em>centre=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/Roue.html#Roue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.Roue" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Définie les informations de base pour une roue</p>
 <dl class="staticmethod">
 <dt id="gl_lib.sim.robot.Roue.hook">
@@ -234,8 +314,23 @@ référence dir_robot</p>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.AreneRobot">
-<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">AreneRobot</code><span class="sig-paren">(</span><em>objets3D: [&lt;class 'gl_lib.sim.geometry.Objet3D.Objet3D'&gt;] = []</em>, <em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/AreneRobot.html#AreneRobot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.AreneRobot" title="Lien permanent vers cette définition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.</code><code class="descname">AreneRobot</code><span class="sig-paren">(</span><em>objets3D=[]</em>, <em>centre=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/AreneRobot.html#AreneRobot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.AreneRobot" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Permet de discrétiser une arène contenant des robots et des pavés</p>
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.AreneRobot.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/AreneRobot.html#AreneRobot.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.AreneRobot.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet AreneRobot et ses composants à partir d&#8217;un fichier json</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -249,6 +344,8 @@ référence dir_robot</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="sim.html" title="Chapitre précédent">Simulation</a></li>
+      <li>Next: <a href="display.html" title="Chapitre suivant">2D display</a></li>
   </ul></li>
 </ul>
 </div>

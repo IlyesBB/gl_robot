@@ -2,23 +2,31 @@
 from gl_lib.sim.display.d2.view import Vue2DRobot, Vue2DRobotPhysique, Vue2DPave, Vue2D
 from gl_lib.sim.geometry import Arene, Pave
 from gl_lib.sim.robot import *
+from tkinter import Canvas
 
 
 
 class Vue2DArene(Vue2D):
     """
-    contient tout les objets de l'arene et les affiche 
+        Contient tous les objets de l'arène et les affiche
     """
 
-    def __init__(self, arene: Arene):
+    def __init__(self, arene):
         """
-        stockage de l'arene
+            Intialisation de l'attribut arene
+        :param arene: Arène à représenter
+        :type arene: Arene
         """
+        Vue2D.__init__(self)
         self.arene = arene
 
     def afficher(self, canevas):
         """ 
-        affiche les objets de l'arene sur le canevas, s'ils sont reconnus
+            Affiche les objets de l'arène sur le canevas, s'ils sont reconnus
+
+        :param canevas: Canevas tkinter sur lequel dessiner
+        :param canevas: Canvas
+
         """
         # objets: [Objet3D]
         objets = self.arene.objets3D

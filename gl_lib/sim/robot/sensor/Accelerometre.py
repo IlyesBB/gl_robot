@@ -46,16 +46,20 @@ class Accelerometre(Capteur):
         return dct
 
     def __str__(self):
-        s = "({}; sp: {} ; acc: {})".format(self.__class__.__name__, self.speed, self.acc)
+        s = "{}; sp: {} ; acc: {}".format(self.__class__.__name__, self.speed, self.acc)
         return s
 
-    def get_mesure(self, value: int = 1):
+    def get_mesure(self, value = 1):
         """
             Retourne la vitesse actuelle, et actualise le dernier point de mesure de la position
             Si value vaut 1 : retourne la dernière vitesse mesurée
             Si value vaut 2: retourne la dernière accélération mesurée
             Sommer pour obtenir les deux
+
+        :param value: Numéro de la mesure que l'on veut
+        :type value: int
         :return: float ou tuple selon value
+
         """
         if value == 1:
             return self.speed
@@ -97,12 +101,14 @@ class Accelerometre(Capteur):
 
     @staticmethod
     def load(filename):
+        """
+            Permet de charger un objet Accelerometre depuis un fichier au format json adapté
+
+        :param filename:
+
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Accelerometre.hook)
-
-    def clone(self):
-        p = self.prev_pos.clone() if self.prev_pos is not None else None
-        return Accelerometre(self.centre.clone(), self.direction.clone(), p, self.speed.clone(), self.acc.clone())
 
 
 if __name__ == '__main__':

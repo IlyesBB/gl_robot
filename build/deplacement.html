@@ -27,6 +27,8 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
     <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="next" title="Interfaces 2D" href="gui.html" />
+    <link rel="prev" title="Déplacement vers une balise (cible)" href="balise.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -49,15 +51,69 @@
 <dd><p>Dirige le robot pour dessiner un cercle, approximé par un polygone dont tous les points sont sur ce cercle</p>
 <p>Le robot commence à dessiner le cercle dans le sens de sa direction</p>
 <dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.abort">
+<code class="descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.abort" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Désative la mise à jour des actions</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement">
 <code class="descname">init_movement</code><span class="sig-paren">(</span><em>angle_max</em>, <em>diametre_cercle=1</em>, <em>dps_moy=30</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.init_movement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Initilise la trajectoire circulaire</p>
-<p>On Initialise les vitesses en résolvant un système à deux équations, du fait qu&#8217;on connaît le diamètre,
-et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses
-:param angle_max: float (°)
-:param diametre_cercle: float (m)
-:param dps_moy: (°/s)
-:return:</p>
+<blockquote>
+<div>On Initialise les vitesses en résolvant un système à deux équations, du fait qu&#8217;on connaît le diamètre,
+et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>angle_max</strong> (<em>float</em>) &#8211; Angle de rotation à atteindre</li>
+<li><strong>diametre_cercle</strong> (<em>float</em>) &#8211; Diamètre du cercle décrit par la trajectoire</li>
+<li><strong>dps_moy</strong> (<em>float</em>) &#8211; Vitesse maximale des roues en degrés par seconde</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet DeplacementCercle depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Indique si la stratégie a fini son action</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retourne:</th><td class="field-body">bool</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementCercle.html#DeplacementCercle.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Actualise le mouvement de rotation s&#8217;il y en a un</p>
+<p>Si on est au milieu d&#8217;une rotation, on actualise la position du robot
+Si on a atteint l&#8217;angle maximum de rotation, on arrête la rotation</p>
 </dd></dl>
 
 </dd></dl>
@@ -65,13 +121,25 @@ et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.deplacement.Tourner">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">Tourner</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/Tourner.html#Tourner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.Tourner" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Fais décrire au robot un carré de coté 70 cm</p>
+<dd><p>Fais décrire au robot un rotation autour du centre de ses roues</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">StrategieDeplacement</code><span class="sig-paren">(</span><em>robot</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/StrategieDeplacement.html#StrategieDeplacement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>definit une strategy de deplacement de facon abstraite</p>
+<dd><p>Stratégie qui ne fait qu&#8217;actualiser la position du robot</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/StrategieDeplacement.html#StrategieDeplacement.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>La stratégie ne s&#8217;arrète jamais: Renvoi toujours False</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/StrategieDeplacement.html#StrategieDeplacement.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Actualise la position du robot</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -79,10 +147,85 @@ et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">DeplacementDroit</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Fais avancer un robot en argument sur une certaine distance</p>
 <dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.abort">
+<code class="descname">abort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.abort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.abort" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Réinitialise les variables du mouvement, et désactive la mise à jour</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.init_movement">
+<code class="descname">init_movement</code><span class="sig-paren">(</span><em>distance_max</em>, <em>vitesse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.init_movement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.init_movement" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Réinitialise les variables du mouvement, et active la mise à jour dans update()</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>distance_max</strong> &#8211; Distance maximale de laquelle avancer en mètres</li>
+<li><strong>vitesse</strong> &#8211; Vitesse en degrés par seconde à laquelle initialiser les roues</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet DeplacementDroit à partir d&#8217;un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Indique si on est au milieu d&#8217;un mouvement</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.update">
 <code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroit.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroit.update" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Met à jour la robot, et mesure la distance parcourue
-:return:</p>
+<dd><p>Met à jour la robot, et mesure la distance parcourue</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.deplacement.</code><code class="descname">DeplacementDroitAmeliore</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroitAmeliore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Permet de réaliser un déplacement rectiligne sur un robot, et de vérifier qu&#8217;il n&#8217;y à pas d&#8217;obstacle
+pendant le déplacement</p>
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroitAmeliore.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un DeplacementDroitAmeliore depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/deplacement/DeplacementDroit.html#DeplacementDroitAmeliore.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.deplacement.DeplacementDroitAmeliore.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Met à jour les actions à réaliser</p>
+<p>Si on est au milieu d&#8217;un mouvement, on vérifie qu&#8217;il n&#8217;y à pas d&#8217;obstacle trop près
+Si c&#8217;est le cas, on s&#8217;arrềte. Sinon on avance</p>
 </dd></dl>
 
 </dd></dl>
@@ -98,6 +241,8 @@ et le périmètre du cercle (approché) qu&#8217;on dessine selon les vitesses
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="balise.html" title="Chapitre précédent">Déplacement vers une balise (cible)</a></li>
+      <li>Next: <a href="gui.html" title="Chapitre suivant">Interfaces 2D</a></li>
   </ul></li>
 </ul>
 </div>

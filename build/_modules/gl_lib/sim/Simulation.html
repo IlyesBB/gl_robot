@@ -73,11 +73,17 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param strategies: Liste de stratégies à exécuter</span>
+<span class="sd">        :type strategies: [Strategie]</span>
 <span class="sd">        :param strategie: Stratégie principale (fais partie  de strategies)</span>
+<span class="sd">        :type strategie: Strategie</span>
 <span class="sd">        :param acceleration_factor: Le temps s&#39;écoule acceleration_factor fois plus vite</span>
+<span class="sd">        :type acceleration_factor: float</span>
 <span class="sd">        :param tic: Affiche un petit message tous les tic secondes</span>
+<span class="sd">        :type tic: float</span>
 <span class="sd">        :param tic_display: Variables/objets affichés à chaque tic</span>
+<span class="sd">        :type tic_max: float</span>
 <span class="sd">        :param tmax: Temps de fin de la simulation en s</span>
+<span class="sd">        :type tmax: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">Simulation</span><span class="o">.</span><span class="n">INIT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>

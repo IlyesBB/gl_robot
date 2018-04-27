@@ -3,7 +3,7 @@ from math import sqrt
 RES_M = 2
 PAS_IR=(1/RES_M)*sqrt(2)
 DT_SCREENSHOT = 0.1
-PAS_TEMPS=0.05
+PAS_TEMPS=0.2
 PIX_PAR_M_2D=50
 PIX_PAR_M=5
 PIX_PAR_M_3D=5

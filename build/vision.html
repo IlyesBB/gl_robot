@@ -27,6 +27,8 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
     <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="next" title="Capteur" href="sensor.html" />
+    <link rel="prev" title="Vue 2D" href="view.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -43,6 +45,55 @@
             
   <div class="section" id="module-gl_lib.sim.robot.strategy.vision">
 <span id="strategies-de-visualisation-3d"></span><h1>Stratégies de visualisation 3D<a class="headerlink" href="#module-gl_lib.sim.robot.strategy.vision" title="Lien permanent vers ce titre">¶</a></h1>
+<dl class="class">
+<dt id="gl_lib.sim.robot.strategy.vision.StrategieVision">
+<em class="property">class </em><code class="descclassname">gl_lib.sim.robot.strategy.vision.</code><code class="descname">StrategieVision</code><span class="sig-paren">(</span><em>robot: gl_lib.sim.robot.RobotMotorise.RobotMotorise</em>, <em>arene</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/vision/StrategieVision.html#StrategieVision"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.vision.StrategieVision" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Classe qui facilite l&#8217;utilisation de la caméra du robot</p>
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.strategy.vision.StrategieVision.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/vision/StrategieVision.html#StrategieVision.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.vision.StrategieVision.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet StrategieVision depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.vision.StrategieVision.print_screen">
+<code class="descname">print_screen</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/vision/StrategieVision.html#StrategieVision.print_screen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.vision.StrategieVision.print_screen" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Lance la caméra, et enregistre la première image capturée dans un fichier</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.vision.StrategieVision.start_3D">
+<code class="descname">start_3D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/vision/StrategieVision.html#StrategieVision.start_3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.vision.StrategieVision.start_3D" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Lance l&#8217;application de la caméra</p>
+<p>A lancer dans un thread</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.strategy.vision.StrategieVision.stop_3D">
+<code class="descname">stop_3D</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/strategy/vision/StrategieVision.html#StrategieVision.stop_3D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.strategy.vision.StrategieVision.stop_3D" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Ferme la fenêtre</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -54,6 +105,8 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="view.html" title="Chapitre précédent">Vue 2D</a></li>
+      <li>Next: <a href="sensor.html" title="Chapitre suivant">Capteur</a></li>
   </ul></li>
 </ul>
 </div>

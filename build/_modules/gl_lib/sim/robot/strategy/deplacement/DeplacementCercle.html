@@ -57,30 +57,38 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">pi</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
 <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">fonctions</span>
 
-<div class="viewcode-block" id="DeplacementCercle"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle">[docs]</a><span class="k">class</span> <span class="nc">DeplacementCercle</span><span class="p">(</span><span class="n">StrategieDeplacement</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Dirige le robot pour dessiner un cercle, approximé par un polygone dont tous les points sont sur ce cercle</span>
 
-<span class="sd">    Le robot commence à dessiner le cercle dans le sens de sa direction</span>
+<div class="viewcode-block" id="DeplacementCercle"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle">[docs]</a><span class="k">class</span> <span class="nc">DeplacementCercle</span><span class="p">(</span><span class="n">StrategieDeplacement</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dirige le robot pour dessiner un cercle, approximé par un polygone dont tous les points sont sur ce cercle</span>
+
+<span class="sd">        Le robot commence à dessiner le cercle dans le sens de sa direction</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">KEYS</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="n">KEYS</span><span class="o">+</span><span class="p">[</span><span class="s2">&quot;turning&quot;</span><span class="p">,</span><span class="s2">&quot;rot_angle&quot;</span><span class="p">,</span> <span class="s2">&quot;sens&quot;</span><span class="p">,</span> <span class="s2">&quot;angle_max&quot;</span><span class="p">,</span><span class="s2">&quot;diametre&quot;</span><span class="p">]</span>
-    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;turning&quot;</span><span class="p">:</span><span class="kc">False</span><span class="p">,</span><span class="s2">&quot;rot_angle&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;sens&quot;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span><span class="s2">&quot;angle_max&quot;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;diametre&quot;</span><span class="p">:</span><span class="kc">None</span><span class="p">}</span>
+    <span class="n">KEYS</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="n">KEYS</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;turning&quot;</span><span class="p">,</span> <span class="s2">&quot;rot_angle&quot;</span><span class="p">,</span> <span class="s2">&quot;sens&quot;</span><span class="p">,</span> <span class="s2">&quot;angle_max&quot;</span><span class="p">,</span> <span class="s2">&quot;diametre&quot;</span><span class="p">]</span>
+    <span class="n">INIT</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;turning&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;rot_angle&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;sens&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;angle_max&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;diametre&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">}</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Initialise les attributs gérant la rotation</span>
+
+<span class="sd">            Si un angle et un diamètre son donnés en argument, le mouvement est lancé</span>
 <span class="sd">        :param robot: Robot à déplacer</span>
+<span class="sd">        :type robot: RobotMotorise</span>
 <span class="sd">        :param angle_max: Angle duquel se déplacer sur le cercle</span>
 <span class="sd">        :param diametre: Diamètre du cercle en mètres</span>
 <span class="sd">        :param vitesse: Vitesse en degrés par seconde</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">keys</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
+        <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="n">KEYS</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">})</span>
 
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">INIT</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
                 <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">INIT</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-
+        <span class="c1"># A True, la rotation est en cours. False sinon</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">turning</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;turning&quot;</span><span class="p">]</span>
+        <span class="c1"># Angle tourné depuis le début de la rotation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;rot_angle&quot;</span><span class="p">]</span>
+        <span class="c1"># Sens actuel (positif: gauche, négatif: droite - par rapport à la direction du robot)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sens&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;diametre&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span> <span class="o">=</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;angle_max&quot;</span><span class="p">]</span>
@@ -88,13 +96,12 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">=</span> <span class="n">fonctions</span><span class="o">.</span><span class="n">signe</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="p">)</span>
             <span class="k">if</span> <span class="s2">&quot;vitesse&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-                <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">,</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vitesse&quot;</span><span class="p">])</span>
+                <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;vitesse&quot;</span><span class="p">])</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span>
+                <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">diametre</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
-
         <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;__class__&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="vm">__name__</span>
         <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">KEYS</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
@@ -103,18 +110,19 @@
                 <span class="n">dct</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dct</span>
 
-
-
-
-<div class="viewcode-block" id="DeplacementCercle.init_movement"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement">[docs]</a>    <span class="k">def</span> <span class="nf">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle_max</span><span class="p">,</span><span class="n">diametre_cercle</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dps_moy</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
+<div class="viewcode-block" id="DeplacementCercle.init_movement"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.init_movement">[docs]</a>    <span class="k">def</span> <span class="nf">init_movement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle_max</span><span class="p">,</span> <span class="n">diametre_cercle</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dps_moy</span><span class="o">=</span><span class="mi">30</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Initilise la trajectoire circulaire</span>
 
-<span class="sd">        On Initialise les vitesses en résolvant un système à deux équations, du fait qu&#39;on connaît le diamètre,</span>
-<span class="sd">        et le périmètre du cercle (approché) qu&#39;on dessine selon les vitesses</span>
-<span class="sd">        :param angle_max: float (°)</span>
-<span class="sd">        :param diametre_cercle: float (m)</span>
-<span class="sd">        :param dps_moy: (°/s)</span>
-<span class="sd">        :return:</span>
+<span class="sd">            On Initialise les vitesses en résolvant un système à deux équations, du fait qu&#39;on connaît le diamètre,</span>
+<span class="sd">            et le périmètre du cercle (approché) qu&#39;on dessine selon les vitesses</span>
+
+<span class="sd">        :param angle_max: Angle de rotation à atteindre</span>
+<span class="sd">        :type angle_max: float</span>
+<span class="sd">        :param diametre_cercle: Diamètre du cercle décrit par la trajectoire</span>
+<span class="sd">        :type diametre_cercle: float</span>
+<span class="sd">        :param dps_moy: Vitesse maximale des roues en degrés par seconde</span>
+<span class="sd">        :type dps_moy: float</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">angle_max</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -122,45 +130,59 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">turning</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">diametre</span> <span class="o">=</span> <span class="n">diametre_cercle</span>
-        <span class="n">vitesse</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_moy</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">vitesse</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_moy</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">/</span> <span class="mi">2</span>
         <span class="n">sens</span> <span class="o">=</span> <span class="n">fonctions</span><span class="o">.</span><span class="n">signe</span><span class="p">(</span><span class="n">angle_max</span><span class="p">)</span>
-        <span class="n">vg</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">vitesse</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span>
-        <span class="n">vd</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">diametre</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">vitesse</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span>
+        <span class="n">vg</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">vitesse</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span>
+        <span class="n">vd</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">diametre</span><span class="p">)))</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">vitesse</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span>
 
         <span class="k">if</span> <span class="n">sens</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">aux</span> <span class="o">=</span> <span class="n">vg</span>
             <span class="n">vg</span> <span class="o">=</span> <span class="n">vd</span>
             <span class="n">vd</span> <span class="o">=</span> <span class="n">aux</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">vd</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">vg</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">vd</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">vg</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DeplacementCercle.update"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Actualise le mouvement de rotation s&#39;il y en a un</span>
+
+<span class="sd">            Si on est au milieu d&#39;une rotation, on actualise la position du robot</span>
+<span class="sd">            Si on a atteint l&#39;angle maximum de rotation, on arrête la rotation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">turning</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
             <span class="n">dps_wheels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_wheels_rotations</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-            <span class="n">vitesse_rot</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+            <span class="n">vitesse_rot</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">+=</span> <span class="n">vitesse_rot</span> <span class="o">*</span> <span class="n">PAS_TEMPS</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">dist_wheels</span><span class="p">)</span>
 
-            <span class="n">v</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">direction</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">direction</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span><span class="o">&gt;</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">):</span>
-                    <span class="c1">#print(&quot;Done turning &quot;, self.sens*self.angle_max, &quot;degrees&quot;)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">):</span>
+                    <span class="c1"># print(&quot;Done turning &quot;, self.sens*self.angle_max, &quot;degrees&quot;)</span>
                     <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">set_wheels_rotation</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="k">pass</span>
+                <span class="k">pass</span></div>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="DeplacementCercle.stop"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Indique si la stratégie a fini son action</span>
+
+<span class="sd">        :return: bool</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span><span class="o">*</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span> <span class="o">&gt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">angle_max</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
         <span class="k">except</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
+            <span class="k">return</span> <span class="kc">False</span></div>
 
-    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">turning</span><span class="o">=</span><span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">=</span> <span class="kc">None</span>
-
+<div class="viewcode-block" id="DeplacementCercle.abort"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.abort">[docs]</a>    <span class="k">def</span> <span class="nf">abort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Désative la mise à jour des actions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">turning</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sens</span> <span class="o">=</span> <span class="kc">None</span></div>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
@@ -171,13 +193,19 @@
             <span class="k">return</span> <span class="n">DeplacementCercle</span><span class="p">(</span><span class="o">**</span><span class="n">dct</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="DeplacementCercle.load"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.DeplacementCercle.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet DeplacementCercle depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">s</span><span class="o">+</span><span class="s2">&quot;-turning: </span><span class="si">{}</span><span class="s2">; rot_angle: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turning</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span><span class="p">)</span></div>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">StrategieDeplacement</span><span class="o">.</span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="k">return</span> <span class="n">s</span> <span class="o">+</span> <span class="s2">&quot;-turning: </span><span class="si">{}</span><span class="s2">; rot_angle: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">turning</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rot_angle</span><span class="p">)</span></div>
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -187,21 +215,20 @@
     <span class="kn">from</span> <span class="nn">gl_lib.sim.robot.sensor</span> <span class="k">import</span> <span class="n">Accelerometre</span>
     <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="o">*</span>
 
-
     <span class="n">a</span> <span class="o">=</span> <span class="n">AreneRobot</span><span class="p">()</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">(</span><span class="n">Pave</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="n">AreneFermee</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">td</span><span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">RobotMotorise</span><span class="p">(</span><span class="n">forme</span><span class="o">=</span><span class="n">Pave</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mf">3.7</span><span class="p">,</span> <span class="mf">6.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">arene</span> <span class="o">=</span> <span class="n">AreneFermee</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">td</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">tete</span><span class="o">.</span><span class="n">sensors</span><span class="p">[</span><span class="s2">&quot;cam&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
     <span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">strategies</span><span class="o">=</span><span class="p">[</span><span class="n">DeplacementCercle</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">r</span><span class="p">,</span> <span class="n">angle_max</span><span class="o">=</span><span class="mi">360</span><span class="p">,</span> <span class="n">diametre</span><span class="o">=</span><span class="mi">1</span><span class="p">)])</span>
     <span class="n">a</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
     <span class="n">app</span> <span class="o">=</span> <span class="n">AppAreneThread</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-    <span class="c1">#app.start()</span>
+    <span class="c1"># app.start()</span>
     <span class="n">min_x</span><span class="p">,</span> <span class="n">min_y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span>
     <span class="n">max_x</span><span class="p">,</span> <span class="n">max_y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span>
     <span class="n">dps_wheels</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_wheels_rotations</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-    <span class="c1">#td.start()</span>
-    <span class="c1">#sim.start()</span>
-    <span class="c1">#print(sim.stop, sim.strategie.stop())</span>
+    <span class="c1"># td.start()</span>
+    <span class="c1"># sim.start()</span>
+    <span class="c1"># print(sim.stop, sim.strategie.stop())</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">sim</span><span class="o">.</span><span class="n">stop</span><span class="p">:</span>
         <span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">cpt</span><span class="p">,</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">get_wheels_rotations</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
@@ -214,22 +241,20 @@
         <span class="k">if</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span> <span class="o">&gt;</span> <span class="n">max_y</span><span class="p">:</span>
             <span class="n">max_y</span> <span class="o">=</span> <span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">y</span>
 
+    <span class="n">d_rot</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">PAS_TEMPS</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="n">max_rot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">PAS_TEMPS</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span>
+    <span class="n">d_dist</span> <span class="o">=</span> <span class="n">max_rot</span> <span class="o">*</span> <span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span> <span class="o">/</span> <span class="n">d_rot</span>
+    <span class="n">gr_diametre</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">d_dist</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">)</span>
+    <span class="c1"># app.stop()</span>
+    <span class="c1"># pyglet.app.exit()</span>
 
-    <span class="n">d_rot</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">PAS_TEMPS</span><span class="o">*</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
-    <span class="n">max_rot</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">dps_wheels</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dps_wheels</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">PAS_TEMPS</span><span class="o">*</span><span class="p">(</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
-    <span class="n">d_dist</span> <span class="o">=</span> <span class="n">max_rot</span><span class="o">*</span><span class="p">(</span><span class="n">sim</span><span class="o">.</span><span class="n">strategie</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">rd</span><span class="o">.</span><span class="n">diametre</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span><span class="o">/</span><span class="n">d_rot</span>
-    <span class="n">gr_diametre</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="n">d_dist</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">pi</span><span class="p">)</span>
-    <span class="c1">#app.stop()</span>
-    <span class="c1">#pyglet.app.exit()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">max_x</span> <span class="o">-</span> <span class="n">min_x</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_y</span> <span class="o">-</span> <span class="n">min_y</span><span class="p">))</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">max_x</span><span class="o">-</span><span class="n">min_x</span><span class="p">),</span> <span class="nb">abs</span><span class="p">(</span><span class="n">max_y</span><span class="o">-</span><span class="n">min_y</span><span class="p">))</span>
-
-    <span class="c1">#sim.strategie.save(&quot;deplacementcercle.json&quot;)</span>
+    <span class="c1"># sim.strategie.save(&quot;deplacementcercle.json&quot;)</span>
 
     <span class="n">strat2</span> <span class="o">=</span> <span class="n">DeplacementCercle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;deplacementcercle.json&quot;</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">strat2</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span>
-
 </pre></div>
 
           </div>

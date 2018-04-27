@@ -9,15 +9,19 @@ class Roue(Objet3D):
     """
         Définie les informations de base pour une roue
     """
+    KEYS = ["diametre", "centre", "vitesseRot", "angle"]
 
-    def __init__(self, diametre: float or int = 0.3, centre: Point = Point(0, 0, 0), vitesseRot: float = 0,
-                 angle: float = 0):
+    def __init__(self, diametre=0.3, vitesseRot=0, angle=0, centre=None):
         """
-
+            Initialise les attributs de la roue
         :param diametre: Diamètre en mètres
+        :type diametre: float
         :param centre: Centre de la roue
+        :type centre: Point
         :param vitesseRot: Vitesse de rotation en degrés par seconde
+        :type vitesseRot: float
         :param angle: Angle total tourné en degrés
+        :type angle: float
         """
         Objet3D.__init__(self, centre)
         self.diametre = diametre
@@ -50,8 +54,7 @@ class Roue(Objet3D):
         elif sens > 0:
             self.angle -= self.vitesseRot
 
-    def clone(self):
-        return Roue(self.diametre, self.centre.clone(), self.vitesseRot, self.angle)
+
 
     @staticmethod
     def hook(dct):
@@ -59,7 +62,7 @@ class Roue(Objet3D):
         if dct["__class__"] == Point.__name__:
             return Point.hook(dct)
         elif dct["__class__"] == Roue.__name__:
-            return Roue(dct["diametre"], dct["centre"], dct["vitesseRot"], dct["angle"])
+            return Roue(**{key:dct[key] for key in Roue.KEYS})
 
     @staticmethod
     def load(filename):

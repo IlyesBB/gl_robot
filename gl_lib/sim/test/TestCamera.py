@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 
 from gl_lib.config import PAS_TEMPS
 from gl_lib.sim.robot.sensor.camera import Camera
@@ -31,6 +32,7 @@ class TestCamera(unittest.TestCase):
         self.obj.stop()
         self.assertNotEqual(self.obj.get_image(), None)
         self.obj.print_image("sc_perso.png")
+        os.system('rm sc_perso.png')
 
     def test_video(self):
         """

@@ -48,37 +48,84 @@
 
 <div class="viewcode-block" id="Capteur"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur">[docs]</a><span class="k">class</span> <span class="nc">Capteur</span><span class="p">(</span><span class="n">Objet3D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe abstraite</span>
+<span class="sd">        Classe abstraite</span>
 
-<span class="sd">    La positione et la direction du capteur sont liées a celles de la tête s&#39;il y en a une</span>
+<span class="sd">        La positione et la direction du capteur sont liées a celles de la tête s&#39;il y en a une</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">:</span><span class="n">Point</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">direction</span><span class="p">:</span><span class="n">Vecteur</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)):</span>
         <span class="n">Objet3D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span>
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
+<div class="viewcode-block" id="Capteur.update"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Fonction destinée à être appelée touts les PAS_TEMPS (gl_lib.config)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
 
     <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">Capteur</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span><span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+<div class="viewcode-block" id="Capteur.rotate"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.rotate">[docs]</a>    <span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne la direction du capteur</span>
 
-    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span><span class="n">Point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span><span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;x&#39;, &#39;y&#39; ou &#39;z&#39;</span>
 
-    <span class="k">def</span> <span class="nf">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">:</span><span class="n">Point</span><span class="p">,</span> <span class="n">teta</span><span class="p">:</span><span class="nb">float</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Capteur.rotate_around"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.rotate_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le centre du capteur autour d&#39;un point</span>
+
+<span class="sd">        :param point: Point autour duquel tourner</span>
+<span class="sd">        :type point: Point</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;x&#39;, &#39;y&#39; ou &#39;z&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Capteur.rotate_all_around"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.rotate_all_around">[docs]</a>    <span class="k">def</span> <span class="nf">rotate_all_around</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Tourne le centre du capteur aucour du pointen plus de tourner la direction</span>
+
+<span class="sd">        :param point: Point autour duquel tourner</span>
+<span class="sd">        :type point: Point</span>
+<span class="sd">        :param teta: Angle en radians</span>
+<span class="sd">        :type teta: float</span>
+<span class="sd">        :param axis: &#39;x&#39;, &#39;y&#39; ou &#39;z&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rotate_around</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">teta</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span>
+<div class="viewcode-block" id="Capteur.move"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vector</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Déplace le capteur</span>
 
-    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span><span class="n">Point</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">):</span>
+<span class="sd">        :param vector: Vecteur de déplacement</span>
+<span class="sd">        :type vector: Vecteur</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vector</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Capteur.attach"><a class="viewcode-back" href="../../../../../sensor.html#gl_lib.sim.robot.sensor.Capteur.attach">[docs]</a>    <span class="k">def</span> <span class="nf">attach</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de lier le centre et la direction du capteur à un couple (position, direction)</span>
+
+<span class="sd">        :param position: Position que va référencer le centre du capteur</span>
+<span class="sd">        :type position: Point</span>
+<span class="sd">        :param direction: Direction que va référencer la direction du capteur</span>
+<span class="sd">        :type direction: Vecteur</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">centre</span> <span class="o">=</span> <span class="n">position</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span></div></div>
 </pre></div>
 
           </div>

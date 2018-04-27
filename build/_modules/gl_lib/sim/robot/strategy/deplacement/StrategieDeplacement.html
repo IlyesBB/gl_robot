@@ -50,18 +50,23 @@
 
 <div class="viewcode-block" id="StrategieDeplacement"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement">[docs]</a><span class="k">class</span> <span class="nc">StrategieDeplacement</span><span class="p">(</span><span class="n">Strategie</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    definit une strategy de deplacement de facon abstraite</span>
+<span class="sd">        Stratégie qui ne fait qu&#39;actualiser la position du robot</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">KEYS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;robot&quot;</span><span class="p">]</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">):</span>
         <span class="n">Strategie</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robot</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">Strategie</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+<div class="viewcode-block" id="StrategieDeplacement.update"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Actualise la position du robot</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">robot</span><span class="o">.</span><span class="n">update</span><span class="p">()</span></div>
 
-    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">False</span></div>
+<div class="viewcode-block" id="StrategieDeplacement.stop"><a class="viewcode-back" href="../../../../../../deplacement.html#gl_lib.sim.robot.strategy.deplacement.StrategieDeplacement.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            La stratégie ne s&#39;arrète jamais: Renvoi toujours False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">False</span></div></div>
 </pre></div>
 
           </div>

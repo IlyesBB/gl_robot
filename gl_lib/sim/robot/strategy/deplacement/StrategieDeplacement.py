@@ -5,15 +5,20 @@ from threading import RLock
 
 class StrategieDeplacement(Strategie):
     """
-    definit une strategy de deplacement de facon abstraite
+        Stratégie qui ne fait qu'actualiser la position du robot
     """
     KEYS = ["robot"]
     def __init__(self, robot):
         Strategie.__init__(self, robot)
 
     def update(self):
-        Strategie.update(self)
+        """
+            Actualise la position du robot
+        """
         self.robot.update()
 
     def stop(self):
+        """
+            La stratégie ne s'arrète jamais: Renvoi toujours False
+        """
         return False

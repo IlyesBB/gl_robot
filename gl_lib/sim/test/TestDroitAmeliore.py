@@ -17,7 +17,7 @@ class TestDroitAmeliore(TestCase):
         dist = 3.0
         self.arene = Arene()
         self.v = v*dist
-        self.strat = DeplacementDroitAmeliore(robot=RobotMotorise(pave=Pave(1,1,1, c.clone()), direction=v.clone()),arene=self.arene)
+        self.strat = DeplacementDroitAmeliore(robot=RobotMotorise(forme=Pave(1,1,1, c.clone()), direction=v.clone()),arene=self.arene)
         self.p=Pave(0.5,0.5,0.5,c+self.v)
         #self.p.rotate(-pi/4)
         self.arene.add(self.p)
@@ -25,7 +25,7 @@ class TestDroitAmeliore(TestCase):
 
 
     def test_detection_2D(self):
-        print("Evaluating direct detection with infrared ray simulation...")
+        print("Evaluating direct detection with infrared ray...")
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)

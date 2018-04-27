@@ -51,7 +51,7 @@ class TestVueMatriceArene(unittest.TestCase):
 
         self.assertEqual(len(m), int(dx*VueMatriceArene.res))
         if self.view_mat is not None:
-            print(self.view_mat)
+            print(repr(self.view_mat))
         for i in range(len(m)):
             for j in range(len(m[0])):
                 self.assertIsInstance(m[i][j], int)

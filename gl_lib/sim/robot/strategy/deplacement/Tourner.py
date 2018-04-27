@@ -13,14 +13,13 @@ from time import sleep
 
 class Tourner(DeplacementCercle):
     """
-    Fais décrire au robot un carré de coté 70 cm
+        Fais décrire au robot un rotation autour du centre de ses roues
     """
     KEYS = DeplacementCercle.KEYS
     INIT = DeplacementCercle.INIT
     def __init__(self, **kwargs):
         """
-
-        :param robot:
+            Initialisation similaire à DeplacementCercle
         """
         DeplacementCercle.__init__(self, **kwargs)
         self.diametre = self.robot.dist_wheels
@@ -35,6 +34,7 @@ class Tourner(DeplacementCercle):
 
 
 if __name__ == '__main__':
+    st = Tourner(robot=RobotMotorise())
     st.save("tourner.json")
 
     st2 = Tourner.load("tourner.json")

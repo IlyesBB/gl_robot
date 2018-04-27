@@ -16,10 +16,7 @@ class TestTest(TestCase):
             Crée une tête et lui ajoute 3 capteurs
         """
         self.tete = Tete()
-        self.tete.add_sensors({"acc":Accelerometre(self.tete.centre, self.tete.direction),
-                                "ir":CapteurIR(self.tete.centre, self.tete.direction),
-                                "cam":Camera(self.tete.centre, self.tete.direction)})
-
+        self.tete.update()
     def test_init(self):
         """
             Vérification de la validité de __init__
@@ -27,7 +24,7 @@ class TestTest(TestCase):
         self.assertIsInstance(self.tete, Tete)
         self.assertIsInstance(self.tete.dir_robot, Vecteur)
         self.assertIsInstance(self.tete.direction, Vecteur)
-        self.assertIsInstance(self.tete.sensors, list)
+        self.assertIsInstance(self.tete.sensors, dict)
 
     def test_rotate(self):
         """
@@ -39,11 +36,11 @@ class TestTest(TestCase):
         self.tete.update()
 
         # On teste l'égalité des directions pour chaque capteur
-        for i in range(len(self.tete.sensors)):
-            self.assertEqual(self.tete.direction, self.tete.sensors[i].direction)
+        for key in self.tete.sensors.keys():
+            self.assertEqual(self.tete.direction, self.tete.sensors[key].direction)
 
         # On vérifie que la tête a le bon angle relatif par rapport à sa direction référence dir_robot
-        self.assertEqual(angle, self.tete.dir_robot.diff_angle(self.tete.direction, 1))
+        self.assertAlmostEqual(angle, self.tete.dir_robot.diff_angle(self.tete.direction, 1))
 
 
 
@@ -57,8 +54,8 @@ class TestTest(TestCase):
         self.tete.update()
 
         # On teste l'égalité des centre pour chaque capteur
-        for i in range(len(self.tete.sensors)):
-            self.assertEqual(self.tete.centre, self.tete.sensors[i].centre)
+        for key in self.tete.sensors.keys():
+            self.assertEqual(self.tete.centre, self.tete.sensors[key].centre)
 
     def test_attach(self):
         """

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import pdb
 from collections import OrderedDict
 from threading import Thread, Event
 from gl_lib.config import PAS_TEMPS
@@ -28,11 +29,17 @@ class Simulation(Thread, Serializable):
     def __init__(self, **kwargs):
         """
         :param strategies: Liste de stratégies à exécuter
+        :type strategies: [Strategie]
         :param strategie: Stratégie principale (fais partie  de strategies)
+        :type strategie: Strategie
         :param acceleration_factor: Le temps s'écoule acceleration_factor fois plus vite
+        :type acceleration_factor: float
         :param tic: Affiche un petit message tous les tic secondes
+        :type tic: float
         :param tic_display: Variables/objets affichés à chaque tic
+        :type tic_max: float
         :param tmax: Temps de fin de la simulation en s
+        :type tmax: float
         """
         keys = kwargs.keys()
         for key in Simulation.INIT.keys():
@@ -136,7 +143,8 @@ class Simulation(Thread, Serializable):
 
             if self.tic is not None:
                 # Affiche le temps passé et les objest dans tic_display
-                if self.cpt % self.tic == 0:
+                if self.cpt % self.tic == 0 and self.cpt != 0:
+                    pdb.set_trace()
                     print(self.cpt * PAS_TEMPS, " seconds passed")
                     if self.tic_display is not None and len(self.tic_display) > 0:
                         for s in self.tic_display:

@@ -51,41 +51,19 @@
 
 <div class="viewcode-block" id="Polygone3D"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D">[docs]</a><span class="k">class</span> <span class="nc">Polygone3D</span><span class="p">(</span><span class="n">Objet3D</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Classe definissant un polygone de facon abstraite</span>
+<span class="sd">        Classe définissant un polygone de facon abstraite</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="p">:</span><span class="n">Point</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">vertices</span><span class="p">:[</span><span class="n">Point</span><span class="p">]</span><span class="o">=</span><span class="nb">list</span><span class="p">()):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">Point</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">vertices</span><span class="o">=</span><span class="nb">list</span><span class="p">()):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        initialise la liste des sommets</span>
+<span class="sd">            Initialise la liste des sommets</span>
+<span class="sd">        :param centre: Centre du polygône</span>
+<span class="sd">        :type centre: Point</span>
+<span class="sd">        :param vertices: Centre du polygône</span>
+<span class="sd">        :type vertices:  [Point]</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Objet3D</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centre</span><span class="o">=</span><span class="n">centre</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span> <span class="o">=</span> <span class="n">vertices</span>
-
-<div class="viewcode-block" id="Polygone3D.add_vertex"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.add_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">add_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sommet</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        ajoute sommet a la liste sommets du polygone</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sommet</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
-
-<div class="viewcode-block" id="Polygone3D.add_vertices"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.add_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">add_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sommets</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Ajoute les points les uns après les autres</span>
-<span class="sd">        :param sommets:</span>
-<span class="sd">        :return:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">sommets</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Polygone3D.move"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        deplace les sommets et le centre</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Objet3D</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vecteur</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
-        <span class="c1">#on ne verifie pas que vecteur est bien definit</span>
-        <span class="c1">#car c&#39;est une classe abstraite</span>
 
     <span class="k">def</span> <span class="nf">__dict__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">dct</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
@@ -108,9 +86,34 @@
             <span class="n">dct</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">return</span> <span class="n">dct</span>
 
-    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">p</span> <span class="o">=</span> <span class="n">Polygone3D</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">centre</span><span class="p">,</span> <span class="n">vertices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Polygone3D.add_vertex"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.add_vertex">[docs]</a>    <span class="k">def</span> <span class="nf">add_vertex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sommet</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Ajoute sommet à la liste sommets du polygône</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sommet</span><span class="o">.</span><span class="n">clone</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Polygone3D.add_vertices"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.add_vertices">[docs]</a>    <span class="k">def</span> <span class="nf">add_vertices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sommets</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Ajoute les points les uns après les autres</span>
+
+<span class="sd">        :param sommets:</span>
+<span class="sd">        :return:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">vertex</span> <span class="ow">in</span> <span class="n">sommets</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_vertex</span><span class="p">(</span><span class="n">vertex</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Polygone3D.move"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.move">[docs]</a>    <span class="k">def</span> <span class="nf">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">:</span><span class="n">Vecteur</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Déplace les sommets et le centre</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">Objet3D</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vecteur</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vertices</span><span class="p">:</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">vecteur</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+        <span class="c1">#on ne verifie pas que vecteur est bien definit</span>
+        <span class="c1">#car c&#39;est une classe abstraite</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">hook</span><span class="p">(</span><span class="n">dct</span><span class="p">):</span>
@@ -120,9 +123,15 @@
             <span class="k">return</span> <span class="n">Polygone3D</span><span class="p">(</span><span class="n">centre</span><span class="o">=</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;centre&quot;</span><span class="p">],</span> <span class="n">vertices</span><span class="o">=</span><span class="p">[</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dct</span><span class="p">[</span><span class="s2">&quot;vertices&quot;</span><span class="p">]))])</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+<div class="viewcode-block" id="Polygone3D.load"><a class="viewcode-back" href="../../../../geometry.html#gl_lib.sim.geometry.Polygone3D.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Permet de charger un objet Polygône3D depuis un fichier au format json adapté</span>
+
+<span class="sd">        :param filename: Nom du fichier</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Polygone3D</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">object_hook</span><span class="o">=</span><span class="n">Polygone3D</span><span class="o">.</span><span class="n">hook</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">d</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">()</span>

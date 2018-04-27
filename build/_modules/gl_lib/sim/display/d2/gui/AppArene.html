@@ -46,7 +46,7 @@
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">gl_lib.sim</span> <span class="k">import</span> <span class="n">Simulation</span>
-<span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Arene</span>
 <span class="kn">from</span> <span class="nn">gl_lib.sim.display.d2.view</span> <span class="k">import</span> <span class="n">Vue2DArene</span>
 <span class="kn">from</span> <span class="nn">threading</span> <span class="k">import</span> <span class="n">Thread</span>
 <span class="kn">from</span> <span class="nn">gl_lib.config</span> <span class="k">import</span> <span class="n">PAS_TEMPS</span>
@@ -54,13 +54,14 @@
 
 <div class="viewcode-block" id="AppArene"><a class="viewcode-back" href="../../../../../../gui.html#gl_lib.sim.display.d2.gui.AppArene">[docs]</a><span class="k">class</span> <span class="nc">AppArene</span><span class="p">(</span><span class="n">Tk</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Definit une structure d&#39;display d&#39;un robot dans une arene vide</span>
+<span class="sd">        Permet d&#39;afficher une arène et ses composant sans une fenêtre tkinter</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arene</span><span class="p">:</span><span class="n">Arene</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arene</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="sd">        :param simulation:</span>
+<span class="sd">        :param arene: Arène à afficher</span>
+<span class="sd">        :type arene: Arene</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">Tk</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">arene</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -112,17 +113,18 @@
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy.deplacement</span> <span class="k">import</span> <span class="n">DeplacementDroit</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim.robot.strategy.deplacement</span> <span class="k">import</span> <span class="n">DeplacementDroitAmeliore</span>
     <span class="kn">from</span> <span class="nn">gl_lib.sim.robot</span> <span class="k">import</span> <span class="n">RobotMotorise</span>
-    <span class="kn">from</span> <span class="nn">gl_lib.simulation</span> <span class="k">import</span> <span class="n">Simulation</span><span class="p">,</span> <span class="n">ThreadTkStrategy</span>
+    <span class="kn">from</span> <span class="nn">gl_lib.sim</span> <span class="k">import</span> <span class="n">Simulation</span>
     <span class="kn">from</span> <span class="nn">gl_lib.sim.geometry</span> <span class="k">import</span> <span class="n">Vecteur</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Arene</span><span class="p">()</span>
+    <span class="n">strat</span><span class="o">=</span><span class="n">DeplacementDroitAmeliore</span><span class="p">(</span><span class="n">robot</span><span class="o">=</span><span class="n">RobotMotorise</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()),</span> <span class="n">distance_max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">arene</span><span class="o">=</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">strat</span><span class="o">.</span><span class="n">robot</span><span class="p">)</span>
+    <span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">strategies</span><span class="o">=</span><span class="p">[</span><span class="n">strat</span><span class="p">])</span>
 
-    <span class="n">strat</span><span class="o">=</span><span class="n">DeplacementDroit</span><span class="p">(</span><span class="n">RobotMotorise</span><span class="p">(</span><span class="n">direction</span><span class="o">=</span><span class="n">Vecteur</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">norm</span><span class="p">()),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">sim</span> <span class="o">=</span> <span class="n">Simulation</span><span class="p">(</span><span class="n">strat</span><span class="p">)</span>
+    <span class="n">app</span> <span class="o">=</span> <span class="n">AppAreneThread</span><span class="p">(</span><span class="n">strat</span><span class="o">.</span><span class="n">arene</span><span class="p">)</span>
 
-    <span class="n">thread</span><span class="o">=</span> <span class="n">ThreadTkStrategy</span><span class="p">(</span><span class="n">strat</span><span class="p">)</span>
-
-    <span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">app</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
     <span class="n">sim</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 

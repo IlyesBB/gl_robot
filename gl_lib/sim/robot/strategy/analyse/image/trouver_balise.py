@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
-import numpy as np
 from PIL import Image
-
 from gl_lib.sim.geometry import *
 from gl_lib.config import RATIO_SEARCH_SCREENSHOT
 
 
 def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
     """
-    Retourne le centre de la balise sur l'image
-    Les coordonnées sont pondérées par les mesures de l'image
-    Par exemple, les coordonnées (0.5,0.5,0) indiquent que le centre repéré est
-    au centre de l'image
+        Retourne le centre de la balise sur l'image
+        Les coordonnées sont pondérées par les mesures de l'image
+        Par exemple, les coordonnées (0.5,0.5) indiquent que le centre repéré est
+        au centre de l'image
 
-    Si pas de balise trouvée, retourne None
+        Si pas de balise trouvée, retourne None
 
-    :param couleurs: les 4 couleurs de la balise (avec leur opacite)
+    :param couleurs: les 4 couleurs de la balise
     :return: Point or None
     """
 

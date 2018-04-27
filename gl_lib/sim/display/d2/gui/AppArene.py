@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from tkinter import *
 from gl_lib.sim import Simulation
-from gl_lib.sim.geometry import *
+from gl_lib.sim.geometry import Arene
 from gl_lib.sim.display.d2.view import Vue2DArene
 from threading import Thread
 from gl_lib.config import PAS_TEMPS
@@ -9,13 +9,14 @@ from gl_lib.config import PAS_TEMPS
 
 class AppArene(Tk):
     """
-    Definit une structure d'display d'un robot dans une arene vide
+        Permet d'afficher une arène et ses composant sans une fenêtre tkinter
     """
 
-    def __init__(self, arene:Arene=None):
+    def __init__(self, arene=None):
         """
 
-        :param simulation:
+        :param arene: Arène à afficher
+        :type arene: Arene
         """
         Tk.__init__(self)
         if arene is not None:
@@ -67,15 +68,16 @@ class AppAreneThread(Thread):
 
 
 if __name__ == '__main__':
-    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroit
+    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
     from gl_lib.sim.robot import RobotMotorise
-    from gl_lib.simulation import Simulation, ThreadTkStrategy
+    from gl_lib.sim import Simulation
     from gl_lib.sim.geometry import Vecteur
+    a = Arene()
+    strat=DeplacementDroitAmeliore(robot=RobotMotorise(direction=Vecteur(1,1,0).norm()), distance_max=1,arene=a)
+    a.add(strat.robot)
+    sim = Simulation(strategies=[strat])
 
-    strat=DeplacementDroit(RobotMotorise(direction=Vecteur(1,1,0).norm()), 1)
-    sim = Simulation(strat)
+    app = AppAreneThread(strat.arene)
 
-    thread= ThreadTkStrategy(strat)
-
-    thread.start()
+    app.start()
     sim.start()

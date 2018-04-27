@@ -19,26 +19,33 @@ def my_print(**kwargs):
 
 
 class DeplacementDroit(StrategieDeplacement):
-    """Fais avancer un robot en argument sur une certaine distance
     """
-    advancing = ...  # type: bool
-    posDepart = ...  # type: Point
+        Fais avancer un robot en argument sur une certaine distance
+    """
     INIT = {'advancing': True, 'distance': 0.0, 'distance_max': 1.0, 'vitesse': 60, 'posDepart': None}
     KEYS = StrategieDeplacement.KEYS + ["advancing", "distance", "distance_max", "posDepart"]
 
     def __init__(self, **kwargs):
-        """Prend en argument obligatoire un robot. Par défaut, la classe commande le robot pour avancer sur un mètre
+        """
+            Prend en argument obligatoire un robot. Par défaut, la classe commande le robot pour avancer sur un mètre
+        :param distance_max: Distance maximale de laquelle avancer en mètres
+        :param vitesse: Vitesse en degrés par seconde à laquelle intialiser les roues
         """
         keys = kwargs.keys()
         for key in DeplacementDroit.INIT.keys():
             if not key in keys:
                 kwargs[key] = DeplacementDroit.INIT[key]
         StrategieDeplacement.__init__(self, robot=kwargs["robot"])
-
         self.advancing = kwargs["advancing"]  # Booléen indiquant si le robot est en marche
         self.distance = kwargs["distance"]
         self.distance_max = kwargs["distance_max"]
         self.posDepart = kwargs["posDepart"]
+        if self.distance_max is not None:
+            try:
+                self.init_movement(self.distance_max, kwargs["vitesse"])
+            except KeyError:
+                # Si la vitesse n'est pas initialisée
+                self.init_movement(self.distance_max)
 
     def __dict__(self):
         dct = OrderedDict()
@@ -50,20 +57,20 @@ class DeplacementDroit(StrategieDeplacement):
                 dct[key] = self.__getattribute__(key)
         return dct
 
-    @staticmethod
-    def hook(dct):
-        res = RobotMotorise.hook(dct)
-        if res is not None:
-                return res
-        if dct["__class__"] == DeplacementDroit.__name__:
-            return DeplacementDroit(**dct)
+    def __str__(self):
+        d_str = StrategieDeplacement.__str__(self)
+        s = d_str[:len(d_str)-1]+"\n"
+        s += "-advancing: {}; distance: {}; distance_max: {}".format(self.advancing, self.distance, self.distance_max)
+        return s
 
-    @staticmethod
-    def load(filename):
-        with open(filename, 'r', encoding='utf-8') as f:
-            return json.load(f, object_hook=DeplacementDroit.hook)
+    def init_movement(self, distance_max, vitesse=60):
+        """
+            Réinitialise les variables du mouvement, et active la mise à jour dans update()
 
-    def init_movement(self, distance_max, vitesse):
+        :param distance_max: Distance maximale de laquelle avancer en mètres
+        :param vitesse: Vitesse en degrés par seconde à laquelle initialiser les roues
+
+        """
         self.advancing = True  # Booléen indiquant si le robot est en marche
         self.distance = 0
         self.distance_max = distance_max
@@ -73,8 +80,7 @@ class DeplacementDroit(StrategieDeplacement):
 
     def update(self):
         """
-        Met à jour la robot, et mesure la distance parcourue
-        :return:
+            Met à jour la robot, et mesure la distance parcourue
         """
         if self.advancing:
             self.robot.update()
@@ -88,27 +94,64 @@ class DeplacementDroit(StrategieDeplacement):
                 DeplacementDroit.abort(self)
 
     def abort(self):
+        """
+            Désactive la mise à jour
+        """
         self.advancing = False
-        self.distance_max = 0
-        self.distance = 0
-        self.robot.reset_wheels_angles()
 
     def stop(self):
+        """
+            Indique si on est au milieu d'un mouvement
+        """
         return not self.advancing
 
-    def __str__(self):
-        d_str = StrategieDeplacement.__str__(self)
-        s = d_str[:len(d_str)-1]+"\n"
-        s += "-advancing: {}; distance: {}".format(self.advancing, self.distance)
-        return s
+    def reset(self):
+        """
+            Désactive la mise à jour, et réinitialise les variables du mouvement
+        """
+        DeplacementDroit.abort(self)
+        self.distance_max = None
+        self.distance = 0
+        self.posDepart = None
+
+    @staticmethod
+    def hook(dct):
+        res = RobotMotorise.hook(dct)
+        if res is not None:
+                return res
+        if dct["__class__"] == DeplacementDroit.__name__:
+            return DeplacementDroit(**dct)
+
+    @staticmethod
+    def load(filename):
+        """
+            Permet de charger un objet DeplacementDroit à partir d'un fichier au format json adapté
+
+        :param filename:
+
+        """
+        with open(filename, 'r', encoding='utf-8') as f:
+            return json.load(f, object_hook=DeplacementDroit.hook)
 
 
 class DeplacementDroitAmeliore(DeplacementDroit):
+    """
+        Permet de réaliser un déplacement rectiligne sur un robot, et de vérifier qu'il n'y à pas d'obstacle
+        pendant le déplacement
+    """
     INIT = {'proximite_max': 1.0, 'last_detected': None}
     ARGS = ["robot", "arene"]
     KEYS = DeplacementDroit.KEYS + ["last_detected","proximite_max", "arene"]
 
     def __init__(self, **kwargs):
+        """
+            Initialise la stratégie
+
+            Pour détecter les obstacles, il est nécessaire d'entrer une arène en argument, qui sera analysée par
+            le capteur infrarouge du robot
+        :param proximite_max: Procimité limite à laquelle on tolère la présence d'un obstacle en mètres
+        :param last_detected: Distance à laquelle le dernier obstacle rencontré a été évalué en mètres
+        """
         keys = kwargs.keys()
         for arg in DeplacementDroitAmeliore.ARGS:
             if not arg in keys:
@@ -124,16 +167,6 @@ class DeplacementDroitAmeliore(DeplacementDroit):
         self.proximite_max = kwargs["proximite_max"]
         self.last_detected = kwargs["last_detected"]
 
-    def update(self):
-        if self.advancing:
-            res = self.robot.tete.sensors["ir"].get_mesure(self.arene, ignore=self.robot)
-            if res > -1:
-                if res < self.proximite_max:
-                    # print("Obstacle ahead detected ( ", res, " meters )")
-                    DeplacementDroit.abort(self)
-            self.last_detected = res
-        DeplacementDroit.update(self)
-
     def __dict__(self):
         dct = OrderedDict()
         dct["__class__"] = DeplacementDroitAmeliore.__name__
@@ -143,6 +176,22 @@ class DeplacementDroitAmeliore(DeplacementDroit):
             except:
                 dct[key] = self.__getattribute__(key)
         return dct
+
+    def update(self):
+        """
+            Met à jour les actions à réaliser
+
+            Si on est au milieu d'un mouvement, on vérifie qu'il n'y à pas d'obstacle trop près
+            Si c'est le cas, on s'arrềte. Sinon on avance
+        """
+        if self.advancing:
+            res = self.robot.tete.sensors["ir"].get_mesure(self.arene, ignore=self.robot)
+            if res > -1:
+                if res < self.proximite_max:
+                    # print("Obstacle ahead detected ( ", res, " meters )")
+                    DeplacementDroit.abort(self)
+            self.last_detected = res
+        DeplacementDroit.update(self)
 
     @staticmethod
     def hook(dct):
@@ -154,6 +203,12 @@ class DeplacementDroitAmeliore(DeplacementDroit):
 
     @staticmethod
     def load(filename):
+        """
+            Permet de charger un DeplacementDroitAmeliore depuis un fichier au format json adapté
+
+        :param filename: Nom du fichier
+
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=DeplacementDroitAmeliore.hook)
 
@@ -184,14 +239,5 @@ if __name__ == '__main__':
     # a.add(r)
 
     strat = DeplacementDroit(robot=r, distance_max=3)
-    s = Simulation([strat])
-    # s.start()
-    while not s.stop:
-        pass
-
-    dda = DeplacementDroit(robot=RobotMotorise())
-    d = dda.__dict__()
-    dda.save("deplacement_droit.json")
-
-    dda2 = DeplacementDroit.load("deplacement_droit.json")
-    print(dda2)
+    s = Simulation(strategies=[strat])
+    s.start()

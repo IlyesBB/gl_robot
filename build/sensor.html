@@ -27,6 +27,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Recherche" href="search.html" />
     <link rel="top" title="documentation gl_lib 0.0.1" href="index.html" />
+    <link rel="prev" title="Stratégies de visualisation 3D" href="vision.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -48,43 +49,181 @@
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">Capteur</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Classe abstraite</p>
 <p>La positione et la direction du capteur sont liées a celles de la tête s&#8217;il y en a une</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.attach">
+<code class="descname">attach</code><span class="sig-paren">(</span><em>position</em>, <em>direction</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.attach"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.attach" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de lier le centre et la direction du capteur à un couple (position, direction)</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>position</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; Position que va référencer le centre du capteur</li>
+<li><strong>direction</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Vecteur" title="gl_lib.sim.geometry.Vecteur"><em>Vecteur</em></a>) &#8211; Direction que va référencer la direction du capteur</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.move">
+<code class="descname">move</code><span class="sig-paren">(</span><em>vector</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.move"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.move" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Déplace le capteur</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>vector</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Vecteur" title="gl_lib.sim.geometry.Vecteur"><em>Vecteur</em></a>) &#8211; Vecteur de déplacement</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>teta</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.rotate" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Tourne la direction du capteur</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>teta</strong> (<em>float</em>) &#8211; Angle en radians</li>
+<li><strong>axis</strong> &#8211; &#8216;x&#8217;, &#8216;y&#8217; ou &#8216;z&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.rotate_all_around">
+<code class="descname">rotate_all_around</code><span class="sig-paren">(</span><em>point</em>, <em>teta</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.rotate_all_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.rotate_all_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Tourne le centre du capteur aucour du pointen plus de tourner la direction</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; Point autour duquel tourner</li>
+<li><strong>teta</strong> (<em>float</em>) &#8211; Angle en radians</li>
+<li><strong>axis</strong> &#8211; &#8216;x&#8217;, &#8216;y&#8217; ou &#8216;z&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.rotate_around">
+<code class="descname">rotate_around</code><span class="sig-paren">(</span><em>point</em>, <em>teta</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.rotate_around"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.rotate_around" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Tourne le centre du capteur autour d&#8217;un point</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first last simple">
+<li><strong>point</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Point" title="gl_lib.sim.geometry.Point"><em>Point</em></a>) &#8211; Point autour duquel tourner</li>
+<li><strong>teta</strong> (<em>float</em>) &#8211; Angle en radians</li>
+<li><strong>axis</strong> &#8211; &#8216;x&#8217;, &#8216;y&#8217; ou &#8216;z&#8217;</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Capteur.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Capteur.html#Capteur.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Capteur.update" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Fonction destinée à être appelée touts les PAS_TEMPS (gl_lib.config)</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="class">
 <dt id="gl_lib.sim.robot.sensor.Camera">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">Camera</code><span class="sig-paren">(</span><em>centre=Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction=Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>get_pic: bool = False</em>, <em>is_running: bool = False</em>, <em>is_set: bool = False</em>, <em>cpt: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><dl class="staticmethod">
-<dt id="gl_lib.sim.robot.sensor.Camera.hook">
-<em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.hook" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+<dd><p>Permet de visualiser une arène en 3D dans une application pyglet, de récupérer des images sous forme de bytes
+ou de capture d&#8217;écran</p>
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.get_image">
+<code class="descname">get_image</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.get_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.get_image" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Récuprère la dernière image enregistrée</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Retourne:</th><td class="field-body">PIL.Image</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.Camera.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet Camera depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.Camera.picture">
 <code class="descname">picture</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.picture" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Cette méthode est appelée à la fin de on_draw de la window</p>
+<dd><p>Récupère l&#8217;image actuelle de l&#8217;application, si l&#8217;appareil a été &#8220;enclenché&#8221; avec take_picture()</p>
+<p>Cette méthode est appelée à la fin de la mathode on_draw de la fenêtre</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.Camera.print_image">
 <code class="descname">print_image</code><span class="sig-paren">(</span><em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.print_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.print_image" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Enregistre la dernière image enregistrée dans le fichier de nom fname
-:param fname:
-:return:</p>
+<dd><blockquote>
+<div>Sauvegarde la dernière image enregistrée dans le fichier de nom fname</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>fname</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.Camera.run">
 <code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.run" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Lance l&#8217;application pyglet
-:return:</p>
+<dd><p>Lance l&#8217;application pyglet</p>
+<p>La couleur de fond par défaut est le gris</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.Camera.stop">
+<code class="descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.stop" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><p>Ferme la fenêtre</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.Camera.take_picture">
 <code class="descname">take_picture</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/camera/Camera.html#Camera.take_picture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Camera.take_picture" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Si aucune application n&#8217;a été lancée avant l&#8217;appel de cette fontion, une application est lancée
-:return:</p>
+<dd><p>Si aucune application n&#8217;a été lancée avant l&#8217;appel de cette fontion, une application est lancée</p>
 </dd></dl>
 
 </dd></dl>
@@ -92,35 +231,47 @@
 <dl class="class">
 <dt id="gl_lib.sim.robot.sensor.VueMatriceArene">
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">VueMatriceArene</code><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Classe destinée à contenir les informations de la portion de l&#8217;arène à afficher, et les méthode pour
-produire la matrice correcpondante</p>
-<p>On peut configurer l&#8217;axe Ox du repère, ainsi que l&#8217;origine, pour afficher des portions de l&#8217;arène sous forme de
-matrice</p>
+<dd><p>Permet de représenter les objets héritant de ApproximableAPave (gl_lib.sim.gemoetry) d&#8217;une portion d&#8217;arène dans
+une matrice d&#8217;entiers</p>
+<p>On peut configurer la taille, l&#8217;axe Ox ainsi que l&#8217;origine du repère de la matrice</p>
 <dl class="staticmethod">
 <dt id="gl_lib.sim.robot.sensor.VueMatriceArene.hook">
 <em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.hook" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>On ne copie pas la liste d&#8217;objets à ingorer</p>
 </dd></dl>
 
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.VueMatriceArene.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Charge un objet VueMatriceArene depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.VueMatriceArene.vueDessus">
-<code class="descname">vueDessus</code><span class="sig-paren">(</span><em>dx: int</em>, <em>ignore: gl_lib.sim.geometry.Objet3D.Objet3D = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.vueDessus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.vueDessus" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Crée une matrice d&#8217;entiers avec 1 si le point est à l&#8217;intérieur d&#8217;une forme et 0 sinon</p>
+<code class="descname">vueDessus</code><span class="sig-paren">(</span><em>dx</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#VueMatriceArene.vueDessus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.VueMatriceArene.vueDessus" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div><p>Crée une matrice d&#8217;entiers avec 1 si le point est à l&#8217;intérieur d&#8217;une forme et 0 sinon</p>
 <p>Cette méthode ne détecte que les pavés, et les robots ayant comme forme un pavé</p>
 <p>Procédure globale
-- Pour chaque objet, si on trouve un pavé:</p>
-<blockquote>
-<div><ul class="simple">
-<li>Pour chaque point de la matrice, on vérifie s&#8217;il est dedans</li>
-</ul>
+- Pour chaque objet, si on trouve un pavé:
+- Pour chaque point de la matrice, on vérifie s&#8217;il est dedans</p>
 </div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first simple">
-<li><strong>dx</strong> &#8211; Taille de la matrice</li>
-<li><strong>ignore</strong> &#8211; Liste ou simple objet à dans la matrice</li>
+<li><strong>dx</strong> (<em>int</em>) &#8211; Taille de la matrice</li>
+<li><strong>ignore</strong> (<em>[Objet3D]</em>) &#8211; Objets à ignorer dans l&#8217;arène</li>
 </ul>
 </td>
 </tr>
@@ -138,17 +289,41 @@ matrice</p>
 <em class="property">class </em><code class="descclassname">gl_lib.sim.robot.sensor.</code><code class="descname">CapteurIR</code><span class="sig-paren">(</span><em>centre: gl_lib.sim.geometry.Point_Vecteur.Point = Point(x=0.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>direction: gl_lib.sim.geometry.Point_Vecteur.Vecteur = Vecteur(x=1.0</em>, <em>y=0.0</em>, <em>z=0.0)</em>, <em>portee: int = 3</em>, <em>arena_v=None</em>, <em>l_ignore=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>Capteur qui renvoi la distance du prochain pavé dans la trajectoire de sa direction en mètres</p>
 <dl class="method">
-<dt id="gl_lib.sim.robot.sensor.CapteurIR.get_mesure">
-<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>arene: gl_lib.sim.geometry.Arene.Arene</em>, <em>d_ingnore=0.0</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
-<dd><p>Retourne la distance entre le sensor et le premier objet dans la matrice cf dessous
-Retourne -1 si pas d&#8217;obstacle detecte</p>
+<dt id="gl_lib.sim.robot.sensor.CapteurIR.get_matrix_view">
+<code class="descname">get_matrix_view</code><span class="sig-paren">(</span><em>arene</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.get_matrix_view"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.get_matrix_view" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Crée une nouvelle vue matricielle de l&#8217;arène, la sauvegarde et la renvoie</div></blockquote>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>arene</strong> &#8211; arène dans laquelle effectuer la mesure</td>
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>arene</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Arene" title="gl_lib.sim.geometry.Arene"><em>Arene</em></a>) &#8211; Arène à analyser</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">float ou int</td>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">VueMatriceArene</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="gl_lib.sim.robot.sensor.CapteurIR.get_mesure">
+<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>arene</em>, <em>d_ignore=0.0</em>, <em>ignore=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Retourne la distance entre le capteur et le premier objet dans la matrice
+Retourne -1 si pas d&#8217;obstacle detecté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><ul class="first simple">
+<li><strong>arene</strong> (<a class="reference internal" href="geometry.html#gl_lib.sim.geometry.Arene" title="gl_lib.sim.geometry.Arene"><em>Arene</em></a>) &#8211; arène dans laquelle effectuer la mesure</li>
+<li><strong>d_ignore</strong> (<em>float</em>) &#8211; Distance à partir de laquelle commencer à mesurer</li>
+<li><strong>ignore</strong> (<em>[Objet3D]</em>) &#8211; Liste d&#8217;objets à masquer des mesures</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body"><p class="first last">float ou None</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -158,6 +333,21 @@ Retourne -1 si pas d&#8217;obstacle detecte</p>
 <dt id="gl_lib.sim.robot.sensor.CapteurIR.hook">
 <em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.hook" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.CapteurIR.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/CapteurIR.html#CapteurIR.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.CapteurIR.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet CapteurIR à partir d&#8217;un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; Nom du fichier</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -170,7 +360,7 @@ Retourne -1 si pas d&#8217;obstacle detecte</p>
 sauf si PAS_TEMPS &lt; DT_MESURE, la durée de la mesure</p>
 <dl class="method">
 <dt id="gl_lib.sim.robot.sensor.Accelerometre.get_mesure">
-<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>value: int = 1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
+<code class="descname">get_mesure</code><span class="sig-paren">(</span><em>value=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.get_mesure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.get_mesure" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><blockquote>
 <div>Retourne la vitesse actuelle, et actualise le dernier point de mesure de la position
 Si value vaut 1 : retourne la dernière vitesse mesurée
@@ -180,7 +370,9 @@ Sommer pour obtenir les deux</div></blockquote>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Retourne:</th><td class="field-body">float ou tuple selon value</td>
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>value</strong> (<em>int</em>) &#8211; Numéro de la mesure que l&#8217;on veut</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Retourne:</th><td class="field-body">float ou tuple selon value</td>
 </tr>
 </tbody>
 </table>
@@ -190,6 +382,21 @@ Sommer pour obtenir les deux</div></blockquote>
 <dt id="gl_lib.sim.robot.sensor.Accelerometre.hook">
 <em class="property">static </em><code class="descname">hook</code><span class="sig-paren">(</span><em>dct</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.hook"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.hook" title="Lien permanent vers cette définition">¶</a></dt>
 <dd><p>On ne récupère pas la liste d&#8217;objest à ignorer</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="gl_lib.sim.robot.sensor.Accelerometre.load">
+<em class="property">static </em><code class="descname">load</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/gl_lib/sim/robot/sensor/Accelerometre.html#Accelerometre.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#gl_lib.sim.robot.sensor.Accelerometre.load" title="Lien permanent vers cette définition">¶</a></dt>
+<dd><blockquote>
+<div>Permet de charger un objet Accelerometre depuis un fichier au format json adapté</div></blockquote>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Paramètres:</th><td class="field-body"><strong>filename</strong> &#8211; </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -213,6 +420,7 @@ Sinon avance d&#8217;une unitée de temps</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="vision.html" title="Chapitre précédent">Stratégies de visualisation 3D</a></li>
   </ul></li>
 </ul>
 </div>

@@ -9,46 +9,58 @@ import json
 
 class Arene(Objet3D):
     """
-    Definit une structure de base pour une arene contenant des Objet3D
+        Définit une structure de base pour une arène contenant des Objet3D
+
+        TODO: Faire hériter Arene de list, pour pouvoir implémenter __len__ ...
     """
-    def __init__(self, objets3D:[Objet3D]=list(), centre:Point=None):
+    def __init__(self, objets3D=list(), centre=None):
         """
-        objets3D: [Objet3D]
+            Initialise la liste d'objets 3D
+        :param objets3D: Liste d'objets de l'arène
+        :type objets3D: [Objet3D]
+        :param centre: Centre de l'arène
+        :type centre: Point
+
+        TODO: Prendre en compte l'initialisation du centre
         """
         Objet3D.__init__(self, centre)
         self.objets3D = objets3D
 
     def add(self, objet3D):
         """
-        Ajoute un objet3D a la liste si c'est une sous classe de Objet3D
+            Ajoute un objet 3D à la liste si c'est son type est une sous classe de Objet3D
         """
         if issubclass(type(objet3D), Objet3D):
             self.objets3D.append(objet3D)
 
-    def add_list(self, l_objets: [Objet3D]):
+    def add_list(self, l_objets):
         """
+            Ajoute une liste d'objets 3D dans l'arène
 
-        :param l_objets:
-        :return:
+        :param l_objets: Liste d'objets à ajouter
+        :type l_objets: [Objet3D]
+
         """
         for o in l_objets:
-            self.add(o)
+            self.add(o.clone())
 
     def empty(self):
         """
-        Reinitialise la liste d'objets 3D
+            Réinitialise la liste d'objets 3D
         """
         self.objets3D = list()
 
-    def remove(self,obj:Objet3D):
+    def remove(self,obj):
+        """
+            Supprime l'objet de l'arène
+
+        :param obj:
+        :return:
+
+        """
         self.objets3D.remove(obj)
 
     def __getattr__(self, nom):
-        """
-        Permet d'acceder a un attribut
-
-        si ce n'est pas possible:
-        """
         print("L'attribut {} n'est pas accessible dans Arene !".format(nom))
 
     def __dict__(self):
@@ -71,10 +83,6 @@ class Arene(Objet3D):
         if len(self.objets3D)>0:
             l=[self.objets3D[i].clone() for i in range(len(self.objets3D))]
         return Arene(l,self.centre.clone())
-
-    def dict(self):
-        a = Arene.clone(self)
-        return a.__dict__()
 
     @staticmethod
     def hook(dct):

@@ -16,44 +16,60 @@ class Tete(Objet3D):
     """
     # indices pour repérer les capteurs
     SENSORS = ["acc", "ir", "cam"]
+    KEYS = ["centre", "dir_robot", "dir_rel", "direction", "sensors"]
+    INIT = {"centre":Point(0,0,0),"dir_robot":Vecteur(1,0,0), "dir_rel":Vecteur(1,0,0), "direction":Vecteur(1,0,0)}
 
-    def __init__(self, centre: Point = Point(0, 0, 0), dir_robot: Vecteur = Vecteur(1, 0, 0),
-                 dir_rel: Vecteur = Vecteur(1, 0, 0), direction: Vecteur = Vecteur(1, 1, 1),
-                 lcapteurs: {CapteurIR, Accelerometre, Camera} = None):
+    def __init__(self, **kwargs):
         """
             Initialise les attributs de la tête, avec la direction de la tête égale en valeur à la direction de
             référence
 
             La tête crée par défaut est équipée de 3 capteurs: infrarouge de distance, caméra et accéléromètre
         :param centre: Centre de la tête
+        :type centre: Point
         :param dir_robot: Direction de référence de la tête
+        :type dir_robot: Vecteur
         :param dir_rel: Direction relative de la tête par rapport à la direction de référence
+        :type dir_rel: Vecteur
         :param direction: Direction réelle de la tête
-        :param lcapteurs: liste de capteurs
+        :type direction: Vecteur
+        :param sensors: Dictionnaire de capteurs
+        :type sensors: {Capteur}
         """
-        Objet3D.__init__(self, centre)
-        self.dir_robot = dir_robot
-        self.dir_rel = dir_rel
+        for key in Tete.INIT.keys():
+            if not key in kwargs.keys():
+                kwargs[key] = Tete.INIT[key]
+        keys = kwargs.keys()
+        Objet3D.__init__(self, **{key:kwargs[key] for key in keys if key in Objet3D.KEYS})
+        self.dir_robot = kwargs["dir_robot"]
+        self.dir_rel = kwargs["dir_rel"]
         angle = self.dir_rel.get_angle()
         self.direction = self.dir_robot.clone().rotate(angle)
 
-        # On intialise directement les capteurs
-        self.sensors = dict()
-        self.sensors["ir"] = CapteurIR(self.centre, self.direction)
-        self.sensors["acc"] = Accelerometre(self.centre, self.direction)
-        self.sensors["cam"] = Camera(self.centre, self.direction)
-        if lcapteurs is not None:
-            # Sauf si spécifié autrement
-            self.sensors = lcapteurs
+
+        if "sensors" in keys:
+            self.sensors = kwargs["sensors"]
             for c in self.sensors.keys():
                 (self.sensors[c]).attach(self.centre, (self.sensors[c]).direction)
-        if direction is not None:
-            self.direction = direction
+        else:
+            # Si aucun dictionnaire en argument, en initialise un par défaut
+            self.sensors = dict()
+            self.sensors["ir"] = CapteurIR(self.centre, self.direction)
+            self.sensors["acc"] = Accelerometre(self.centre, self.direction)
+            self.sensors["cam"] = Camera(self.centre, self.direction)
 
-    def add_sensors(self, dict_sensors: {}) -> int:
+        if "direction" in keys:
+            self.direction = kwargs["direction"]
+
+    def add_sensors(self, dict_sensors):
         """
             Permet d'ajouter n'importequel type de capteur
             Il suffit de le donner, avec son nom, en argument dans un dictionnaire
+
+        :param dict_sensors: Dictionnaire contenant les couples "nomcapteur":capteur
+        :type dict_sensors: {Capteur}
+        :return: Retourne le nombre de capteurs ajoutés
+
         """
         if len(dict_sensors.keys()) < 1:
             return 0
@@ -63,13 +79,15 @@ class Tete(Objet3D):
             cpt += 1
         return cpt
 
-    def attach(self, centre: Point, direction: Vecteur):
+    def attach(self, centre, direction):
         """
             Permet d'attacher la tête et ses capteurs à un point et une direction
             contrairement au centre de la tête par rapport à centre
 
         :param centre: On copie la référence
+        :type centre: Point
         :param direction: On copie la référence
+        :type direction: Vecteur
         """
         self.dir_robot = direction
         # La direction de la tête est initialisée à direction, mais ne pointe pas vers l'argument
@@ -97,9 +115,9 @@ class Tete(Objet3D):
 
     def __str__(self):
         """
-            Affiche uniquement la classe et la liste de capteurs sous forme simplifiée
+            Affiche uniquement le nom de la classe et la liste de capteurs sous forme simplifiée
         """
-        s = "({}; sensors: {})".format(self.__class__.__name__, [str(self.sensors[key]) for key in self.sensors.keys()])
+        s = "{}; sensors: {}".format(self.__class__.__name__, [str(self.sensors[key]) for key in self.sensors.keys()])
         return s
 
     def __eq__(self, other):
@@ -137,8 +155,7 @@ class Tete(Objet3D):
         """
         self.set_dir()
         for k in self.sensors.keys():
-            if self.sensors[k] is not None:
-                self.sensors[k].update()
+            self.sensors[k].update()
 
     @staticmethod
     def hook(dct):
@@ -154,17 +171,17 @@ class Tete(Objet3D):
             return Camera.hook(dct)
         elif dct["__class__"] == Accelerometre.__name__:
             return Accelerometre.hook(dct)
-        elif dct["__class__"] == "sensors_dict":
-            return dct
         elif dct["__class__"] == Tete.__name__:
-            return Tete(dct["centre"], dct["dir_robot"], dct["dir_rel"], dct["direction"], dct["lcapteurs"])
-
-    def clone(self):
-        l = [self.sensors[k].clone() for k in Tete.SENSORS if self.sensors[k] is not None]
-        return Tete(self.centre.clone(), self.dir_robot.clone(), self.dir_rel.clone(), self.direction.clone(), l)
+            return Tete(**dct)
 
     @staticmethod
     def load(filename):
+        """
+            Permet de charger une tête au format json
+
+        :param filename: Nom fu fichier à charger
+
+        """
         with open(filename, 'r', encoding='utf-8') as f:
             return json.load(f, object_hook=Tete.hook)
 
