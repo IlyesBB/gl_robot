@@ -53,19 +53,26 @@ class CapteurIR(Capteur):
         s = "{}; portee: {}".format(self.__class__.__name__, self.portee)
         return s
 
-    def get_matrix_view(self, arene):
+    def get_matrix_view(self, arene, direction=None):
         """
             Crée une nouvelle vue matricielle de l'arène, la sauvegarde et la renvoie
 
         :param arene: Arène à analyser
         :type arene: Arene
+        :param direction: direction dans laquelle effectuer la mesure
+        :type direction: Vecteur
+
         :return: VueMatriceArene
 
         """
-        self.arena_v = VueMatriceArene(arene, origine=self.centre, ox=self.direction, ajuste=True)
+        if direction is None:
+            self.arena_v = VueMatriceArene(arene=arene, origine=self.centre, ox=self.direction, ajuste=True)
+        else:
+            self.arena_v = VueMatriceArene(arene=arene, origine=self.centre, ox=direction, ajuste=True)
+
         return self.arena_v
 
-    def get_mesure(self, arene, d_ignore=0.0, ignore=None):
+    def get_mesure(self, arene, d_ignore=0.0, ignore=None, direction=None):
         """
             Retourne la distance entre le capteur et le premier objet dans la matrice
             Retourne -1 si pas d'obstacle detecté
@@ -79,11 +86,9 @@ class CapteurIR(Capteur):
         :return: float ou None
 
         """
-        self.get_matrix_view(arene)
+        self.get_matrix_view(arene, direction)
         m = self.arena_v.vueDessus(self.portee, ignore)
-
         # On parcours la matrice sur la diagonale, dans le sens croissant
-        # ce qui correspond a la vue ajustée de la matrice
         v = Vecteur(1, 1, 0).norm() * VueMatriceArene.res
         n = int(self.portee / CapteurIR.dp)
         for cpt in range(n):
@@ -289,10 +294,6 @@ class VueMatriceArene(object):
 
 
 if __name__ == '__main__':
-    from gl_lib.sim.robot import RobotMotorise, Tete
-    from gl_lib.sim.geometry import Pave
-    from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore
-    from gl_lib.sim import Simulation
 
     v = Vecteur(1, 1, 0).norm()
 

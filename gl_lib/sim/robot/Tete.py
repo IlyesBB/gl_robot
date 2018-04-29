@@ -46,6 +46,8 @@ class Tete(Objet3D):
         angle = self.dir_rel.get_angle()
         self.direction = self.dir_robot.clone().rotate(angle)
 
+        if "direction" in keys:
+            self.direction = kwargs["direction"]
 
         if "sensors" in keys:
             self.sensors = kwargs["sensors"]
@@ -58,8 +60,6 @@ class Tete(Objet3D):
             self.sensors["acc"] = Accelerometre(self.centre, self.direction)
             self.sensors["cam"] = Camera(self.centre, self.direction)
 
-        if "direction" in keys:
-            self.direction = kwargs["direction"]
 
     def add_sensors(self, dict_sensors):
         """
@@ -145,10 +145,9 @@ class Tete(Objet3D):
         """
         angle = self.dir_rel.get_angle()
         self.direction = self.dir_robot.clone().rotate(angle)
-        for k in Tete.SENSORS:
-            if self.sensors[k] is not None:
-                self.sensors[k].direction = self.direction
-                self.sensors[k].centre = self.centre
+        for key in self.sensors.keys():
+            self.sensors[key].direction = self.direction
+            self.sensors[key].centre = self.centre
 
     def update(self):
         """

@@ -61,7 +61,7 @@ class Window(pyglet.window.Window):
         push(self.camera.centre, self.camera.direction)
         self.model.draw()
         glPopMatrix()
-
-    def update(self,dt):
         self.camera.picture()
 
+    def update(self,dt):
+        pass

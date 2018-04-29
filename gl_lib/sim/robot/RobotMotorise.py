@@ -130,6 +130,8 @@ class RobotMotorise(Robot):
             Met à jour la tête et la position du robot
         """
         self.update_pos()
+        self.tete.dir_robot = self.direction
+        self.tete.centre = self.centre
         self.tete.update()
 
     def update_pos(self):

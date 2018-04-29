@@ -139,7 +139,7 @@ class DeplacementDroitAmeliore(DeplacementDroit):
         Permet de réaliser un déplacement rectiligne sur un robot, et de vérifier qu'il n'y à pas d'obstacle
         pendant le déplacement
     """
-    INIT = {'proximite_max': 1.0, 'last_detected': None}
+    INIT = {'proximite_max': 1, 'last_detected': None}
     ARGS = ["robot", "arene"]
     KEYS = DeplacementDroit.KEYS + ["last_detected","proximite_max", "arene"]
 
@@ -164,7 +164,7 @@ class DeplacementDroitAmeliore(DeplacementDroit):
         # robot, distance_max, arene, proximite_max=None, advancing=True, distance=0, posDepart:Point=None, last_detected = None
         DeplacementDroit.__init__(self, **{key : kwargs[key] for key in DeplacementDroit.KEYS if key in kwargs.keys()})
         self.arene = kwargs["arene"]
-        self.proximite_max = kwargs["proximite_max"]
+        self.proximite_max = self.robot.forme.get_length()
         self.last_detected = kwargs["last_detected"]
 
     def __dict__(self):
@@ -185,7 +185,9 @@ class DeplacementDroitAmeliore(DeplacementDroit):
             Si c'est le cas, on s'arrềte. Sinon on avance
         """
         if self.advancing:
-            res = self.robot.tete.sensors["ir"].get_mesure(self.arene, ignore=self.robot)
+
+            res = self.robot.tete.sensors["ir"].get_mesure(arene=self.arene, ignore=self.robot,
+                                                           direction=self.robot.direction)
             if res > -1:
                 if res < self.proximite_max:
                     # print("Obstacle ahead detected ( ", res, " meters )")

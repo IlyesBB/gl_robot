@@ -2,7 +2,7 @@
 import unittest
 from threading import Thread
 from unittest import TestCase
-from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, DDroitAmelioreVision
+from gl_lib.sim.robot.strategy.deplacement import DeplacementDroitAmeliore, DDroitAmelioreVision, Tourner
 from gl_lib.sim.robot import RobotMotorise, Tete
 from gl_lib.sim.display.d2.gui import AppAreneThread
 from gl_lib.sim import Simulation
@@ -16,16 +16,15 @@ class TestDroitAmeliore(TestCase):
         v=Vecteur(1,0,0)
         dist = 3.0
         self.arene = Arene()
-        self.v = v*dist
         self.strat = DeplacementDroitAmeliore(robot=RobotMotorise(forme=Pave(1,1,1, c.clone()), direction=v.clone()),arene=self.arene)
-        self.p=Pave(0.5,0.5,0.5,c+self.v)
-        #self.p.rotate(-pi/4)
+        self.v = self.strat.robot.direction*dist
+
+        self.p=Pave(0.5,0.5,0.5,self.strat.robot.centre+self.v)
         self.arene.add(self.p)
         self.arene.add(self.strat.robot)
 
-
     def test_detection_2D(self):
-        print("Evaluating direct detection with infrared ray...")
+        print("Testing direct detection with infrared ray...")
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)
@@ -44,17 +43,15 @@ class TestDroitAmeliore(TestCase):
 
         # On s'assure que le pavé est bien entré dans le champ d'alerte
         dist = (self.p.centre-self.strat.robot.centre).to_vect().get_mag()-self.p.length/2
-        self.assertLess(dist, self.strat.proximite_max)
+        self.assertLess(dist, self.strat.proximite_max, "Object detected too close")
 
         # On s'assure qu'on a détecté la limite avec une assez bonne précision
-        print("Object detected at: ", self.strat.last_detected, " meters")
         diff = abs(self.strat.last_detected-dist)
+        # err_max n'est valide que si le pavé est droit par rapport à la direction du robot
         err_max = max(self.strat.robot.get_wheels_rotations(1)*(pi/180)*self.strat.robot.rd.diametre*PAS_TEMPS,PAS_IR)
 
-        self.assertLess(diff, err_max)
-
-        print("Error: ", diff, " meters")
-        print("Maximum error expected: ", err_max, " meters")
+        self.assertLess(diff, err_max, "Maximal detection error exceeded")
+        print("Done")
 
 if __name__ == '__main__':
     unittest.main()
