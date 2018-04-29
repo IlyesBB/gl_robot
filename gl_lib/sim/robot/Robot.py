@@ -41,6 +41,7 @@ class Robot(Objet3D, ApproximableAPave):
         self.rg = kwargs["rg"]
         self.forme.rotate(self.direction.get_angle())
         self.centre = self.forme.centre  # initalise le centre au centre du pave
+        self.forme.centre = self.centre
 
         # initialisation des centres des roues
         self.rd.centre = self.centre + (self.direction.rotate(-pi / 4) * self.forme.width * sqrt(2) / 2)

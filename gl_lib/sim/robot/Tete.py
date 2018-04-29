@@ -148,6 +148,7 @@ class Tete(Objet3D):
         for k in Tete.SENSORS:
             if self.sensors[k] is not None:
                 self.sensors[k].direction = self.direction
+                self.sensors[k].centre = self.centre
 
     def update(self):
         """

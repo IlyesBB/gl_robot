@@ -78,6 +78,10 @@ class TestTest(TestCase):
         # On vérifie que la tête a bien suivi le mouvement
         self.assertEqual(direction, self.tete.direction)
         self.assertEqual(centre, self.tete.centre)
+        for key in self.tete.sensors.keys():
+            self.assertEqual(direction, self.tete.sensors[key].direction)
+            self.assertEqual(centre, self.tete.sensors[key].centre)
+
 
 if __name__ == '__main__':
     unittest.main()

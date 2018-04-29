@@ -15,7 +15,7 @@ class Accelerometre(Capteur):
         sauf si PAS_TEMPS < DT_MESURE, la durée de la mesure
     """
     DT_MESURE = 0.01
-    MAX_CPT = int(DT_MESURE / PAS_TEMPS)
+    MAX_CPT = int(PAS_TEMPS / DT_MESURE)
 
     def __init__(self, centre: Point = Point(0, 0, 0), direction: Vecteur = Vecteur(1, 0, 0), prev_pos: Point = None,
                  speed: Vecteur = Vecteur(0, 0, 0), acc: Vecteur = Vecteur(0, 0, 0)):
@@ -75,7 +75,7 @@ class Accelerometre(Capteur):
             Sinon avance d'une unitée de temps
         """
 
-        if Accelerometre.MAX_CPT < 1 or self.cpt >= Accelerometre.MAX_CPT - 1:
+        if PAS_TEMPS > Accelerometre.DT_MESURE or self.cpt >= Accelerometre.MAX_CPT:
             # Si DT_MESURE < PAS_TEMPS, la mesure est mise à jour dès que possible
             # Ou alors on a attendu assez longtemps
             new_speed = (self.centre - self.prev_pos).to_vect() / PAS_TEMPS

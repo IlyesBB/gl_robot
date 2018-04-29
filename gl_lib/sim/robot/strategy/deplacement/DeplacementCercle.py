@@ -69,7 +69,6 @@ class DeplacementCercle(StrategieDeplacement):
         s = StrategieDeplacement.__str__(self) + "\n"
         return s + "-turning: {}; rot_angle: {}; angle_max:".format(self.turning, self.rot_angle, self.angle_max)
 
-
     def init_movement(self, angle_max, diametre_cercle=1, dps_moy=30):
         """ Initilise la trajectoire circulaire
 
@@ -89,16 +88,15 @@ class DeplacementCercle(StrategieDeplacement):
         self.angle_max = abs(angle_max)
         self.rot_angle = 0
         self.turning = True
-        diametre = diametre_cercle
-        vitesse = abs(dps_moy) * self.robot.rd.diametre / 2
+        diametre = diametre_cercle / 0.90199
+        # L'approximation du mouvement induit un écart presque constant entre le diamètre dessiné et le diamètre voulu
+        # 0.90199 est le facteur trouvé pour une dizaine de diamètres
+
+        vitesse = abs(dps_moy) * self.robot.rd.diametre
         sens = fonctions.signe(angle_max)
 
-
         vd = 2 * vitesse / self.robot.rd.diametre
-        vg = (1 - (2 * self.robot.rd.diametre / diametre))*vd
-        dv2 = abs(vd -vg)/2
-        vd += dv2
-        vg += dv2
+        vg = (1 - (2 * self.robot.rd.diametre / diametre)) * vd
         if sens > 0:
             aux = vg
             vg = vd
@@ -173,7 +171,6 @@ class DeplacementCercle(StrategieDeplacement):
             return json.load(f, object_hook=DeplacementCercle.hook)
 
 
-
 if __name__ == '__main__':
     from gl_lib.sim import Simulation
     from gl_lib.sim.display.d2.gui import AppAreneThread
@@ -185,7 +182,7 @@ if __name__ == '__main__':
     r = RobotMotorise(forme=Pave(centre=Point(3.7, 6.7, 0), width=1, height=1, length=1))
     r.tete.sensors["cam"].arene = AreneFermee(3, 3, 3)
     td = Thread(target=r.tete.sensors["cam"].run)
-    sim = Simulation(strategies=[DeplacementCercle(robot=r, angle_max=360, diametre=2)])
+    sim = Simulation(strategies=[DeplacementCercle(robot=r, angle_max=360, diametre=1)])
     a.add(r)
     app = AppAreneThread(a)
     app.start()

@@ -38,7 +38,7 @@ def positive_angle(angle:float or int):
     :param angle:
 
     """
-    if signe(angle) < 0:
+    if angle < 0:
         return angle + (2*pi)
     else:
         return angle

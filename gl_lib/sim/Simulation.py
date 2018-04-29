@@ -20,7 +20,7 @@ class Simulation(Thread, Serializable):
         Classe qui gère les stratégies et compte le temps, jusqu'à ce qu'elles aient toutes envoyé un signal de fin
     """
     INIT = {"strategies": None, "strategie": None, "acceleration_factor": 1.0, "tmax": None, "tic": None,
-            "tic_display": None, "final_actions": None, "cpt": 0, "stop": True, }
+            "tic_display": None, "final_actions": None, "cpt": 0, "stop": True,}
     KEYS = ["cpt", "stop", "strategies", "strategie", "acceleration_factor", "tmax", "tic", "tic_display",
             "final_actions"]
     strat_hooks = ["DeplacementDroit", "DeplacementDroitAmeliore", "Tourner", "DeplacementCercle", "Strategie",
@@ -144,8 +144,7 @@ class Simulation(Thread, Serializable):
             if self.tic is not None:
                 # Affiche le temps passé et les objest dans tic_display
                 if self.cpt % self.tic == 0 and self.cpt != 0:
-                    pdb.set_trace()
-                    print(self.cpt * PAS_TEMPS, " seconds passed")
+                    print("\n", self.cpt * PAS_TEMPS, " seconds passed")
                     if self.tic_display is not None and len(self.tic_display) > 0:
                         for s in self.tic_display:
                             print(s)

@@ -3,7 +3,7 @@ import random
 import unittest
 
 from gl_lib.sim.geometry import *
-from gl_lib.sim.robot.sensor import CapteurIR
+from gl_lib.sim.robot.sensor import CapteurIR, Capteur
 from gl_lib.sim.geometry import Arene
 from gl_lib.sim.robot import Tete
 from gl_lib.sim.robot.sensor import VueMatriceArene
@@ -15,31 +15,31 @@ class TestCapteurIR(unittest.TestCase):
     def setUp(self):
         self.obj = CapteurIR(Point(0,0,0), Vecteur(1,1,0).norm())
         self.tete = Tete()
-        self.obj2 = CapteurIR(self.tete.centre, self.tete.direction)
         self.arene = Arene()
 
     def test_init(self):
         bool_type = type(self.obj.portee) is float or type(self.obj.portee) is int
-        bool_type2 = type(self.obj2.portee) is float or type(self.obj2.portee) is int
-        self.assertEqual(bool_type, True)
-        self.assertEqual(bool_type2, True)
+        self.assertEqual(bool_type, True, msg="Error initialisation")
+        self.assertIsInstance(self.obj, CapteurIR, msg="Error initialisation")
+        self.assertIsInstance(self.obj, Capteur, msg="Error initialisation")
 
     def test_get_mesure(self):
         """
-        On met un pavé dans la direction du capteur
-        On prends une mesure, on vérifie qu'elle a été réalisée
-        :return:
+            On met un pavé dans la direction du capteur
+            On prends une mesure, on vérifie qu'elle a été réalisée
         """
-        res = self.obj.get_mesure(self.arene)
-        bool_type = type(res) is float or type(res) is int
-        self.assertEqual(bool_type, True)
+        print("Testing detection...")
 
-        # Vérifie qu'on détecte bien un pavé droit devant
+        # Mesure dans arène vide
+        res = self.obj.get_mesure(self.arene)
+        self.assertEqual(res, -1)
+
+
+        # Mesure arène avec pavé
         v=Vecteur(1,0,0).norm()
         self.obj.direction, self.obj.centre = v.clone(), Point(0,0,0)
         v2=v*2
         p=Pave(1,1,1, self.obj.centre+v2)
-        p.rotate(pi)
         self.arene.add(p)
         res = self.obj.get_mesure(self.arene)
 
@@ -48,33 +48,20 @@ class TestCapteurIR(unittest.TestCase):
         self.assertEqual(bool_type, True)
 
         # Distance caluclée avec bonne précision
-        self.assertLess(abs((v2.get_mag()-p.length/2)-res), max(PAS_IR, 1/RES_M))
         diff=abs(v2.get_mag()-p.length/2-res)
-        print(repr(self.obj.arena_v))
-        print("Evaluated distance: ", res, " meters")
-        print("Error: ", diff, " meters")
-        print("Maximum error expected: ", max(PAS_IR, 1/RES_M), " meters")
+        self.assertLess(diff, max(PAS_IR, 1/RES_M), msg="Precision error")
+        print("Detection precision: {}".format(diff))
+        print("Done")
 
-    def test_clone(self):
-        obj = self.obj.clone()
-        self.assertEqual(obj.centre, self.obj.centre)
-        self.assertEqual(obj.direction, self.obj.direction)
-        self.assertEqual(obj.portee, self.obj.portee)
-
-    def test_eq(self):
-        obj = self.obj.clone()
-        self.assertEqual(obj, self.obj)
-
-        obj.direction = None
-        self.assertNotEqual(obj, self.obj)
-
-        obj = self.obj.clone()
-        obj.centre = None
-        self.assertNotEqual(obj, self.obj)
-
-        obj = self.obj.clone()
-        obj.portee = None
-        self.assertNotEqual(obj, self.obj)
+    def test_json(self):
+        print("Testing json")
+        try:
+            self.obj.save("capteur_ir.json")
+            obj2 = CapteurIR.load("capteur_ir.json")
+            self.assertEqual(self.obj, obj2)
+        except PermissionError:
+            print("PerimissionError")
+        print("Done")
 
 if __name__ == '__main__':
     unittest.main()

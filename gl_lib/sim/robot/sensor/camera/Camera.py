@@ -68,7 +68,12 @@ class Camera(Capteur):
         self.window = Window(self.arene, self)
         glClearColor(190, 190, 190, 0)
         glEnable(GL_DEPTH_TEST)
-        pyglet.app.run()
+        try:
+            pyglet.app.run()
+        except RuntimeError:
+            pass
+        except pyglet.gl.lib.GLException:
+            pass
 
     def picture(self):
         """
@@ -98,9 +103,11 @@ class Camera(Capteur):
         """
         os.chdir("/")
         # print("Printing image...")
-        if self.raw_im is not None:
-            s = self.rep_name + fname
+        s = self.rep_name + fname
+        try:
             self.raw_im.save(s)
+        except AttributeError:
+            pass
 
     def get_image(self):
         """

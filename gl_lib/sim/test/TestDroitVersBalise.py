@@ -20,7 +20,7 @@ class TestDroitVersBalise(unittest.TestCase):
         p0 = Point(1,1,0.5)
         self.strat = DroitVersBaliseVision(RobotMotorise(forme=Pave(1,1,1,p0.clone()), direction=v2.clone()), AreneFermee(3,3,3))
         self.target = RobotTarget(forme=Pave(1,1,1, p0.clone()+v2*3), direction=v2.clone())
-        self.strat2 = Tourner(robot=self.target, angle_max= 360,vitesse= 90)
+        self.strat2 = Tourner(robot=self.target, angle_max= 360,vitesse= 30)
         self.strat.arene.add(self.target)
         
     def test_vis(self):

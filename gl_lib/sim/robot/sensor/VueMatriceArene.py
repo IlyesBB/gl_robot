@@ -92,9 +92,9 @@ class VueMatriceArene(object):
 
     def __repr__(self):
         """
-        retourne un display sous forme de tableau
-        :return: str
+            Affiche la portion d'arène séléectionnée sous forme de tableau
         """
+        print("IIICII")
         print("\nox : ", self.ox,"\norigine: ",self.origine)
         if self.matrix is not None:
             for i in range(len(self.matrix)):

@@ -1,4 +1,5 @@
 import os
+import random
 import unittest
 from cmath import pi
 
@@ -48,13 +49,15 @@ class TestRobotMotorise(unittest.TestCase):
             Vérifie la liaison entre la tête et le robot
         """
         print("Testing movement dependencies...")
-        self.assertEqual(self.r.centre, self.r.tete.centre)
-        self.r.move(Vecteur(1,0,0))
-        self.assertEqual(self.r.centre, self.r.tete.centre)
+        d = (random.random()*0.5+0.5)*random.randint(5, 10)
+        angle = random.random() * 2 * pi
 
         self.assertEqual(self.r.centre, self.r.tete.centre)
+        self.r.move(Vecteur(1,0,0)*d)
         self.r.rotate_all_around(self.r.centre, pi/4)
         self.r.tete.dir_rel = Vecteur(1,0,0)
         self.r.update()
+
+        self.assertEqual(self.r.centre, self.r.tete.centre)
         self.assertEqual(self.r.direction, self.r.tete.direction)
         print("Done")

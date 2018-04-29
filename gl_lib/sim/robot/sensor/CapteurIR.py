@@ -154,7 +154,7 @@ class VueMatriceArene(object):
         ox = self.ox.clone()
         if self.ajuste:
             ox.rotate(-pi / 4)
-        s = "{}; origine: {}; Ox:".format(self.__class__.__name__, self.origine, self.ox)
+        s = "{}; origine: {}; ox: {}".format(self.__class__.__name__, self.origine, self.ox)
         return s
 
     def __repr__(self):
