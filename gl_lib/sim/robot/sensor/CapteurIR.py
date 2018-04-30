@@ -72,7 +72,7 @@ class CapteurIR(Capteur):
 
         return self.arena_v
 
-    def get_mesure(self, arene, d_ignore=0.0, ignore=None, direction=None):
+    def     get_mesure(self, arene, d_ignore=0.0, ignore=None, direction=None):
         """
             Retourne la distance entre le capteur et le premier objet dans la matrice
             Retourne -1 si pas d'obstacle detecté

@@ -18,7 +18,7 @@ class TournerVersBalise(Tourner, StrategieVision):
         Nécessite le lancement de l'application pyglet de la caméra du robot (de gl_lib.sim.robot.sensor.camera.Camera)
     """
     # Précision en degrés avec laquelle on considère que la balise est devant
-    PRECISION = 15
+    PRECISION = 5
     INIT = dict(prev_res=None, balise=Balise(), cpt=0, cpt_before_picture=DT_SCREENSHOT, cpt_not_found=0)
     KEYS = set(Tourner.KEYS + ["prev_res", "balise", "cpt", "cpt_before_picture", "cpt_not_found"] + StrategieVision.KEYS)
 
@@ -86,7 +86,7 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.cpt_not_found += 1
             self.cpt += 1
             return None, None
-        angle = -(p[0] - 0.5) * Camera.ANGLE_VY / 4
+        angle = -(p[0] - 0.5) * Camera.ANGLE_VY / 2
         # print(angle)
         sens = signe(angle)
         if abs(angle) < TournerVersBalise.PRECISION:
@@ -96,7 +96,6 @@ class TournerVersBalise(Tourner, StrategieVision):
         self.cpt += 1
 
         self.cpt_not_found = 0
-        print(angle)
         return (angle, sens)
 
     def update(self):

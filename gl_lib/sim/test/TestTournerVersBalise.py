@@ -24,7 +24,7 @@ class TestTournerVersBalise(unittest.TestCase):
         self.strat.arene.add(self.target)
 
     def test_vis(self):
-        sim = Simulation(strategies=[self.strat], tmax=10, final_actions=[self.strat.stop_3D])
+        sim = Simulation(strategies=[self.strat], tmax=10, final_actions=[self.strat.stop_3D], tic=2, tic_display=[self.strat])
 
         thd = Thread(target=self.strat.start_3D)
         thd.start()

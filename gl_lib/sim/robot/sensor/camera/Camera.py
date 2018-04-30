@@ -21,7 +21,7 @@ class Camera(Capteur):
         ou de capture d'écran
     """
     # Angle de vue de la caméra en y, en degrés
-    ANGLE_VY = 180
+    ANGLE_VY = 90
 
     def __init__(self, centre=Point(0, 0, 0), direction=Vecteur(1, 0, 0), get_pic: bool = False,
                  is_running: bool = False, is_set: bool = False, cpt: int = 1):
@@ -68,6 +68,7 @@ class Camera(Capteur):
         self.window = Window(self.arene, self)
         glClearColor(190, 190, 190, 0)
         glEnable(GL_DEPTH_TEST)
+        glDepthFunc(GL_LESS)
         try:
             pyglet.app.run()
         except RuntimeError:

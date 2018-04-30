@@ -26,14 +26,11 @@ class TestDroitVersBalise(unittest.TestCase):
         self.strat.arene.add(self.target)
 
     def test_target_straith_trajectory(self):
-        if True:
-            return
         self.strat2 = DeplacementDroit(robot=self.target,vitesse= 30, distance_max=2)
         td = Thread(target=self.strat.start_3D)
         sim = Simulation(strategies=[self.strat2, self.strat], tmax=15, tic=3,
-                         tic_display=[self.strat.robot.tete.sensors["ir"].arena_v],
+                         tic_display=[self.strat],
                          final_actions=[self.strat.stop_3D])
-
 
         td.start()
         while not self.strat.robot.tete.sensors["cam"].is_set:
@@ -44,13 +41,11 @@ class TestDroitVersBalise(unittest.TestCase):
 
     def test_target_circle_trajectectory(self):
         self.strat = DroitVersBaliseVision(RobotMotorise(forme=Pave(1,1,1,self.p0.clone()), direction=self.v2.clone()), AreneFermee(3,3,3))
-        self.strat2 = DeplacementCercle(robot=self.target,vitesse=30, diametre=1, angle_max=360)
+        self.strat2 = DeplacementCercle(robot=self.target,vitesse=30, diametre=3, angle_max=360)
         td = Thread(target=self.strat.start_3D)
         sim = Simulation(strategies=[self.strat2, self.strat], tmax=15, tic=3,
-                         tic_display=[self.strat.robot.tete.sensors["ir"].arena_v],
+                         tic_display=[self.strat],
                          final_actions=[self.strat.stop_3D])
-
-
         td.start()
         while not self.strat.robot.tete.sensors["cam"].is_set:
             pass

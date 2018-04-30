@@ -22,7 +22,7 @@ class Model:
         self.l_textures = list()
         self.graphic_objects = list()
         self.updatable_g_objs = list()
-        l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise.png', 'grey.png']
+        l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise_modif.png', 'briques.png', 'plastique.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
         os.chdir(cur_dir)
@@ -89,10 +89,11 @@ class Model:
         face = p_target.get_face()
         p = p_target.get_pave().clone()
         tex_coords = ('t2f/static', (1, 1, 0, 1, 0, 0, 1, 0))
-        self.side = self.l_textures[0]
+        self.side = self.l_textures[7]
         self.rear = self.l_textures[5]
         for i in range(len(p.vertices)):
             p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+            p.vertices[i] = (p.vertices[i] * 3).clone(type_coords=int)
 
         l_objs = list()
         for l in range(len(l_ln)):
@@ -151,6 +152,7 @@ class DynamicPave(Pave):
                                         p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)
             lvertices.append(vertices)
         return lvertices
+
 
 
 if __name__ == '__main__':

@@ -147,7 +147,12 @@ class Simulation(Thread, Serializable):
                     print("\n", self.cpt * PAS_TEMPS, " seconds passed")
                     if self.tic_display is not None and len(self.tic_display) > 0:
                         for s in self.tic_display:
-                            print(repr(s))
+                            if isinstance(s, tuple):
+                                if s[1] == "-v":
+                                    print(s)
+                                    print(repr(s[0]))
+                            else:
+                                print(s)
             self.cpt += 1
             self.stop = b
             if self.tmax is not None:

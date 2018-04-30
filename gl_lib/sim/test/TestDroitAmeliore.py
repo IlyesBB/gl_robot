@@ -28,7 +28,8 @@ class TestDroitAmeliore(TestCase):
         td = Thread(target=self.strat.robot.tete.sensors["cam"].run)
 
         app = AppAreneThread(self.arene)
-        sim = Simulation(strategies=[self.strat], final_actions=[app.stop])
+        sim = Simulation(strategies=[self.strat], final_actions=[app.stop], tic=2,
+                         tic_display=[(self.strat.robot.tete.sensors["ir"].arena_v, "-v")])
 
         self.strat.init_movement(3,60)
 

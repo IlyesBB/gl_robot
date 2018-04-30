@@ -1,8 +1,30 @@
 # -*- coding: utf-8 -*-
 from PIL import Image
 from gl_lib.sim.geometry import *
-from gl_lib.config import RATIO_SEARCH_SCREENSHOT
+from gl_lib.config import RATIO_SEARCH_SCREENSHOT, SEARCH_LUM_PRECISION
 
+
+def get_lower_lum(pix, lum):
+    l = [0]*len(pix)
+    for i in range(len(l)-1):
+        if pix[i]-lum<0:
+            l[i]=0
+        else:
+            l[i]=pix[i]-lum
+    try:
+        l[len(l)-1]=pix[3]
+    except IndexError:
+        l[len(l) - 1] =255
+    return tuple(l)
+
+def get_upper_lum(pix, lum):
+    l = [0]*len(pix)
+    for i in range(len(l)):
+        if pix[i]+lum>255:
+            l[i]=255
+        else:
+            l[i]=pix[i]+lum
+    return tuple(l)
 
 def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
     """
@@ -26,6 +48,7 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
     w_im, l_im = image.size[0], image.size[1]
     PAS_RECH = min(w_im, l_im)/RATIO_SEARCH_SCREENSHOT
     pas = int(PAS_RECH)
+    PRECISION_LUM = SEARCH_LUM_PRECISION
     # Côté du carré cherché
     RAYON_RECH = PAS_RECH/2
     l_lvertices = [[0, 1, 2, 3]]
@@ -45,7 +68,8 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
                 balise = True
                 for i in range(len(couleurs)):
                     p = pave.vertices[lvertices[i]].to_tuple(type_coords=int)
-                    if couleurs[i] != im.getpixel((p[0], p[1])):
+                    c = im.getpixel((p[0], p[1]))
+                    if not get_lower_lum(couleurs[i], PRECISION_LUM) <= c <= get_upper_lum(couleurs[i], PRECISION_LUM):
                         #print(couleurs[i], " != ",im.getpixel((p[0], p[1])), (Point(p[0],p[1],0)-p0).to_vect(), "\n")
                         balise = False
                         break
@@ -58,12 +82,6 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
         return centre_balise
     else:
         output.put(centre_balise)
-
-
-def ind(i, j, w, h):
-    return i*w+j*h
-
-
 
 
 from contextlib import contextmanager

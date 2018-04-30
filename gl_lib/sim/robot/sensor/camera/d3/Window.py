@@ -56,6 +56,7 @@ class Window(pyglet.window.Window):
 
     def on_draw(self):
         self.clear()
+        glClear(GL_DEPTH_BUFFER_BIT)
         self.set3d()
 
         push(self.camera.centre, self.camera.direction)

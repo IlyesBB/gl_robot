@@ -50,7 +50,6 @@ class TestCapteurIR(unittest.TestCase):
         # Distance caluclée avec bonne précision
         diff=abs(v2.get_mag()-p.length/2-res)
         self.assertLess(diff, max(PAS_IR, 1/RES_M), msg="Precision error")
-        print("Detection precision: {}".format(diff))
         print("Done")
 
     def test_json(self):
