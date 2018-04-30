@@ -31,10 +31,10 @@ class Camera(Capteur):
         :param direction: Direction de la caméra, même remarque
         """
         Capteur.__init__(self, centre=centre, direction=direction)
-        # arene doit être réinitialisé en dehors de la classe
+        # self.arene doit être réinitialisé en dehors de la classe
         self.arene = AreneFermee()
         self.window = None  # Window (gl_lib.sim.robot.sensor.camera.d3.Window)
-        self.raw_im = None  # Image
+        self.raw_im = None
 
         self.is_set, self.is_running = is_set, is_running
         self.get_pic = get_pic
