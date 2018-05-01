@@ -58,7 +58,7 @@ class Window(pyglet.window.Window):
         self.clear()
         self.set3d()
 
-        push(self.camera.centre/self.model.scale, self.camera.direction)
+        push(self.camera.centre, self.camera.direction)
         self.model.draw()
         glPopMatrix()
         self.camera.picture()

@@ -30,7 +30,6 @@ class Model:
 
         if isinstance(arene, AreneFermee):
             X, Y, Z = arene.width , arene.length , arene.height
-            self.scale = max(X, Y, Z)
             p = Pave(X,Y,Z)
             p.move(p.vertices[4].to_vect()*-1)
             #im = Image.open('grey.png')
@@ -75,7 +74,7 @@ class Model:
 
         tex_coords = texture_coords if texture_coords is not None else ('t2f/static', (0, 0, 1, 0, 1, 1, 0, 1))
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i]/self.scale).clone()
+            p.vertices[i] = (p.vertices[i]).clone()
 
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         l_objs = list()
@@ -98,7 +97,7 @@ class Model:
         tex_coords = ('t2f/dynamic', (1, 1, 0.5, 1, 0.5, 0, 1, 0))
         self.side = self.l_textures[8]
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] /self.scale).clone()
+            p.vertices[i] = (p.vertices[i] ).clone()
 
         l_objs = list()
         for l in range(len(l_ln)):
@@ -126,7 +125,7 @@ class Model:
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] /self.scale).clone()
+            p.vertices[i] = (p.vertices[i] ).clone()
 
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
