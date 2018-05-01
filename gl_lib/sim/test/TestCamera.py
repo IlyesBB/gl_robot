@@ -35,7 +35,6 @@ class TestCamera(unittest.TestCase):
             Vérifie l'effectivité du système de capture d'écran
         """
         # L'image n'est prise que lorsque la fenêtre est dessinée, quand self.obj.is_set est à True
-        return
         print("Testing picture...")
         self.obj.take_picture()
         while not self.obj.is_set:
@@ -57,7 +56,6 @@ class TestCamera(unittest.TestCase):
         """
             Affiche une arène vide en 3D, effectue quelques rotations
         """
-        return
         print("Testing video...")
         td = Thread(target=self.obj.run)
 
@@ -83,7 +81,6 @@ class TestCamera(unittest.TestCase):
         p = RobotTarget(forme=Pave(1,1,1, Point(3,3,0.5)))
         a=Arene()
         a.add(p)
-        n = int(1000/PAS_TEMPS)
         n_rot = 100
         teta = 2*pi/n_rot
 
@@ -91,7 +88,7 @@ class TestCamera(unittest.TestCase):
         td.start()
         while not self.obj.is_set:
             pass
-        for i in range(n):
+        for i in range(n_rot):
             p.rotate_all_around(p.centre, teta)
             sleep(PAS_TEMPS)
 

@@ -70,10 +70,10 @@ def trouver_balise(couleurs: [tuple],image=None,fname=None, output=None):
                     p = pave.vertices[lvertices[i]].to_tuple(type_coords=int)
                     c = im.getpixel((p[0], p[1]))
                     if not get_lower_lum(couleurs[i], PRECISION_LUM) <= c <= get_upper_lum(couleurs[i], PRECISION_LUM):
-                        #print(couleurs[i], " != ",im.getpixel((p[0], p[1])), (Point(p[0],p[1],0)-p0).to_vect(), "\n")
+                        #print(im.getpixel((p[0], p[1])), " !E ", get_lower_lum(couleurs[i], PRECISION_LUM),", ",get_upper_lum(couleurs[i], PRECISION_LUM), "\n")
                         balise = False
                         break
-                    #print(couleurs[i], " == ", im.getpixel((p[0], p[1])))
+                    #print(im.getpixel((p[0], p[1])), " == ", couleurs[i])
 
                 if balise:
                     centre_balise = (float(x)/w_im, float(y)/l_im, 0)

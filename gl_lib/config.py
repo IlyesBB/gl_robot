@@ -10,8 +10,9 @@ PIX_PAR_M_2D=50
 PIX_PAR_M=5
 PIX_PAR_M_3D=5
 
-RATIO_SEARCH_SCREENSHOT = 20
-SEARCH_LUM_PRECISION = 90
+# Prendre une trop grande précision peut amener des erreurs dans la recherche de la balise
+RATIO_SEARCH_SCREENSHOT = 10
+SEARCH_LUM_PRECISION = 100
 FORMAT_SCREENSHOT = ".png"
 FILENAME_SCREENSHOT = "screenshot"
 # A précéder du nom du répertoire du projet

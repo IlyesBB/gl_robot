@@ -87,7 +87,7 @@ class TournerVersBalise(Tourner, StrategieVision):
             self.cpt += 1
             return None, None
         angle = -(p[0] - 0.5) * Camera.ANGLE_VY / 2
-        # print(angle)
+        #print(angle)
         sens = signe(angle)
         if abs(angle) < TournerVersBalise.PRECISION:
             # print("Target ahead (", angle, " degres from vertical)")

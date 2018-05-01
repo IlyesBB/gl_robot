@@ -23,7 +23,7 @@ class Model:
         self.graphic_objects = list()
         self.updatable_g_objs = list()
         l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise_modif.png', 'briques.png', 'plastique.png',
-             'balise_plastique.png']
+             'balise_metal.png', 'sol_pierre.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
         os.chdir(cur_dir)
@@ -54,7 +54,6 @@ class Model:
             # self.updatable_g_objs[i][1] est un pavé
             quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
             for j in range(6):
-                print(list(quads_lvertices[j]))
                 # self.updatable_g_objs[i][0] est une liste de quadrilatères (listes de 4 sommets)
                 self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
 
@@ -79,13 +78,23 @@ class Model:
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         l_objs = list()
         for l in range(len(l_ln)):
-            obj=cur_batch.add(4, GL_QUADS, self.side,
-                           ('v3f/static', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
-                                    p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
-                                    p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
-                                    p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
-                           tex_coords)
+            if l != 3:
+                obj=cur_batch.add(4, GL_QUADS, self.side,
+                               ('v3f/static', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
+                                        p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
+                                        p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
+                                        p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
+                               tex_coords)
+            else:
+                obj=cur_batch.add(4, GL_QUADS, self.l_textures[9],
+                               ('v3f/static', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
+                                        p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
+                                        p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
+                                        p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
+                               tex_coords)
+
             l_objs.append(obj)
+
         p=pave
         self.graphic_objects.append((l_objs, p))
 
