@@ -20,6 +20,7 @@ def model():
 def push(pos, rot):
     angle=rot.diff_angle(Vecteur(-1,0,0))*180/pi
     glPushMatrix()
+    
     glRotatef(-90, 0, 1, 0)
     glRotatef(-90, 1, 0, 0)
     glRotatef(angle, 0, 0, 1)

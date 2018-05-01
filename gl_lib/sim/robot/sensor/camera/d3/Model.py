@@ -22,7 +22,8 @@ class Model:
         self.l_textures = list()
         self.graphic_objects = list()
         self.updatable_g_objs = list()
-        l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise_modif.png', 'briques.png', 'plastique.png']
+        l = ['white.png', 'red.png', 'green.png', 'blue.png', 'yellow.png', 'balise_modif.png', 'briques.png', 'plastique.png',
+             'balise_plastique.png']
         for file in l:
             self.l_textures.append(self.get_tex(file))
         os.chdir(cur_dir)
@@ -88,17 +89,16 @@ class Model:
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         face = p_target.get_face()
         p = p_target.get_pave().clone()
-        tex_coords = ('t2f/static', (1, 1, 0, 1, 0, 0, 1, 0))
-        self.side = self.l_textures[7]
-        self.rear = self.l_textures[5]
+        tex_coords_balise = ('t2f/static', (0.5, 1, 0, 1, 0, 0, 0.5, 0))
+        tex_coords = ('t2f/static', (1, 1, 0.5, 1, 0.5, 0, 1, 0))
+        self.side = self.l_textures[8]
         for i in range(len(p.vertices)):
             p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
-            p.vertices[i] = (p.vertices[i] * 3).clone(type_coords=int)
 
         l_objs = list()
         for l in range(len(l_ln)):
-            if l == face:
-                obj=self.batch.add(4, GL_QUADS, self.rear,
+            if l != face:
+                obj=self.batch.add(4, GL_QUADS, self.side,
                                ('v3f/dynamic', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
                                         p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
@@ -111,7 +111,7 @@ class Model:
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
                                         p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
                                         p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
-                               tex_coords)
+                               tex_coords_balise)
                 l_objs.append(obj)
         p=p_target.get_pave()
         self.updatable_g_objs.append((l_objs, p))

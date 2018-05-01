@@ -43,7 +43,7 @@ class TestDroitVersBalise(unittest.TestCase):
         self.strat = DroitVersBaliseVision(RobotMotorise(forme=Pave(1,1,1,self.p0.clone()), direction=self.v2.clone()), AreneFermee(3,3,3))
         self.strat2 = DeplacementCercle(robot=self.target,vitesse=30, diametre=3, angle_max=360)
         td = Thread(target=self.strat.start_3D)
-        sim = Simulation(strategies=[self.strat2, self.strat], tmax=25, tic=3,
+        sim = Simulation(strategies=[self.strat2, self.strat], tmax=40, tic=3,
                          tic_display=[self.strat],
                          final_actions=[self.strat.stop_3D])
         td.start()
