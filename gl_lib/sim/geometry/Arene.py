@@ -42,7 +42,7 @@ class Arene(Objet3D):
 
         """
         for o in l_objets:
-            self.add(o.clone())
+            self.add(o)
 
     def empty(self):
         """

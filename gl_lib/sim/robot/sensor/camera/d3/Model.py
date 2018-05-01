@@ -29,7 +29,8 @@ class Model:
         os.chdir(cur_dir)
 
         if isinstance(arene, AreneFermee):
-            X, Y, Z = arene.width * PIX_PAR_M_3D, arene.length * PIX_PAR_M_3D, arene.height * PIX_PAR_M_3D
+            X, Y, Z = arene.width , arene.length , arene.height
+            self.scale = max(X, Y, Z)
             p = Pave(X,Y,Z)
             p.move(p.vertices[4].to_vect()*-1)
             #im = Image.open('grey.png')
@@ -37,6 +38,7 @@ class Model:
             #im.save(outfile, "JPEG")
             self.visual_pave(p, self.l_textures[6], self.batch_bg, ('t2f/static', (0, 0, 10, 0, 10, 10, 0, 10)))
         self.visual_arene(arene)
+
 
 
     def visual_arene(self, arene:Arene):
@@ -50,8 +52,11 @@ class Model:
 
     def draw(self):
         for i in range(len(self.updatable_g_objs)):
+            # self.updatable_g_objs[i][1] est un pavé
             quads_lvertices = Model.get_vertices(self,self.updatable_g_objs[i][1])
             for j in range(6):
+                print(list(quads_lvertices[j]))
+                # self.updatable_g_objs[i][0] est une liste de quadrilatères (listes de 4 sommets)
                 self.updatable_g_objs[i][0][j].vertices=list(quads_lvertices[j])
 
         self.batch_bg.draw()
@@ -59,7 +64,7 @@ class Model:
 
     def visual_pave(self, pave, texture=None, batch=None, texture_coords=None):
         if texture is None:
-            self.side = self.l_textures[0]
+            self.side = self.l_textures[7]
         else:
             self.side = texture
         p = pave.clone()
@@ -70,7 +75,7 @@ class Model:
 
         tex_coords = texture_coords if texture_coords is not None else ('t2f/static', (0, 0, 1, 0, 1, 1, 0, 1))
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+            p.vertices[i] = (p.vertices[i]/self.scale).clone()
 
         l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         l_objs = list()
@@ -86,14 +91,14 @@ class Model:
         self.graphic_objects.append((l_objs, p))
 
     def visual_pave_target(self, p_target):
-        l_ln = [[0, 1, 2, 3], [0, 3, 7, 4], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
+        l_ln = [[0, 1, 2, 3], [4,7,3,0], [1, 5, 6, 2], [4, 5, 6, 7], [0, 4, 5, 1], [3, 2, 6, 7]]
         face = p_target.get_face()
         p = p_target.get_pave().clone()
-        tex_coords_balise = ('t2f/static', (0.5, 1, 0, 1, 0, 0, 0.5, 0))
-        tex_coords = ('t2f/static', (1, 1, 0.5, 1, 0.5, 0, 1, 0))
+        tex_coords_balise = ('t2f/dynamic', (0.5, 1, 0, 1, 0, 0, 0.5, 0))
+        tex_coords = ('t2f/dynamic', (1, 1, 0.5, 1, 0.5, 0, 1, 0))
         self.side = self.l_textures[8]
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+            p.vertices[i] = (p.vertices[i] /self.scale).clone()
 
         l_objs = list()
         for l in range(len(l_ln)):
@@ -107,10 +112,10 @@ class Model:
                 l_objs.append(obj)
             else:
                 obj=self.batch.add(4, GL_QUADS, self.side,
-                               ('v3f/dynamic', (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
-                                        p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
-                                        p.vertices[l_ln[l][2]].x, p.vertices[l_ln[l][2]].y, p.vertices[l_ln[l][2]].z,
-                                        p.vertices[l_ln[l][3]].x, p.vertices[l_ln[l][3]].y, p.vertices[l_ln[l][3]].z,)),
+                               ('v3f/dynamic', (p.vertices[l_ln[face][0]].x, p.vertices[l_ln[face][0]].y, p.vertices[l_ln[face][0]].z,
+                                        p.vertices[l_ln[face][1]].x, p.vertices[l_ln[face][1]].y, p.vertices[l_ln[face][1]].z,
+                                        p.vertices[l_ln[face][2]].x, p.vertices[l_ln[face][2]].y, p.vertices[l_ln[face][2]].z,
+                                        p.vertices[l_ln[face][3]].x, p.vertices[l_ln[face][3]].y, p.vertices[l_ln[face][3]].z,)),
                                tex_coords_balise)
                 l_objs.append(obj)
         p=p_target.get_pave()
@@ -121,7 +126,8 @@ class Model:
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+            p.vertices[i] = (p.vertices[i] /self.scale).clone()
+
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,
@@ -144,7 +150,7 @@ class DynamicPave(Pave):
         lvertices = list()
         p=pave.clone()
         for i in range(len(p.vertices)):
-            p.vertices[i] = (p.vertices[i] * PIX_PAR_M_3D).clone()
+            p.vertices[i] = (p.vertices[i]).clone()
         for l in range(len(l_ln)):
             vertices = (p.vertices[l_ln[l][0]].x, p.vertices[l_ln[l][0]].y, p.vertices[l_ln[l][0]].z,
                                         p.vertices[l_ln[l][1]].x, p.vertices[l_ln[l][1]].y, p.vertices[l_ln[l][1]].z,

@@ -68,7 +68,6 @@ class Camera(Capteur):
         self.window = Window(self.arene, self)
         glClearColor(190, 190, 190, 0)
         glEnable(GL_DEPTH_TEST)
-        glDepthFunc(GL_LESS)
         try:
             pyglet.app.run()
         except RuntimeError:

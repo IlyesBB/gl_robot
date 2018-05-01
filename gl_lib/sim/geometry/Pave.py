@@ -119,11 +119,11 @@ class Pave(Polygone3D, ApproximableAPave):
 
 
     def __str__(self):
-        s = "("+self.__class__.__name__
+        s = self.__class__.__name__
         s += "({:6.6},{:6.6},{:6.6});  vertices: ".format(self.width, self.length, self.height)
         for i in range(int(len(self.vertices)/2)):
             s += "n{}({:6.6},{:6.6}) ".format(i, self.vertices[i].x, self.vertices[i].y)
-        return s+")"
+        return s
 
     def get_inclinaisont(self):
         """

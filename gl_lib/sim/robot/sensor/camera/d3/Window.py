@@ -25,7 +25,7 @@ def push(pos, rot):
     glRotatef(-90, 1, 0, 0)
     glRotatef(angle, 0, 0, 1)
     pos=pos.to_tuple()
-    glTranslatef(int(-pos[0]*PIX_PAR_M_3D), int(-pos[1]*PIX_PAR_M_3D), int(-pos[2]*PIX_PAR_M_3D), )
+    glTranslatef(-pos[0], -pos[1], -pos[2], )
 
 
 class Window(pyglet.window.Window):
@@ -46,8 +46,7 @@ class Window(pyglet.window.Window):
 
 
     def __init__(self, arene=None, camera=None):
-        config = Config(double_buffer=True)
-        super().__init__(width=1000, height=800, caption='Robot', resizable=True, visible=True,config=config)
+        super().__init__(width=1000, height=800, caption='Robot', resizable=True, visible=True)
         self.set_minimum_size(300,200)
         self.model = Model(arene)
         self.camera = camera
@@ -57,10 +56,9 @@ class Window(pyglet.window.Window):
 
     def on_draw(self):
         self.clear()
-        glClear(GL_DEPTH_BUFFER_BIT)
         self.set3d()
 
-        push(self.camera.centre, self.camera.direction)
+        push(self.camera.centre/self.model.scale, self.camera.direction)
         self.model.draw()
         glPopMatrix()
         self.camera.picture()

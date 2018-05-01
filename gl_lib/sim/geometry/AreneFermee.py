@@ -17,9 +17,9 @@ class AreneFermee(Arene):
         :type length: float
         """
         Arene.__init__(self)
-        self.height = height
-        self.width = width
-        self.length = length
+        self.height = float(height)
+        self.width = float(width)
+        self.length = float(length)
 
 
 if __name__ == '__main__':
